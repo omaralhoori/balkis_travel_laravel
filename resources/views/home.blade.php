@@ -166,26 +166,31 @@
         cursor: pointer;
     }
     
-    /* Make the calendar picker icon clickable and visible */
+    /* Hide the default calendar picker icon */
     .date-input::-webkit-calendar-picker-indicator {
+        display: none;
+        opacity: 0;
+        width: 0;
+        height: 0;
         position: absolute;
         right: 0;
-        width: 100%;
-        height: 100%;
-        margin: 0;
-        padding: 0;
         cursor: pointer;
-        opacity: 1;
-        z-index: 20;
     }
     
-    /* Style the calendar icon */
-    .date-input::-webkit-calendar-picker-indicator:hover {
-        opacity: 0.8;
-    }
-    
+    /* Hide spinner buttons */
     .date-input::-webkit-inner-spin-button,
     .date-input::-webkit-clear-button {
+        display: none;
+        -webkit-appearance: none;
+        appearance: none;
+    }
+    
+    /* Firefox - Hide calendar icon */
+    .date-input[type="date"] {
+        -moz-appearance: textfield;
+    }
+    
+    .date-input[type="date"]::-moz-calendar-picker-indicator {
         display: none;
     }
     
@@ -198,7 +203,7 @@
         color: rgb(148, 163, 184);
     }
     
-    /* Firefox */
+    /* Firefox placeholder */
     .date-input[type="date"]::-moz-placeholder {
         color: rgb(148, 163, 184);
     }

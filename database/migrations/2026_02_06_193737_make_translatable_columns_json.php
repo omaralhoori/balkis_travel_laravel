@@ -17,9 +17,10 @@ return new class extends Migration
         'programs' => ['title', 'description', 'category'],
         'testimonials' => ['testimonial', 'position'],
         'home_pages' => [
-            'main_title', 'main_subtitle', 'main_description', 'main_badge_text',
-            'cta_button_text', 'video_button_text',
-            'statistics_title', 'statistics_subtitle', 'map_location_title',
+            'main_title',
+            'main_description',
+            'footer_brand_name',
+            'footer_brand_description',
         ],
         'home_page_services' => [
             'title', 'subtitle', 'description', 'badge_text',

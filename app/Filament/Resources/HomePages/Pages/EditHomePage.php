@@ -5,7 +5,6 @@ namespace App\Filament\Resources\HomePages\Pages;
 use App\Filament\Resources\HomePages\HomePageResource;
 use App\Filament\Translatable\Actions\LocaleSwitcher;
 use App\Filament\Translatable\Resources\Pages\EditRecord\Concerns\Translatable;
-use App\Models\HomePageService;
 use Filament\Resources\Pages\EditRecord;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
@@ -63,9 +62,6 @@ class EditHomePage extends EditRecord
                 $translatedData[$attribute] = $record->getTranslation($attribute, $locale, useFallbackLocale: false);
             }
 
-            // Load services with translations for current locale
-            $translatedData['services'] = $this->loadServicesWithTranslations($record, $locale);
-
             if ($locale !== $this->activeLocale) {
                 $this->otherLocaleData[$locale] = $this->mutateFormDataBeforeFill($translatedData);
 
@@ -78,48 +74,12 @@ class EditHomePage extends EditRecord
     }
 
     /**
-     * @return array<int, array<string, mixed>>
-     */
-    protected function loadServicesWithTranslations(Model $record, string $locale): array
-    {
-        $services = $record->services()->get();
-        $translatableServiceFields = [
-            'title',
-            'subtitle',
-            'description',
-            'badge_text',
-            'card_title',
-            'card_description',
-            'cta_button_text',
-        ];
-
-        return $services->map(function (HomePageService $service) use ($translatableServiceFields, $locale) {
-            $serviceData = $service->toArray();
-
-            // Replace translatable fields with current locale translations
-            foreach ($translatableServiceFields as $field) {
-                $serviceData[$field] = $service->getTranslation($field, $locale, useFallbackLocale: false);
-            }
-
-            return $serviceData;
-        })->toArray();
-    }
-
-    /**
      * @param  array<string, mixed>  $data
      */
     protected function mutateFormDataBeforeSave(array $data): array
     {
-        // Store services data separately to handle translations
-        if (isset($data['services'])) {
-            $this->servicesData = $data['services'];
-            unset($data['services']);
-        }
-
         return $data;
     }
-
-    protected ?array $servicesData = null;
 
     protected ?string $oldActiveLocale = null;
 
@@ -141,30 +101,18 @@ class EditHomePage extends EditRecord
 
         $translatableAttributes = static::getResource()::getTranslatableAttributes();
 
-        // Save services data for the old locale
+        // Save data for the old locale
         $oldLocaleData = Arr::only($this->data, $translatableAttributes);
-        if (isset($this->data['services'])) {
-            $oldLocaleData['services'] = $this->data['services'];
-        }
         $this->otherLocaleData[$this->oldActiveLocale] = $oldLocaleData;
 
-        // Load services data for the new locale
+        // Load data for the new locale
         $newLocaleData = $this->otherLocaleData[$this->activeLocale] ?? [];
 
         // Prepare new data
         $newData = [
             ...Arr::except($this->data, $translatableAttributes),
-            ...Arr::except($newLocaleData, ['services']),
+            ...$newLocaleData,
         ];
-
-        // Load services for new locale
-        if (isset($newLocaleData['services'])) {
-            $newData['services'] = $newLocaleData['services'];
-        } else {
-            // Load services with translations for new locale
-            $record = $this->getRecord();
-            $newData['services'] = $this->loadServicesWithTranslations($record, $this->activeLocale);
-        }
 
         // Update translatable attributes with new locale translations
         foreach ($translatableAttributes as $attribute) {
@@ -234,56 +182,6 @@ class EditHomePage extends EditRecord
 
         $record->save();
 
-        // Handle services translations after main record is saved
-        if ($this->servicesData !== null) {
-            $this->saveServicesTranslations($record, $this->servicesData, $this->activeLocale);
-
-            // Save services for other locales
-            foreach ($this->otherLocaleData as $locale => $localeData) {
-                if (isset($localeData['services'])) {
-                    $this->saveServicesTranslations($record, $localeData['services'], $locale);
-                }
-            }
-        }
-
         return $record;
-    }
-
-    /**
-     * @param  array<int, array<string, mixed>>  $servicesData
-     */
-    protected function saveServicesTranslations(Model $record, array $servicesData, string $locale): void
-    {
-        $translatableServiceFields = [
-            'title',
-            'subtitle',
-            'description',
-            'badge_text',
-            'card_title',
-            'card_description',
-            'cta_button_text',
-        ];
-
-        foreach ($servicesData as $serviceData) {
-            if (! isset($serviceData['id'])) {
-                continue;
-            }
-
-            $service = HomePageService::find($serviceData['id']);
-            if (! $service) {
-                continue;
-            }
-
-            // Save non-translatable fields
-            $nonTranslatableData = Arr::except($serviceData, $translatableServiceFields);
-            $service->fill($nonTranslatableData);
-
-            // Save translatable fields using setTranslation
-            foreach (Arr::only($serviceData, $translatableServiceFields) as $key => $value) {
-                $service->setTranslation($key, $locale, $value);
-            }
-
-            $service->save();
-        }
     }
 }

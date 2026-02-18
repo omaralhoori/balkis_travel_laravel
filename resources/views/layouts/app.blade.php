@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <link rel="icon" href="{{ asset('image/balkis_travel.ico') }}" type="image/x-icon">
     <title>@yield('title', 'Balkis Premium Group')</title>
     
     <!-- Meta Tags -->
