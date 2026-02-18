@@ -1,0 +1,479 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+/* Font Face Definitions */
+@font-face {
+    font-family: 'STIX Two Text';
+    src: url('../fonts/STIXTwoText-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Cadillac Sans Arabic';
+    src: url('../fonts/Cadillac Sans Arabic Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Source Sans 3';
+    src: url('../fonts/SourceSans3-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Bahij Janna';
+    src: url('../fonts/bahij-janna.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@theme {
+    --font-sans: 'Source Sans 3', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-display: 'STIX Two Text', ui-serif, serif;
+    --font-heading-arabic: 'Cadillac Sans Arabic', ui-sans-serif, system-ui, sans-serif;
+    --font-text-arabic: 'Bahij Janna', ui-sans-serif, system-ui, sans-serif;
+    --font-heading-english: 'STIX Two Text', ui-serif, serif;
+    --font-text-english: 'Source Sans 3', ui-sans-serif, system-ui, sans-serif;
+    
+    --color-primary: #C6A264;
+    --color-primary-gradient-start: #765C39;
+    --color-primary-gradient-end: #C4A571;
+    --color-secondary: #4A566C;
+    --color-secondary-gradient-start: #4A566C;
+    --color-secondary-gradient-end: #6F859D;
+    --color-background-light: #f8f7f6;
+    --color-background-dark: #18181B;
+    --color-bg-main: #f8f7f6;
+    --color-zinc-dark: rgb(241 245 249 / var(--tw-bg-opacity, 1));
+    --color-gold-dim: #c3b998;
+    --color-dark-surface: #ffffff;
+}
+
+.bg-gold-gradient {
+    background: linear-gradient(135deg, #765C39 0%, #C4A571 100%);
+}
+
+.text-gold-gradient {
+    background: linear-gradient(135deg, #765C39 0%, #C4A571 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.featured-overlay{
+    background: linear-gradient(0deg, rgba(30, 41, 59, 0.9) 0%, rgba(30, 41, 59, 0.3) 60%, rgba(30, 41, 59, 0) 100%);
+}
+.bg-pattern{
+    background-image: url('/image/pattern1.png');
+    background-repeat: repeat;
+    background-size: auto;
+    background-position: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    opacity: 0.1;
+}
+.section-border{
+    box-sizing: border-box;
+    border-top-width: 1px;
+    border-style: solid;
+    border-color: #e5e7eb;
+    border-bottom-width: 1px;
+}
+
+
+/* Custom scrollbar for webkit */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f8f7f6;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #C6A264;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #765C39;
+}
+
+/* Hero Section Animations */
+.hero-content-wrapper {
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.hero-background {
+    transition: opacity 0.7s ease-in-out, background-image 0.7s ease-in-out;
+}
+
+.service-card {
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.service-card.active {
+    border-color: var(--color-primary);
+    border-width: 2px;
+    opacity: 1;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+}
+
+@media (min-width: 1024px) {
+    .service-card.active {
+        transform: scale(1.02);
+        height: 180px;
+    }
+    
+    .service-card.inactive {
+        height: 160px;
+    }
+}
+
+.service-card.inactive {
+    border-color: rgba(0, 0, 0, 0.1);
+    border-width: 1px;
+    opacity: 0.7;
+}
+
+.service-card:hover {
+    transform: translateY(-4px);
+}
+
+@media (min-width: 1024px) {
+    .service-card.active:hover {
+        transform: translateY(-4px) scale(1.02);
+    }
+}
+
+/* Glass Card Effect */
+.glass-card {
+    background: rgba(198, 162, 100, 0.1);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(198, 162, 100, 0.2);
+}
+
+/* Testimonials Carousel */
+.testimonials-carousel {
+    scroll-behavior: smooth;
+}
+
+.testimonial-card {
+    min-height: 280px;
+    display: flex;
+    flex-direction: column;
+}
+
+.testimonial-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(198, 162, 100, 0.3);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0;
+}
+
+.testimonial-dot.active {
+    background: var(--color-primary);
+    width: 24px;
+    border-radius: 5px;
+}
+
+.testimonial-dot:hover {
+    background: rgba(198, 162, 100, 0.6);
+}
+
+@media (max-width: 768px) {
+    .testimonials-prev,
+    .testimonials-next {
+        display: none;
+    }
+}
+
+/* Programs Section */
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.glass-overlay {
+    background: rgba(248, 247, 246, 0.8);
+    backdrop-filter: blur(12px);
+    border-top: 1px solid rgba(198, 162, 100, 0.3);
+}
+
+/* Luxury Pattern Background */
+.luxury-pattern {
+    background-image: url('/image/pattern1.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Card Shadow Effects */
+.card-shadow {
+    box-shadow: 0 10px 30px -15px rgba(0, 0, 0, 0.5);
+}
+
+.card-shadow:hover {
+    box-shadow: 0 20px 40px -20px rgba(198, 162, 100, 0.3);
+}
+
+/* Featured Gradient for Blog */
+.featured-gradient {
+    background: linear-gradient(0deg, rgba(248,247,246,1) 0%, rgba(248,247,246,0.4) 50%, rgba(248,247,246,0) 100%);
+}
+
+/* Primary Gradient Utility */
+.bg-primary-gradient {
+    background: linear-gradient(to right, var(--color-primary-gradient-start), var(--color-primary-gradient-end));
+}
+
+.bg-primary-gradient-vertical {
+    background: linear-gradient(to bottom, var(--color-primary-gradient-start), var(--color-primary-gradient-end));
+}
+
+/* Secondary Gradient Utility */
+.bg-secondary-gradient {
+    background: linear-gradient(to right, var(--color-secondary-gradient-start), var(--color-secondary-gradient-end));
+}
+
+.bg-secondary-gradient-vertical {
+    background: linear-gradient(to bottom, var(--color-secondary-gradient-start), var(--color-secondary-gradient-end));
+}
+
+/* Font Utilities */
+.font-heading-arabic {
+    font-family: var(--font-heading-arabic);
+}
+
+.font-text-arabic {
+    font-family: var(--font-text-arabic);
+}
+
+.font-heading-english {
+    font-family: var(--font-heading-english);
+}
+
+.font-text-english {
+    font-family: var(--font-text-english);
+}
+
+/* Language-based font classes - Arabic */
+
+
+[lang="ar"] p,
+[lang="ar"] span:not(.material-symbols-outlined),
+[lang="ar"] div:not([class*="material"]),
+[lang="ar"] li,
+[lang="ar"] a,
+html[lang="ar"] p,
+html[lang="ar"] span:not(.material-symbols-outlined),
+html[lang="ar"] div:not([class*="material"]),
+html[lang="ar"] li,
+html[lang="ar"] a,
+[lang="ar"] .font-text {
+    font-family: var(--font-text-arabic) ;
+}
+
+[lang="ar"] h1,
+[lang="ar"] h2,
+[lang="ar"] h3,
+[lang="ar"] h4,
+[lang="ar"] h5,
+[lang="ar"] h6,
+html[lang="ar"] h1,
+html[lang="ar"] h2,
+html[lang="ar"] h3,
+html[lang="ar"] h4,
+html[lang="ar"] h5,
+html[lang="ar"] h6,
+[lang="ar"] .font-heading {
+    font-family: var(--font-heading-arabic) !important;
+}
+/* Language-based font classes - English and Turkish */
+
+
+[lang="en"] p,
+[lang="en"] span:not(.material-symbols-outlined),
+[lang="en"] div:not([class*="material"]),
+[lang="en"] li,
+[lang="en"] a,
+[lang="tr"] p,
+[lang="tr"] span:not(.material-symbols-outlined),
+[lang="tr"] div:not([class*="material"]),
+[lang="tr"] li,
+[lang="tr"] a,
+html[lang="en"] p,
+html[lang="en"] span:not(.material-symbols-outlined),
+html[lang="en"] div:not([class*="material"]),
+html[lang="en"] li,
+html[lang="en"] a,
+html[lang="tr"] p,
+html[lang="tr"] span:not(.material-symbols-outlined),
+html[lang="tr"] div:not([class*="material"]),
+html[lang="tr"] li,
+html[lang="tr"] a,
+[lang="en"] .font-text,
+[lang="tr"] .font-text {
+    font-family: var(--font-text-english) ;
+}
+[lang="en"] h1,
+[lang="en"] h2,
+[lang="en"] h3,
+[lang="en"] h4,
+[lang="en"] h5,
+[lang="en"] h6,
+[lang="tr"] h1,
+[lang="tr"] h2,
+[lang="tr"] h3,
+[lang="tr"] h4,
+[lang="tr"] h5,
+[lang="tr"] h6,
+html[lang="en"] h1,
+html[lang="en"] h2,
+html[lang="en"] h3,
+html[lang="en"] h4,
+html[lang="en"] h5,
+html[lang="en"] h6,
+html[lang="tr"] h1,
+html[lang="tr"] h2,
+html[lang="tr"] h3,
+html[lang="tr"] h4,
+html[lang="tr"] h5,
+html[lang="tr"] h6,
+[lang="en"] .font-heading,
+[lang="tr"] .font-heading {
+    font-family: var(--font-heading-english) !important;
+}
+
+/* Legacy support for existing classes */
+.font-almarai {
+    font-family: var(--font-heading-arabic);
+}
+
+.font-tajawal {
+    font-family: var(--font-text-arabic);
+}
+
+/* General heading class that adapts to language */
+.font-heading {
+    font-family: var(--font-heading-english);
+}
+
+[lang="ar"] .font-heading {
+    font-family: var(--font-heading-arabic);
+}
+
+/* General text class that adapts to language */
+.font-text {
+    font-family: var(--font-text-english);
+}
+
+[lang="ar"] .font-text {
+    font-family: var(--font-text-arabic);
+}
+
+/* Update font-display to use heading fonts */
+.font-display {
+    font-family: var(--font-heading-english);
+}
+
+[lang="ar"] .font-display {
+    font-family: var(--font-heading-arabic);
+}
+
+/* Article Content Styles */
+.article-content {
+    background-color: white;
+    box-shadow: 0 4px 20px -2px rgba(30, 41, 59, 0.05);
+}
+.article-content h2 {
+    @apply text-2xl font-bold text-gray-900 mt-10 mb-4 border-s-4 border-primary ps-4;
+}
+
+.article-content h2[lang="ar"],
+.article-content [lang="ar"] h2 {
+    font-family: var(--font-heading-arabic);
+}
+
+.article-content h2[lang="en"],
+.article-content h2[lang="tr"],
+.article-content [lang="en"] h2,
+.article-content [lang="tr"] h2 {
+    font-family: var(--font-heading-english);
+}
+
+.article-content p {
+    @apply mb-6 text-gray-700 text-lg leading-8;
+}
+
+.article-content ul {
+    @apply mb-8 space-y-3;
+}
+
+.article-content li {
+    @apply flex items-start gap-3 text-gray-700;
+}
+
+.article-content li::before {
+    content: "•";
+    @apply text-primary font-bold text-xl leading-none pt-1;
+}
+
+.article-content ol {
+    @apply mb-8 space-y-3 list-decimal ms-6;
+}
+
+.article-content ol li {
+    @apply text-gray-700;
+}
+
+.article-content ol li::before {
+    content: none;
+}
+
+.article-content img {
+    @apply my-8 rounded-2xl overflow-hidden border border-gray-200 shadow-2xl;
+}
+
+.article-content a {
+    @apply text-primary hover:text-secondary transition-colors underline;
+}
+
+.article-content blockquote {
+    @apply border-s-4 border-primary ps-6 my-8 italic text-gray-700 bg-zinc-dark/30 p-6 rounded-lg;
+}
+
+.article-content code {
+    @apply bg-zinc-dark px-2 py-1 rounded text-sm text-primary;
+}
+
+.article-content pre {
+    @apply bg-zinc-dark p-6 rounded-lg overflow-x-auto my-8 border border-gray-200;
+}
+
+.article-content pre code {
+    @apply bg-transparent p-0 text-gray-700;
+}
