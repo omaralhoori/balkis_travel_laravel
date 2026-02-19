@@ -55,6 +55,11 @@
     "Arrival Date": "Arrival Date",
     "Departure Date": "Departure Date",
     "From Date": "From Date",
-    "To Date": "To Date"
+    "To Date": "To Date",
+    "Sending...": "Sending...",
+    "Inquiry submitted successfully!": "Inquiry submitted successfully!",
+    "An error occurred. Please try again.": "An error occurred. Please try again.",
+    "No WhatsApp numbers configured": "No WhatsApp numbers configured",
+    "No destinations available": "No destinations available"
 }
 

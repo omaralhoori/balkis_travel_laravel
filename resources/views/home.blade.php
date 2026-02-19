@@ -31,7 +31,7 @@
                 <div class="w-20 h-1 bg-primary mx-auto rounded-full"></div>
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <form id="inquiry-form" class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <!-- Destination Selection -->
                 <div class="col-span-full">
                     <label class="block text-sm font-medium text-slate-500  mb-3 font-text">{{ __('Required Destinations (You can select multiple cities)') }}</label>
@@ -76,15 +76,14 @@
                     <label class="block text-sm font-medium text-slate-500  mb-3 font-text">{{ __('Number of Travelers') }}</label>
                     <div class="grid grid-cols-2 gap-4">
                         <div class="relative">
-                            <span class="absolute right-4 top-[calc(50%+12px)] -translate-y-1/2 material-symbols-outlined text-primary">person</span>
                             <label class="block text-xs font-medium text-slate-400 mb-1 font-text">{{ __('Adults') }}</label>
-                            <input class="w-full pr-12 pl-4 py-4 bg-slate-50 border border-slate-200  rounded-lg focus:ring-1 focus:ring-primary focus:border-primary outline-none text-slate-800  font-text " placeholder="0" type="number" value="2" min="0" max="40"/>
+                            <span class="absolute right-4 top-[calc(50%+12px)] -translate-y-1/2 material-symbols-outlined text-primary">person</span>
+                            <input name="adults" id="adults" class="w-full pr-12 pl-4 py-4 bg-slate-50 border border-slate-200  rounded-lg focus:ring-1 focus:ring-primary focus:border-primary outline-none text-slate-800  font-text " placeholder="0" type="number" value="2" min="0" max="40" required/>
                         </div>
                         <div class="relative">
                             <label class="block text-xs font-medium text-slate-400 mb-1 font-text">{{ __('Children') }}</label>
                             <span class="absolute right-4 top-[calc(50%+12px)] -translate-y-1/2 material-symbols-outlined text-primary">child_care</span>
-
-                            <input class="w-full pr-12 pl-4 py-4 bg-slate-50  border border-slate-200  rounded-lg focus:ring-1 focus:ring-primary focus:border-primary outline-none text-slate-800  font-text" placeholder="0" type="number" min="0" max="20"/>
+                            <input name="children" id="children" class="w-full pr-12 pl-4 py-4 bg-slate-50  border border-slate-200  rounded-lg focus:ring-1 focus:ring-primary focus:border-primary outline-none text-slate-800  font-text" placeholder="0" type="number" value="0" min="0" max="20" required/>
                         </div>
                     </div>
                 </div>
@@ -127,7 +126,7 @@
                     <label class="block text-sm font-medium text-slate-500  mb-4 font-text">{{ __('Select Required Services') }}</label>
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                         <label class="relative service-card cursor-pointer group flex flex-col items-center justify-center p-6 border border-slate-200 rounded-xl transition-all duration-300">
-                            <input checked="" class="hidden peer" type="checkbox"/>
+                            <input name="services[]" value="flight" checked="" class="hidden peer" type="checkbox"/>
                             <div class="peer-checked:bg-primary/20 w-full rounded-xl h-full absolute top-0 left-0"></div>
                             <div class="size-14 rounded-full bg-slate-100  flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors peer-checked:bg-primary/20">
                                 <span class="material-symbols-outlined text-3xl text-slate-400 group-hover:text-primary transition-colors peer-checked:text-primary">flight_takeoff</span>
@@ -135,7 +134,7 @@
                             <span class="text-sm font-bold text-slate-600   peer-checked:text-primary font-text">{{ __('Flight') }}</span>
                         </label>
                         <label class="relative service-card cursor-pointer group flex flex-col items-center justify-center p-6 border border-slate-200  rounded-xl transition-all duration-300">
-                            <input checked="" class="hidden peer" type="checkbox"/>
+                            <input name="services[]" value="accommodation" checked="" class="hidden peer" type="checkbox"/>
                             <div class="peer-checked:bg-primary/20 w-full rounded-xl h-full absolute top-0 left-0"></div>
                             <div class="size-14 rounded-full bg-slate-100  flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors peer-checked:bg-primary/20">
                                 <span class="material-symbols-outlined text-3xl text-slate-400 group-hover:text-primary transition-colors peer-checked:text-primary">hotel</span>
@@ -143,7 +142,7 @@
                             <span class="text-sm font-bold text-slate-600  peer-checked:text-primary font-text">{{ __('Accommodation') }}</span>
                         </label>
                         <label class="relative service-card cursor-pointer group flex flex-col items-center justify-center p-6 border border-slate-200  rounded-xl transition-all duration-300">
-                            <input class="hidden peer" type="checkbox"/>
+                            <input name="services[]" value="car_rental" class="hidden peer" type="checkbox"/>
                             <div class="peer-checked:bg-primary/20 w-full rounded-xl h-full absolute top-0 left-0"></div>
                             <div class="size-14 rounded-full bg-slate-100  flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors peer-checked:bg-primary/20">
                                 <span class="material-symbols-outlined text-3xl text-slate-400 group-hover:text-primary transition-colors peer-checked:text-primary">directions_car</span>
@@ -151,7 +150,7 @@
                             <span class="text-sm font-bold text-slate-600  peer-checked:text-primary font-text">{{ __('Car Rental') }}</span>
                         </label>
                         <label class="relative service-card cursor-pointer group flex flex-col items-center justify-center p-6 border border-slate-200  rounded-xl transition-all duration-300">
-                            <input class="hidden peer" type="checkbox"/>
+                            <input name="services[]" value="tourist_trips" class="hidden peer" type="checkbox"/>
                             <div class="peer-checked:bg-primary/20 w-full rounded-xl h-full absolute top-0 left-0"></div>
                             <div class="size-14 rounded-full bg-slate-100  flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors peer-checked:bg-primary/20">
                                 <span class="material-symbols-outlined text-3xl text-slate-400 group-hover:text-primary transition-colors peer-checked:text-primary">map</span>
@@ -163,15 +162,16 @@
 
                 <!-- CTA Button -->
                 <div class="col-span-full mt-10">
-                    <button class="w-full py-5 hover:brightness-110 bg-gold-gradient hover:shadow-lg hover:shadow-primary/20 transition-all rounded-lg text-white text-lg font-bold flex items-center justify-center gap-3 font-heading">
+                    <button type="submit" id="submit-inquiry-btn" class="w-full py-5 hover:brightness-110 bg-gold-gradient hover:shadow-lg hover:shadow-primary/20 transition-all rounded-lg text-white text-lg font-bold flex items-center justify-center gap-3 font-heading">
                         <span class="material-symbols-outlined">send</span>
-                        {{ __('Submit Inquiry') }}
+                        <span id="submit-btn-text">{{ __('Submit Inquiry') }}</span>
                     </button>
                     <p class="text-center text-slate-400 text-xs mt-4 font-text">
                         {{ __('Once submitted, one of our consultants will contact you within 24 hours.') }}
                     </p>
+                    <div id="form-message" class="hidden mt-4 text-center text-sm font-text"></div>
                 </div>
-            </div>
+            </form>
         </div>
     </section>
 </main>
@@ -377,6 +377,73 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize dropdown options on load
     updateDropdownOptions();
+
+    // Form submission
+    const inquiryForm = document.getElementById('inquiry-form');
+    const submitBtn = document.getElementById('submit-inquiry-btn');
+    const submitBtnText = document.getElementById('submit-btn-text');
+    const formMessage = document.getElementById('form-message');
+
+    if (inquiryForm) {
+        inquiryForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            // Disable submit button
+            submitBtn.disabled = true;
+            submitBtnText.textContent = '{{ __("Sending...") }}';
+
+            // Collect form data
+            const formData = new FormData(inquiryForm);
+            
+            // Get selected services
+            const services = [];
+            document.querySelectorAll('input[name="services[]"]:checked').forEach(checkbox => {
+                services.push(checkbox.value);
+            });
+            formData.append('services', JSON.stringify(services));
+
+            try {
+                const response = await fetch('{{ route("inquiry.submit", ["locale" => app()->getLocale()]) }}', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
+                        'Accept': 'application/json',
+                    },
+                    body: formData,
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    formMessage.className = 'mt-4 text-center text-sm font-text text-green-600';
+                    formMessage.textContent = data.message || '{{ __("Inquiry submitted successfully!") }}';
+                    formMessage.classList.remove('hidden');
+
+                    // Redirect to WhatsApp after 1 second
+                    setTimeout(() => {
+                        if (data.whatsapp_url) {
+                            window.open(data.whatsapp_url, '_blank');
+                        }
+                        inquiryForm.reset();
+                        selectedDestinations = [];
+                        renderSelectedDestinations();
+                        formMessage.classList.add('hidden');
+                    }, 1000);
+                } else {
+                    formMessage.className = 'mt-4 text-center text-sm font-text text-red-600';
+                    formMessage.textContent = data.message || '{{ __("An error occurred. Please try again.") }}';
+                    formMessage.classList.remove('hidden');
+                }
+            } catch (error) {
+                formMessage.className = 'mt-4 text-center text-sm font-text text-red-600';
+                formMessage.textContent = '{{ __("An error occurred. Please try again.") }}';
+                formMessage.classList.remove('hidden');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtnText.textContent = '{{ __("Submit Inquiry") }}';
+            }
+        });
+    }
 });
 </script>
 @endpush

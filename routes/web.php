@@ -113,6 +113,8 @@ Route::prefix('{locale}')
 
         Route::post('/contact', [\App\Http\Controllers\ContactController::class, 'store'])->name('contact.submit');
 
+        Route::post('/inquiry', [\App\Http\Controllers\InquiryController::class, 'store'])->name('inquiry.submit');
+
         Route::post('/newsletter/subscribe', [\App\Http\Controllers\NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
 
         Route::post('/comments', [\App\Http\Controllers\CommentController::class, 'store'])->name('comments.store');

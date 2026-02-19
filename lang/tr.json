@@ -94,6 +94,11 @@
     "Arrival Date": "Varış Tarihi",
     "Departure Date": "Ayrılış Tarihi",
     "From Date": "Başlangıç Tarihi",
-    "To Date": "Bitiş Tarihi"
+    "To Date": "Bitiş Tarihi",
+    "Sending...": "Gönderiliyor...",
+    "Inquiry submitted successfully!": "Sorgu başarıyla gönderildi!",
+    "An error occurred. Please try again.": "Bir hata oluştu. Lütfen tekrar deneyin.",
+    "No WhatsApp numbers configured": "WhatsApp numarası yapılandırılmamış",
+    "No destinations available": "Mevcut destinasyon yok"
 }
 

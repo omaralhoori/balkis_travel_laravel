@@ -111,6 +111,11 @@
     "Istanbul": "اسطنبول",
     "Trabzon": "طرابزون",
     "Add City": "إضافة مدينة",
-    "Departure date must be after arrival date": "تاريخ المغادرة يجب أن يكون بعد تاريخ الوصول"
+    "Departure date must be after arrival date": "تاريخ المغادرة يجب أن يكون بعد تاريخ الوصول",
+    "Sending...": "جاري الإرسال...",
+    "Inquiry submitted successfully!": "تم إرسال الاستفسار بنجاح!",
+    "An error occurred. Please try again.": "حدث خطأ. يرجى المحاولة مرة أخرى.",
+    "No WhatsApp numbers configured": "لم يتم تكوين أرقام واتساب",
+    "No destinations available": "لا توجد وجهات متاحة"
 }
 
