@@ -35,6 +35,13 @@ class HomePageForm
                             ->disk('public')
                             ->directory('home-page')
                             ->visibility('public')
+                            ->maxSize(2048) // 2MB in KB (matches PHP upload_max_filesize)
+                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                            ->imagePreviewHeight('250')
+                            ->loadingIndicatorPosition('left')
+                            ->removeUploadedFileButtonPosition('right')
+                            ->uploadButtonPosition('left')
+                            ->uploadProgressIndicatorPosition('left')
                             ->columnSpanFull(),
 
                         Repeater::make('destinations')

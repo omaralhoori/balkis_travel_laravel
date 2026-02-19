@@ -3,18 +3,22 @@
 @section('title', __('Plan Your Luxury Trip') . ' - Balkis Premium Group')
 
 @section('content')
-
-<main class="pt-20">
+@php
+    $homePage = \App\Models\HomePage::getCurrent();
+    $mainBgImage = $homePage->main_background_image_url;
+    $availableDestinations = $homePage->destinations ?? [];
+@endphp
+<main class="pt-15">
     <!-- Hero Section -->
     <section class="relative h-[60vh] min-h-[450px] flex items-center justify-center overflow-hidden">
         <div class="absolute inset-0">
-            <img class="w-full h-full object-cover" alt="{{ __('Plan Your Luxury Trip') }}" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBz7zQeslWol7BwQtaU6kgqnM8edplkZ40Jjr3uSXEoaiz1gq9UTqLwPrCY0h_wO5-8mB8-uTkgtzMrVgYb9dYFKC38po42p7juOSSdi5hAD3Vcf0C10YcDULxCtmUw6pPDN4pCYAKXSPr9teZhLWYuVWtW9jjiSNhocYEOuGxnVNHdIyt8Ao_OkDqNA3M0Agym1JremIueO2oARML2QaSJGqD6BRpEaxDf1SMA13_WhOUKaAenqppOvCDoYcttebx-15RFDjH5yoQU"/>
+            <img class="w-full h-full object-cover" alt="{{ __('Plan Your Luxury Trip') }}" src="{{ $mainBgImage }}"/>
             <div class="absolute inset-0 bg-gradient-to-b from-background-dark/40 via-background-dark/60 to-background-dark"></div>
         </div>
         <div class="relative z-10 text-center px-4 max-w-4xl">
-            <h2 class="text-white text-4xl md:text-6xl font-bold mb-6 leading-tight font-heading">{{ __('Plan Your Luxury Trip') }}</h2>
+            <h2 class="text-white text-4xl md:text-6xl font-bold mb-6 leading-tight font-heading">{{ $homePage->main_title }}</h2>
             <p class="text-slate-300 text-lg md:text-xl font-light max-w-2xl mx-auto font-text">
-                {{ __('We design exceptional travel experiences that exceed your expectations, where luxury meets authenticity in the heart of Turkey.') }}
+                {{ $homePage->main_description }}
             </p>
         </div>
     </section>
@@ -31,22 +35,40 @@
                 <!-- Destination Selection -->
                 <div class="col-span-full">
                     <label class="block text-sm font-medium text-slate-500  mb-3 font-text">{{ __('Required Destinations (You can select multiple cities)') }}</label>
-                    <div class="flex flex-wrap gap-3 p-4 border border-slate-200  rounded-lg bg-slate-100 ">
-                        <button class="flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary text-primary rounded-lg text-sm font-text">
-                            <span class="material-symbols-outlined text-sm">location_on</span>
-                            {{ __('Istanbul') }}
-                            <span class="material-symbols-outlined text-xs">close</span>
-                        </button>
-                        <button class="flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary text-primary rounded-lg text-sm font-text">
-                            <span class="material-symbols-outlined text-sm">location_on</span>
-                            {{ __('Trabzon') }}
-                            <span class="material-symbols-outlined text-xs">close</span>
-                        </button>
-                        <button class="flex items-center gap-2 px-4 py-2 bg-slate-200  text-slate-600  rounded-lg text-sm hover:bg-primary/20 hover:text-primary transition-all font-text">
+                    <div id="destinations-container" class="flex flex-wrap gap-3 p-4 border border-slate-200  rounded-lg bg-slate-100 min-h-[60px]">
+                        <!-- Selected destinations will be added here dynamically -->
+                    </div>
+                    <div class="mt-3 relative">
+                        <button 
+                            type="button"
+                            id="add-destination-btn"
+                            class="flex items-center gap-2 px-4 py-2 bg-slate-200 text-slate-600 rounded-lg text-sm hover:bg-primary/20 hover:text-primary transition-all font-text"
+                        >
                             <span class="material-symbols-outlined text-sm">add</span>
                             {{ __('Add City') }}
                         </button>
+                        <!-- Dropdown for available destinations -->
+                        <div id="destinations-dropdown" class="hidden absolute top-full left-0 mt-2 w-full bg-white border border-slate-200 rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto">
+                            @if(count($availableDestinations) > 0)
+                                @foreach($availableDestinations as $destination)
+                                    <button 
+                                        type="button"
+                                        class="destination-option w-full text-right px-4 py-2 hover:bg-primary/10 hover:text-primary transition-colors font-text"
+                                        data-destination="{{ $destination['name'] ?? '' }}"
+                                    >
+                                        <span class="material-symbols-outlined text-sm align-middle">location_on</span>
+                                        {{ $destination['name'] ?? '' }}
+                                    </button>
+                                @endforeach
+                            @else
+                                <div class="px-4 py-2 text-slate-500 text-sm font-text">
+                                    {{ __('No destinations available') }}
+                                </div>
+                            @endif
+                        </div>
                     </div>
+                    <!-- Hidden input to store selected destinations -->
+                    <input type="hidden" id="selected-destinations" name="selected_destinations" value="">
                 </div>
 
                 <!-- Guest Count -->
@@ -54,14 +76,15 @@
                     <label class="block text-sm font-medium text-slate-500  mb-3 font-text">{{ __('Number of Travelers') }}</label>
                     <div class="grid grid-cols-2 gap-4">
                         <div class="relative">
-                            <span class="absolute right-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary">person</span>
+                            <span class="absolute right-4 top-[calc(50%+12px)] -translate-y-1/2 material-symbols-outlined text-primary">person</span>
+                            <label class="block text-xs font-medium text-slate-400 mb-1 font-text">{{ __('Adults') }}</label>
                             <input class="w-full pr-12 pl-4 py-4 bg-slate-50 border border-slate-200  rounded-lg focus:ring-1 focus:ring-primary focus:border-primary outline-none text-slate-800  font-text " placeholder="0" type="number" value="2" min="0" max="40"/>
-                            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-[10px] text-slate-400 font-text mx-6">{{ __('Adults') }}</span>
                         </div>
                         <div class="relative">
-                            <span class="absolute right-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary">child_care</span>
+                            <label class="block text-xs font-medium text-slate-400 mb-1 font-text">{{ __('Children') }}</label>
+                            <span class="absolute right-4 top-[calc(50%+12px)] -translate-y-1/2 material-symbols-outlined text-primary">child_care</span>
+
                             <input class="w-full pr-12 pl-4 py-4 bg-slate-50  border border-slate-200  rounded-lg focus:ring-1 focus:ring-primary focus:border-primary outline-none text-slate-800  font-text" placeholder="0" type="number" min="0" max="20"/>
-                            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-[10px] text-slate-400 font-text mx-6">{{ __('Children') }}</span>
                         </div>
                     </div>
                 </div>
@@ -71,24 +94,28 @@
                     <label class="block text-sm font-medium text-slate-500  mb-3 font-text">{{ __('Trip Dates') }}</label>
                     <div class="grid grid-cols-2 gap-4">
                         <div class="date-input-wrapper relative">
-                            <span class="absolute right-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary pointer-events-none z-10">calendar_today</span>
+                            <label class="block text-xs font-medium text-slate-400 mb-1 font-text">{{ __('From Date') }}</label>
+                            <span class="absolute right-4 top-[calc(50%+12px)] -translate-y-1/2 material-symbols-outlined text-primary pointer-events-none z-10">calendar_today</span>
                             <input 
                                 id="arrival-date"
                                 name="arrival_date"
                                 class="date-input w-full pr-12 pl-4 py-4 bg-slate-50 border border-slate-200 rounded-lg focus:ring-1 focus:ring-primary focus:border-primary outline-none text-slate-800 font-text" 
                                 type="date"
                                 min="{{ date('Y-m-d') }}"
+                                placeholder="{{ __('From Date') }}"
                                 required
                             />
                         </div>
                         <div class="date-input-wrapper relative">
-                            <span class="absolute right-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary pointer-events-none z-10">event</span>
+                            <label class="block text-xs font-medium text-slate-400 mb-1 font-text">{{ __('To Date') }}</label>
+                            <span class="absolute right-4 top-[calc(50%+12px)] -translate-y-1/2 material-symbols-outlined text-primary pointer-events-none z-10">event</span>
                             <input 
                                 id="departure-date"
                                 name="departure_date"
                                 class="date-input w-full pr-12 pl-4 py-4 bg-slate-50 border border-slate-200 rounded-lg focus:ring-1 focus:ring-primary focus:border-primary outline-none text-slate-800 font-text" 
                                 type="date"
                                 min="{{ date('Y-m-d') }}"
+                                placeholder="{{ __('To Date') }}"
                                 required
                             />
                         </div>
@@ -222,6 +249,7 @@
 @push('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // Date picker functionality
     const arrivalDateInput = document.getElementById('arrival-date');
     const departureDateInput = document.getElementById('departure-date');
     
@@ -250,15 +278,105 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Ensure date picker opens on click anywhere on the input
         arrivalDateInput.addEventListener('click', function(e) {
-            // Allow the default behavior to open the date picker
             this.showPicker?.();
         });
         
         departureDateInput.addEventListener('click', function(e) {
-            // Allow the default behavior to open the date picker
             this.showPicker?.();
         });
     }
+
+    // Destinations management
+    const destinationsContainer = document.getElementById('destinations-container');
+    const addDestinationBtn = document.getElementById('add-destination-btn');
+    const destinationsDropdown = document.getElementById('destinations-dropdown');
+    const selectedDestinationsInput = document.getElementById('selected-destinations');
+    let selectedDestinations = [];
+
+    // Function to update hidden input
+    function updateSelectedDestinationsInput() {
+        selectedDestinationsInput.value = JSON.stringify(selectedDestinations);
+    }
+
+    // Function to update dropdown options (hide already selected)
+    function updateDropdownOptions() {
+        const options = document.querySelectorAll('.destination-option');
+        options.forEach(option => {
+            const destinationName = option.dataset.destination;
+            if (selectedDestinations.includes(destinationName)) {
+                option.style.display = 'none';
+            } else {
+                option.style.display = 'block';
+            }
+        });
+    }
+
+    // Function to render selected destinations
+    function renderSelectedDestinations() {
+        destinationsContainer.innerHTML = '';
+        selectedDestinations.forEach((destination, index) => {
+            const destinationTag = document.createElement('button');
+            destinationTag.type = 'button';
+            destinationTag.className = 'flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary text-primary rounded-lg text-sm font-text destination-tag';
+            destinationTag.dataset.index = index;
+            destinationTag.innerHTML = `
+                <span class="material-symbols-outlined text-sm">location_on</span>
+                ${destination}
+                <span class="material-symbols-outlined text-xs destination-remove">close</span>
+            `;
+            
+            // Add remove functionality
+            const removeBtn = destinationTag.querySelector('.destination-remove');
+            removeBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                removeDestination(index);
+            });
+            
+            destinationsContainer.appendChild(destinationTag);
+        });
+        updateSelectedDestinationsInput();
+        updateDropdownOptions();
+    }
+
+    // Function to add destination
+    function addDestination(destinationName) {
+        if (destinationName && !selectedDestinations.includes(destinationName)) {
+            selectedDestinations.push(destinationName);
+            renderSelectedDestinations();
+            destinationsDropdown.classList.add('hidden');
+        }
+    }
+
+    // Function to remove destination
+    function removeDestination(index) {
+        selectedDestinations.splice(index, 1);
+        renderSelectedDestinations();
+    }
+
+    // Toggle dropdown
+    addDestinationBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        destinationsDropdown.classList.toggle('hidden');
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!addDestinationBtn.contains(e.target) && !destinationsDropdown.contains(e.target)) {
+            destinationsDropdown.classList.add('hidden');
+        }
+    });
+
+    // Handle destination selection from dropdown
+    const destinationOptions = document.querySelectorAll('.destination-option');
+    destinationOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            const destinationName = this.dataset.destination;
+            addDestination(destinationName);
+        });
+    });
+
+    // Initialize dropdown options on load
+    updateDropdownOptions();
 });
 </script>
 @endpush

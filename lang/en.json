@@ -50,6 +50,11 @@
     "Share Article": "Share Article",
     "Trending Articles": "Trending Articles",
     "Content is currently unavailable.": "Content is currently unavailable.",
-    "Departure date must be after arrival date": "Departure date must be after arrival date"
+    "Departure date must be after arrival date": "Departure date must be after arrival date",
+    "Trip Dates": "Trip Dates",
+    "Arrival Date": "Arrival Date",
+    "Departure Date": "Departure Date",
+    "From Date": "From Date",
+    "To Date": "To Date"
 }
 

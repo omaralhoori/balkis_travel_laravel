@@ -89,6 +89,11 @@
     "Comment": "Yorum",
     "minutes to read": "dakika okuma süresi",
     "Discover investment and tourism opportunities designed specifically for the elite, combining Turkish luxury with exceptional returns.": "Elitler için tasarlanmış yatırım ve turizm fırsatlarını keşfedin, Türk fıkıhıyla birleştirerek özel getiriler sunuyoruz.",
-    "Departure date must be after arrival date": "Ayrılış tarihi varış tarihinden sonra olmalıdır"
+    "Departure date must be after arrival date": "Ayrılış tarihi varış tarihinden sonra olmalıdır",
+    "Trip Dates": "Seyahat Tarihleri",
+    "Arrival Date": "Varış Tarihi",
+    "Departure Date": "Ayrılış Tarihi",
+    "From Date": "Başlangıç Tarihi",
+    "To Date": "Bitiş Tarihi"
 }
 
