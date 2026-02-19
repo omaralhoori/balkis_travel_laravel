@@ -29,6 +29,19 @@ Route::prefix('{locale}')
             ]);
         })->name('programs.index');
 
+        Route::get('/programs/{id}', function (string $locale, int $id) {
+            $program = \App\Models\Program::where('id', $id)
+                ->where('is_active', true)
+                ->firstOrFail();
+
+            // Set locale on program to ensure translations work correctly
+            $program->setLocale($locale);
+
+            return view('programs.show', [
+                'program' => $program,
+            ]);
+        })->name('programs.show');
+
         Route::get('/blog', function () {
             $featuredPost = \App\Models\BlogPost::where('is_active', true)
                 ->where('is_featured', true)

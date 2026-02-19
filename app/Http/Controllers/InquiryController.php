@@ -47,13 +47,26 @@ class InquiryController extends Controller
     private function formatMessage(array $data): string
     {
         $locale = app()->getLocale();
+
+        // Set locale for translations
+        app()->setLocale($locale);
+
+        // Check if it's a program inquiry
+        if (isset($data['program_id']) && isset($data['program_title'])) {
+            $message = '📋 *'.__('Program Inquiry', [], $locale)."*\n\n";
+            $message .= '🏷️ *'.__('Program', [], $locale).":* {$data['program_title']}\n\n";
+            $message .= '👤 *'.__('Full Name', [], $locale).":* {$data['name']}\n";
+            $message .= '📞 *'.__('Phone Number', [], $locale).":* {$data['phone']}\n";
+            $message .= '📧 *'.__('Email', [], $locale).":* {$data['email']}\n";
+
+            return $message;
+        }
+
+        // Default tourism inquiry format
         $destinations = json_decode($data['selected_destinations'] ?? '[]', true);
         $services = is_string($data['services'] ?? null)
             ? json_decode($data['services'], true) ?? []
             : ($data['services'] ?? []);
-
-        // Set locale for translations
-        app()->setLocale($locale);
 
         $message = '🌍 *'.__('New Tourism Inquiry', [], $locale)."*\n\n";
         $message .= '📍 *'.__('Required Destinations', [], $locale).":*\n";

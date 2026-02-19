@@ -18,6 +18,7 @@ class Program extends Model
         'title',
         'description',
         'category',
+        'overview',
     ];
 
     protected $fillable = [
@@ -27,6 +28,25 @@ class Program extends Model
         'category_icon',
         'image',
         'url',
+        'location',
+        'area',
+        'rooms',
+        'annual_return',
+        'citizenship_eligible',
+        'price',
+        'gallery_images',
+        'features',
+        'overview',
+        // Tourism fields
+        'trip_stages',
+        'includes',
+        'min_participants',
+        'max_participants',
+        'duration',
+        'departure_location',
+        'return_location',
+        'accommodation_type',
+        'meal_plan',
         'order',
         'is_active',
     ];
@@ -34,6 +54,13 @@ class Program extends Model
     protected $casts = [
         'order' => 'integer',
         'is_active' => 'boolean',
+        'citizenship_eligible' => 'boolean',
+        'gallery_images' => 'array',
+        'features' => 'array',
+        'trip_stages' => 'array',
+        'includes' => 'array',
+        'min_participants' => 'integer',
+        'max_participants' => 'integer',
     ];
 
     public function getImageUrlAttribute(): ?string
@@ -43,5 +70,21 @@ class Program extends Model
         }
 
         return asset('storage/'.$this->image);
+    }
+
+    /**
+     * Get gallery images URLs
+     *
+     * @return array<string>
+     */
+    public function getGalleryImagesUrlsAttribute(): array
+    {
+        if (! $this->gallery_images || ! is_array($this->gallery_images)) {
+            return [];
+        }
+
+        return array_map(function ($image) {
+            return asset('storage/'.$image);
+        }, $this->gallery_images);
     }
 }

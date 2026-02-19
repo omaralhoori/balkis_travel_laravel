@@ -67,7 +67,7 @@
                     @if($program->description)
                         <p class="text-gray-400 text-sm leading-relaxed mb-6 line-clamp-2">{{ $program->description }}</p>
                     @endif
-                    <a href="{{ $program->url ?? '#' }}" class="w-full flex items-center justify-center gap-2 py-3 border border-primary/30 text-primary text-sm font-bold hover:bg-primary hover:text-zinc-dark transition-all group-hover:border-primary">
+                    <a href="{{ route('programs.show', ['locale' => app()->getLocale(), 'id' => $program->id]) }}" class="w-full flex items-center justify-center gap-2 py-3 border border-primary/30 text-primary text-sm font-bold hover:bg-primary hover:text-zinc-dark transition-all group-hover:border-primary">
                         <span>{{ __('Explore Details') }}</span>
                         @if(app()->getLocale() == 'ar')
                             <span class="material-symbols-outlined text-lg">arrow_left_alt</span>

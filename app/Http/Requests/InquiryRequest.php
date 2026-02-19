@@ -21,6 +21,18 @@ class InquiryRequest extends FormRequest
      */
     public function rules(): array
     {
+        // If it's a program inquiry, use different rules
+        if ($this->has('program_id')) {
+            return [
+                'program_id' => ['nullable', 'integer', 'exists:programs,id'],
+                'program_title' => ['nullable', 'string'],
+                'name' => ['required', 'string', 'max:255'],
+                'phone' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'email', 'max:255'],
+            ];
+        }
+
+        // Default rules for tourism inquiry
         return [
             'selected_destinations' => ['nullable', 'string'],
             'adults' => ['required', 'integer', 'min:0', 'max:40'],

@@ -14,7 +14,7 @@ return new class extends Migration
      */
     private array $translatables = [
         'blog_posts' => ['title', 'excerpt', 'content', 'meta_title', 'meta_description', 'meta_keywords'],
-        'programs' => ['title', 'description', 'category'],
+        'programs' => ['title', 'description', 'category', 'overview'],
         'testimonials' => ['testimonial', 'position'],
         'home_pages' => [
             'main_title',
