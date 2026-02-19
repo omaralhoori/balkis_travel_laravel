@@ -46,36 +46,40 @@ class InquiryController extends Controller
      */
     private function formatMessage(array $data): string
     {
+        $locale = app()->getLocale();
         $destinations = json_decode($data['selected_destinations'] ?? '[]', true);
         $services = is_string($data['services'] ?? null)
             ? json_decode($data['services'], true) ?? []
             : ($data['services'] ?? []);
 
-        $message = "🌍 *استفسار جديد عن رحلة سياحية*\n\n";
-        $message .= "📍 *الوجهات المطلوبة:*\n";
+        // Set locale for translations
+        app()->setLocale($locale);
+
+        $message = '🌍 *'.__('New Tourism Inquiry', [], $locale)."*\n\n";
+        $message .= '📍 *'.__('Required Destinations', [], $locale).":*\n";
         if (! empty($destinations)) {
             foreach ($destinations as $destination) {
                 $message .= "• {$destination}\n";
             }
         } else {
-            $message .= "• لم يتم تحديد وجهات\n";
+            $message .= '• '.__('No destinations selected', [], $locale)."\n";
         }
 
-        $message .= "\n👥 *عدد المسافرين:*\n";
-        $message .= "• بالغين: {$data['adults']}\n";
-        $message .= "• أطفال: {$data['children']}\n";
+        $message .= "\n👥 *".__('Number of Travelers', [], $locale).":*\n";
+        $message .= '• '.__('Adults', [], $locale).": {$data['adults']}\n";
+        $message .= '• '.__('Children', [], $locale).": {$data['children']}\n";
 
-        $message .= "\n📅 *تواريخ الرحلة:*\n";
-        $message .= "• من: {$data['arrival_date']}\n";
-        $message .= "• إلى: {$data['departure_date']}\n";
+        $message .= "\n📅 *".__('Trip Dates', [], $locale).":*\n";
+        $message .= '• '.__('From Date', [], $locale).": {$data['arrival_date']}\n";
+        $message .= '• '.__('To Date', [], $locale).": {$data['departure_date']}\n";
 
         if (! empty($services)) {
-            $message .= "\n✨ *الخدمات المطلوبة:*\n";
+            $message .= "\n✨ *".__('Select Required Services', [], $locale).":*\n";
             $serviceNames = [
-                'flight' => 'طيران',
-                'accommodation' => 'إقامة',
-                'car_rental' => 'تأجير سيارات',
-                'tourist_trips' => 'رحلات سياحية',
+                'flight' => __('Flight', [], $locale),
+                'accommodation' => __('Accommodation', [], $locale),
+                'car_rental' => __('Car Rental', [], $locale),
+                'tourist_trips' => __('Tourist Trips', [], $locale),
             ];
             foreach ($services as $service) {
                 $message .= '• '.($serviceNames[$service] ?? $service)."\n";

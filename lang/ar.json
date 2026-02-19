@@ -116,6 +116,9 @@
     "Inquiry submitted successfully!": "تم إرسال الاستفسار بنجاح!",
     "An error occurred. Please try again.": "حدث خطأ. يرجى المحاولة مرة أخرى.",
     "No WhatsApp numbers configured": "لم يتم تكوين أرقام واتساب",
-    "No destinations available": "لا توجد وجهات متاحة"
+    "No destinations available": "لا توجد وجهات متاحة",
+    "New Tourism Inquiry": "استفسار جديد عن رحلة سياحية",
+    "No destinations selected": "لم يتم تحديد وجهات",
+    "Required Destinations": "الوجهات المطلوبة"
 }
 

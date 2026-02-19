@@ -15,6 +15,7 @@ class HomePage extends Model
         'main_description',
         'footer_brand_name',
         'footer_brand_description',
+        'destinations',
     ];
 
     protected $fillable = [

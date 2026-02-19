@@ -99,6 +99,9 @@
     "Inquiry submitted successfully!": "Sorgu başarıyla gönderildi!",
     "An error occurred. Please try again.": "Bir hata oluştu. Lütfen tekrar deneyin.",
     "No WhatsApp numbers configured": "WhatsApp numarası yapılandırılmamış",
-    "No destinations available": "Mevcut destinasyon yok"
+    "No destinations available": "Mevcut destinasyon yok",
+    "New Tourism Inquiry": "Yeni Turizm Sorgusu",
+    "No destinations selected": "Destinasyon seçilmedi",
+    "Required Destinations": "Gerekli Destinasyonlar"
 }
 
