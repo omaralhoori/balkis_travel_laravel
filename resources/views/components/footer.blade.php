@@ -24,7 +24,7 @@
     $termsUrl = $homePage->footer_terms_url ?? '#';
 @endphp
 
-<footer class="bg-primary border-t border-primary/20 pt-16 pb-8 px-4 md:px-10 lg:px-20 text-slate-200 relative">
+<footer class="bg-secondary border-t border-primary/20 pt-16 pb-8 px-4 md:px-10 lg:px-20 text-slate-200 relative">
     <div class="bg-pattern relative z-10" style="background-image: url('/image/pattern1.png');"></div>
     <div class="max-w-7xl mx-auto relative z-20">
         <div class="flex flex-col md:flex-row justify-between items-start gap-12 mb-16">
