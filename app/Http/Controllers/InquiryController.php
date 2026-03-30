@@ -96,7 +96,7 @@ class InquiryController extends Controller
         $message .= '• '.__('To Date', [], $locale).": {$data['departure_date']}\n";
 
         if (! empty($services)) {
-            $message .= "\n✨ *".__('Select Required Services', [], $locale).":*\n";
+            $message .= "\n✨ *".__('Required Services', [], $locale).":*\n";
             $serviceNames = [
                 'flight' => __('Flight Tickets', [], $locale),
                 'accommodation' => __('Accommodation', [], $locale),
