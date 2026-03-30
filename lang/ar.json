@@ -89,9 +89,9 @@
     "Comment": "تعليق",
     "minutes to read": "دقائق قراءة",
     "Discover investment and tourism opportunities designed specifically for the elite, combining Turkish luxury with exceptional returns.": "اكتشف فرص استثمارية وسياحية مصممة خصيصاً لتناسب احتياجات النخبة، نجمع بين الفخامة التركية والعوائد المتميزة.",
-    "Flight": "الطيران",
+    "Flight Tickets": "تذاكر الطيران",
     "Accommodation": "الإقامة",
-    "Car Rental": "السيارات",
+    "Car Rental without Driver": "تأجير سيارة بدون سائق",
     "Tourist Trips": "الرحلات السياحية",
     "Once submitted, one of our consultants will contact you within 24 hours.": "بمجرد إرسال الاستفسار، سيتم الاتصال بك من قبل مستشارنا في غضون 24 ساعة.",
     "Customize Tourism Services": "تخصيص خدمات السياحة",
@@ -152,6 +152,14 @@
     "Meal Plan": "نوع الوجبات",
     "Trip Stages": "مراحل الرحلة",
     "What's Included": "ماذا يشمل البرنامج",
-    "Contact us directly via": "تواصل معنا مباشرة عبر"
+    "Contact us directly via": "تواصل معنا مباشرة عبر",
+    "Children Ages": "أعمار الأطفال",
+    "Age of child": "عمر الطفل",
+    "Age": "العمر",
+    "Trip Type": "نوع الرحلة",
+    "VIP (Private)": "خاص (VIP)",
+    "Group": "مع مجموعة",
+    "Hotel": "فندق",
+    "Apartment Hotel": "شقق فندقية",
+    "Cottage": "كوخ"
 }
-

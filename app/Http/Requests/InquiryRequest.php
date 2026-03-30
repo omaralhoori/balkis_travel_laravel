@@ -40,6 +40,10 @@ class InquiryRequest extends FormRequest
             'arrival_date' => ['required', 'date', 'after_or_equal:today'],
             'departure_date' => ['required', 'date', 'after:arrival_date'],
             'services' => ['nullable'],
+            'child_ages' => ['nullable', 'array'],
+            'child_ages.*' => ['integer', 'min:0', 'max:17'],
+            'trip_type' => ['nullable', 'string', 'in:VIP,Grouped'],
+            'accommodation_type' => ['nullable', 'string', 'in:hotel,apartment_hotel,cottage'],
         ];
     }
 

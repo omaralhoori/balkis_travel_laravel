@@ -82,6 +82,15 @@ class InquiryController extends Controller
         $message .= '• '.__('Adults', [], $locale).": {$data['adults']}\n";
         $message .= '• '.__('Children', [], $locale).": {$data['children']}\n";
 
+        if (!empty($data['child_ages'])) {
+            $validAges = array_filter($data['child_ages'], function($val) {
+                return $val !== null && $val !== '';
+            });
+            if (!empty($validAges)) {
+                $message .= '  📝 *'.__('Children Ages', [], $locale).":* " . implode(', ', $validAges) . "\n";
+            }
+        }
+
         $message .= "\n📅 *".__('Trip Dates', [], $locale).":*\n";
         $message .= '• '.__('From Date', [], $locale).": {$data['arrival_date']}\n";
         $message .= '• '.__('To Date', [], $locale).": {$data['departure_date']}\n";
@@ -89,13 +98,22 @@ class InquiryController extends Controller
         if (! empty($services)) {
             $message .= "\n✨ *".__('Select Required Services', [], $locale).":*\n";
             $serviceNames = [
-                'flight' => __('Flight', [], $locale),
+                'flight' => __('Flight Tickets', [], $locale),
                 'accommodation' => __('Accommodation', [], $locale),
-                'car_rental' => __('Car Rental', [], $locale),
+                'car_rental' => __('Car Rental without Driver', [], $locale),
                 'tourist_trips' => __('Tourist Trips', [], $locale),
             ];
             foreach ($services as $service) {
                 $message .= '• '.($serviceNames[$service] ?? $service)."\n";
+                if ($service === 'accommodation' && !empty($data['accommodation_type'])) {
+                    $accType = $data['accommodation_type'];
+                    $accTranslated = $accType === 'hotel' ? __('Hotel', [], $locale) : ($accType === 'apartment_hotel' ? __('Apartment Hotel', [], $locale) : __('Cottage', [], $locale));
+                    $message .= "   - " . __('Accommodation Type', [], $locale) . ": " . $accTranslated . "\n";
+                }
+                if ($service === 'tourist_trips' && !empty($data['trip_type'])) {
+                    $tripTypeTranslated = $data['trip_type'] === 'VIP' ? __('VIP (Private)', [], $locale) : __('Group', [], $locale);
+                    $message .= "   - " . __('Trip Type', [], $locale) . ": " . $tripTypeTranslated . "\n";
+                }
             }
         }
 

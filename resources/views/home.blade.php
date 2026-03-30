@@ -71,19 +71,33 @@
                     <input type="hidden" id="selected-destinations" name="selected_destinations" value="">
                 </div>
 
-                <!-- Guest Count -->
+                <!-- Guest Count & Children Ages Wrapper -->
                 <div>
-                    <label class="block text-sm font-medium text-slate-500  mb-3 font-text">{{ __('Number of Travelers') }}</label>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="relative">
-                            <label class="block text-xs font-medium text-slate-400 mb-1 font-text">{{ __('Adults') }}</label>
-                            <span class="absolute right-4 top-[calc(50%+12px)] -translate-y-1/2 material-symbols-outlined text-primary">person</span>
-                            <input name="adults" id="adults" class="w-full pr-12 pl-4 py-4 bg-slate-50 border border-slate-200  rounded-lg focus:ring-1 focus:ring-primary focus:border-primary outline-none text-slate-800  font-text " placeholder="0" type="number" value="2" min="0" max="40" required/>
+                    <!-- Guest Count -->
+                    <div>
+                        <label class="block text-sm font-medium text-slate-500  mb-3 font-text">{{ __('Number of Travelers') }}</label>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="relative">
+                                <label class="block text-xs font-medium text-slate-400 mb-1 font-text">{{ __('Adults') }}</label>
+                                <span class="absolute right-4 top-[calc(50%+12px)] -translate-y-1/2 material-symbols-outlined text-primary">person</span>
+                                <input name="adults" id="adults" class="w-full pr-12 pl-4 py-4 bg-slate-50 border border-slate-200  rounded-lg focus:ring-1 focus:ring-primary focus:border-primary outline-none text-slate-800  font-text " placeholder="0" type="number" value="2" min="0" max="40" required/>
+                            </div>
+                            <div class="relative">
+                                <label class="block text-xs font-medium text-slate-400 mb-1 font-text">{{ __('Children') }}</label>
+                                <span class="absolute right-4 top-[calc(50%+12px)] -translate-y-1/2 material-symbols-outlined text-primary">child_care</span>
+                                <input name="children" id="children" class="w-full pr-12 pl-4 py-4 bg-slate-50  border border-slate-200  rounded-lg focus:ring-1 focus:ring-primary focus:border-primary outline-none text-slate-800  font-text" placeholder="0" type="number" value="0" min="0" max="20" required/>
+                            </div>
                         </div>
-                        <div class="relative">
-                            <label class="block text-xs font-medium text-slate-400 mb-1 font-text">{{ __('Children') }}</label>
-                            <span class="absolute right-4 top-[calc(50%+12px)] -translate-y-1/2 material-symbols-outlined text-primary">child_care</span>
-                            <input name="children" id="children" class="w-full pr-12 pl-4 py-4 bg-slate-50  border border-slate-200  rounded-lg focus:ring-1 focus:ring-primary focus:border-primary outline-none text-slate-800  font-text" placeholder="0" type="number" value="0" min="0" max="20" required/>
+                    </div>
+
+                    <!-- Children Ages -->
+                    <div id="children-ages-container" class="hidden border border-slate-200 rounded-lg p-6 bg-slate-50/50 mt-4 mb-2">
+                        <label class="block text-sm font-medium text-slate-500 mb-4 font-text flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary text-sm">cake</span>
+                            {{ __('Children Ages') }}
+                        </label>
+                        <div id="children-ages-fields" class="grid grid-cols-2 gap-4">
+                            <!-- Age input fields will be added dynamically -->
                         </div>
                     </div>
                 </div>
@@ -131,7 +145,7 @@
                             <div class="size-14 rounded-full bg-slate-100  flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors peer-checked:bg-primary/20">
                                 <span class="material-symbols-outlined text-3xl text-slate-400 group-hover:text-primary transition-colors peer-checked:text-primary">flight_takeoff</span>
                             </div>
-                            <span class="text-sm font-bold text-slate-600   peer-checked:text-primary font-text">{{ __('Flight') }}</span>
+                            <span class="text-sm font-bold text-slate-600   peer-checked:text-primary font-text">{{ __('Flight Tickets') }}</span>
                         </label>
                         <label class="relative service-card cursor-pointer group flex flex-col items-center justify-center p-6 border border-slate-200  rounded-xl transition-all duration-300">
                             <input name="services[]" value="accommodation" checked="" class="hidden peer" type="checkbox"/>
@@ -147,7 +161,7 @@
                             <div class="size-14 rounded-full bg-slate-100  flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors peer-checked:bg-primary/20">
                                 <span class="material-symbols-outlined text-3xl text-slate-400 group-hover:text-primary transition-colors peer-checked:text-primary">directions_car</span>
                             </div>
-                            <span class="text-sm font-bold text-slate-600  peer-checked:text-primary font-text">{{ __('Car Rental') }}</span>
+                            <span class="text-sm font-bold text-slate-600  peer-checked:text-primary font-text">{{ __('Car Rental without Driver') }}</span>
                         </label>
                         <label class="relative service-card cursor-pointer group flex flex-col items-center justify-center p-6 border border-slate-200  rounded-xl transition-all duration-300">
                             <input name="services[]" value="tourist_trips" class="hidden peer" type="checkbox"/>
@@ -156,6 +170,46 @@
                                 <span class="material-symbols-outlined text-3xl text-slate-400 group-hover:text-primary transition-colors peer-checked:text-primary">map</span>
                             </div>
                             <span class="text-sm font-bold text-slate-600  peer-checked:text-primary font-text">{{ __('Tourist Trips') }}</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Accommodation Type -->
+                <div id="accommodation-type-container" class="col-span-full hidden border border-slate-200 rounded-lg p-6 bg-slate-50/50 mt-4 mb-2">
+                    <label class="block text-sm font-medium text-slate-500 mb-4 font-text flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary text-sm">hotel</span>
+                        {{ __('Accommodation Type') }}
+                    </label>
+                    <div class="flex flex-wrap gap-6">
+                        <label class="flex items-center gap-2 cursor-pointer group">
+                            <input type="radio" name="accommodation_type" value="hotel" class="accent-primary size-4" checked>
+                            <span class="text-sm font-medium text-slate-700 font-text group-hover:text-primary transition-colors">{{ __('Hotel') }}</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer group">
+                            <input type="radio" name="accommodation_type" value="apartment_hotel" class="accent-primary size-4">
+                            <span class="text-sm font-medium text-slate-700 font-text group-hover:text-primary transition-colors">{{ __('Apartment Hotel') }}</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer group">
+                            <input type="radio" name="accommodation_type" value="cottage" class="accent-primary size-4">
+                            <span class="text-sm font-medium text-slate-700 font-text group-hover:text-primary transition-colors">{{ __('Cottage') }}</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Tourist Trip Type -->
+                <div id="trip-type-container" class="col-span-full hidden border border-slate-200 rounded-lg p-6 bg-slate-50/50 mt-4 mb-2">
+                    <label class="block text-sm font-medium text-slate-500 mb-4 font-text flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary text-sm">group</span>
+                        {{ __('Trip Type') }}
+                    </label>
+                    <div class="flex gap-6">
+                        <label class="flex items-center gap-2 cursor-pointer group">
+                            <input type="radio" name="trip_type" value="VIP" class="accent-primary size-4" checked>
+                            <span class="text-sm font-medium text-slate-700 font-text group-hover:text-primary transition-colors">{{ __('VIP (Private)') }}</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer group">
+                            <input type="radio" name="trip_type" value="Grouped" class="accent-primary size-4">
+                            <span class="text-sm font-medium text-slate-700 font-text group-hover:text-primary transition-colors">{{ __('Group') }}</span>
                         </label>
                     </div>
                 </div>
@@ -377,6 +431,81 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize dropdown options on load
     updateDropdownOptions();
+
+    // Children ages dynamic fields
+    const childrenInput = document.getElementById('children');
+    const childrenAgesContainer = document.getElementById('children-ages-container');
+    const childrenAgesFields = document.getElementById('children-ages-fields');
+
+    if (childrenInput && childrenAgesContainer && childrenAgesFields) {
+        childrenInput.addEventListener('input', function() {
+            const count = parseInt(this.value) || 0;
+            
+            if (count > 0) {
+                childrenAgesContainer.classList.remove('hidden');
+            } else {
+                childrenAgesContainer.classList.add('hidden');
+            }
+
+            // Store current values to preserve them if user changes count
+            const currentInputs = childrenAgesFields.querySelectorAll('input');
+            const currentValues = Array.from(currentInputs).map(input => input.value);
+
+            childrenAgesFields.innerHTML = '';
+            
+            for (let i = 0; i < count; i++) {
+                const val = currentValues[i] || '';
+                const fieldHTML = `
+                    <div class="relative">
+                        <label class="block text-xs font-medium text-slate-400 mb-1.5 font-text">{{ __('Age of child') }} ${i + 1}</label>
+                        <input name="child_ages[]" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-lg focus:ring-1 focus:ring-primary focus:border-primary outline-none text-slate-800 font-text text-sm shadow-sm" type="number" min="0" max="17" placeholder="{{ __('Age') }}" value="${val}" required/>
+                    </div>
+                `;
+                childrenAgesFields.insertAdjacentHTML('beforeend', fieldHTML);
+            }
+        });
+        
+        // Trigger initially to set up fields if value is > 0
+        childrenInput.dispatchEvent(new Event('input'));
+    }
+
+    // Accommodation toggle
+    const accommodationCheckbox = document.querySelector('input[value="accommodation"]');
+    const accommodationTypeContainer = document.getElementById('accommodation-type-container');
+
+    if (accommodationCheckbox && accommodationTypeContainer) {
+        accommodationCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+                accommodationTypeContainer.classList.remove('hidden');
+            } else {
+                accommodationTypeContainer.classList.add('hidden');
+            }
+        });
+        
+        // Check initially
+        if (accommodationCheckbox.checked) {
+            accommodationTypeContainer.classList.remove('hidden');
+        }
+    }
+
+    // Tourist Trips toggle
+    const touristTripsCheckbox = document.querySelector('input[value="tourist_trips"]');
+    const tripTypeContainer = document.getElementById('trip-type-container');
+
+    if (touristTripsCheckbox && tripTypeContainer) {
+        touristTripsCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+                tripTypeContainer.classList.remove('hidden');
+            } else {
+                tripTypeContainer.classList.add('hidden');
+            }
+        });
+        
+        // Check initially
+        if (touristTripsCheckbox.checked) {
+            tripTypeContainer.classList.remove('hidden');
+        }
+    }
 
     // Form submission
     const inquiryForm = document.getElementById('inquiry-form');
