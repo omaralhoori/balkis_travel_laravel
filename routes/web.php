@@ -7,6 +7,17 @@ Route::get('/', function () {
     return redirect('/'.config('app.locale', 'ar'));
 });
 
+// Sitemap Route
+Route::get('/sitemap.xml', function () {
+    return response()->view('sitemap')->header('Content-Type', 'text/xml');
+});
+
+// Robots.txt Route
+Route::get('/robots.txt', function () {
+    $content = "User-agent: *\nDisallow:\n\nSitemap: " . url('/sitemap.xml') . "\n";
+    return response($content)->header('Content-Type', 'text/plain');
+});
+
 // Locale-prefixed routes
 Route::prefix('{locale}')
     ->where(['locale' => implode('|', config('app.supported_locales', ['ar', 'en', 'tr', 'fr']))])
