@@ -1,17 +1,19 @@
 @php
     $currentLocale = app()->getLocale();
-    $supportedLocales = config('app.supported_locales', ['ar', 'en', 'tr']);
+    $supportedLocales = config('app.supported_locales', ['ar', 'en', 'tr', 'fr']);
 
     $localeLabels = [
         'ar' => 'العربية',
         'en' => 'English',
         'tr' => 'Türkçe',
+        'fr' => 'Français',
     ];
 
     $localeFlags = [
         'ar' => '🇸🇦',
         'en' => '🇬🇧',
         'tr' => '🇹🇷',
+        'fr' => '🇫🇷',
     ];
 
     // Build the URL for each locale by replacing the current locale segment

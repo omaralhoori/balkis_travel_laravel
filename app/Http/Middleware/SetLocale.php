@@ -33,6 +33,7 @@ class SetLocale
             'ar' => 'ar_SA.UTF-8',
             'en' => 'en_US.UTF-8',
             'tr' => 'tr_TR.UTF-8',
+            'fr' => 'fr_FR.UTF-8',
             default => 'ar_SA.UTF-8',
         };
     }

@@ -9,7 +9,7 @@ Route::get('/', function () {
 
 // Locale-prefixed routes
 Route::prefix('{locale}')
-    ->where(['locale' => implode('|', config('app.supported_locales', ['ar', 'en', 'tr']))])
+    ->where(['locale' => implode('|', config('app.supported_locales', ['ar', 'en', 'tr', 'fr']))])
     ->group(function () {
         Route::get('/', function () {
             return view('home');
