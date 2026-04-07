@@ -25,205 +25,237 @@
 
     <!-- Main Selection Form Card -->
     <section class="max-w-5xl mx-auto px-6 -mt-32 relative z-20 pb-20">
-        <div class="bg-white rounded-xl shadow-2xl border border-white/5 p-8 md:p-12">
-            <div class="mb-10 text-center">
-                <h3 class="text-2xl font-bold text-secondary mb-2 font-heading">{{ __('Customize Tourism Services') }}</h3>
-                <div class="w-20 h-1 bg-primary mx-auto rounded-full"></div>
+        <div class="bg-white/95 backdrop-blur-md rounded-3xl p-8 md:p-12 shadow-2xl border border-white/20 relative">
+            <div class="mb-12 text-center">
+                <h3 class="text-3xl font-bold text-slate-800 mb-4 font-heading">{{ __('Customize Your Journey') }}</h3>
+                <div class="w-16 h-1.5 bg-primary mx-auto rounded-full mb-10"></div>
+                
+                <!-- Step Indicator -->
+                <div class="max-w-2xl mx-auto relative px-4">
+                    <div class="flex justify-between relative mb-12" dir="ltr">
+                        <!-- Progress Line Background -->
+                        <div class="absolute top-1/2 left-0 right-0 h-1 bg-slate-100 -translate-y-1/2 rounded-full z-0"></div>
+                        <!-- Progress Line Active -->
+                        <div id="progress-bar" class="absolute top-1/2 left-0 h-1 bg-primary -translate-y-1/2 transition-all duration-500 ease-out rounded-full z-0" style="width: 0%"></div>
+                        
+                        <div class="step-item active flex flex-col items-center relative z-10 w-16" data-step="1">
+                            <div class="step-dot w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg bg-primary text-white border-4 border-white shadow-md transition-all duration-500">1</div>
+                            <span class="step-label absolute top-14 whitespace-nowrap text-sm font-semibold text-primary transition-all duration-300">{{ __('Destinations') }}</span>
+                        </div>
+                        <div class="step-item flex flex-col items-center relative z-10 w-16" data-step="2">
+                            <div class="step-dot w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg bg-slate-100 text-slate-400 border-4 border-white transition-all duration-500">2</div>
+                            <span class="step-label absolute top-14 whitespace-nowrap text-sm font-semibold text-slate-400 transition-all duration-300">{{ __('Travelers') }}</span>
+                        </div>
+                        <div class="step-item flex flex-col items-center relative z-10 w-16" data-step="3">
+                            <div class="step-dot w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg bg-slate-100 text-slate-400 border-4 border-white transition-all duration-500">3</div>
+                            <span class="step-label absolute top-14 whitespace-nowrap text-sm font-semibold text-slate-400 transition-all duration-300">{{ __('Services') }}</span>
+                        </div>
+                    </div>
+                </div>
             </div>
             
-            <form id="inquiry-form" class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- Destination Selection -->
-                <div class="col-span-full">
-                    <label class="block text-sm font-medium text-slate-500  mb-3 font-text">{{ __('Required Destinations (You can select multiple cities)') }}</label>
-                    <div id="destinations-container" class="flex flex-wrap gap-3 p-4 border border-slate-200  rounded-lg bg-slate-100 min-h-[60px]">
-                        <!-- Selected destinations will be added here dynamically -->
-                    </div>
-                    <div class="mt-3 relative">
-                        <button 
-                            type="button"
-                            id="add-destination-btn"
-                            class="flex items-center gap-2 px-4 py-2 bg-slate-200 text-slate-600 rounded-lg text-sm hover:bg-primary/20 hover:text-primary transition-all font-text"
-                        >
-                            <span class="material-symbols-outlined text-sm">add</span>
-                            {{ __('Add City') }}
-                        </button>
-                        <!-- Dropdown for available destinations -->
-                        <div id="destinations-dropdown" class="hidden absolute top-full left-0 mt-2 w-full bg-white border border-slate-200 rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto">
-                            @if(count($availableDestinations) > 0)
-                                @foreach($availableDestinations as $destination)
-                                    <button 
-                                        type="button"
-                                        class="destination-option w-full text-right px-4 py-2 hover:bg-primary/10 hover:text-primary transition-colors font-text"
-                                        data-destination="{{ $destination['name'] ?? '' }}"
-                                    >
-                                        <span class="material-symbols-outlined text-sm align-middle">location_on</span>
-                                        {{ $destination['name'] ?? '' }}
-                                    </button>
-                                @endforeach
-                            @else
-                                <div class="px-4 py-2 text-slate-500 text-sm font-text">
-                                    {{ __('No destinations available') }}
+            <form id="inquiry-form" class="relative">
+                <!-- Step 1: Destinations & Dates -->
+                <div class="form-step active" id="step-1" data-step="1">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <!-- Destination Selection -->
+                        <div class="col-span-full">
+                            <label class="block text-sm font-semibold text-slate-700 mb-3 font-text flex items-center gap-2">
+                                <span class="material-symbols-outlined text-primary text-lg">map</span>
+                                {{ __('Required Destinations (You can select multiple cities)') }}
+                            </label>
+                            <div id="destinations-container" class="flex flex-wrap gap-2 p-5 border-2 border-dashed border-slate-200 rounded-2xl bg-slate-50/50 min-h-[80px] transition-all hover:border-primary/30">
+                                <div class="text-slate-400 text-sm italic py-2 px-1 w-full" id="empty-destinations-msg">
+                                    {{ __('Click "Add City" to start building your route...') }}
                                 </div>
-                            @endif
-                        </div>
-                    </div>
-                    <!-- Hidden input to store selected destinations -->
-                    <input type="hidden" id="selected-destinations" name="selected_destinations" value="">
-                </div>
-
-                <!-- Guest Count & Children Ages Wrapper -->
-                <div>
-                    <!-- Guest Count -->
-                    <div>
-                        <label class="block text-sm font-medium text-slate-500  mb-3 font-text">{{ __('Number of Travelers') }}</label>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="relative">
-                                <label class="block text-xs font-medium text-slate-400 mb-1 font-text">{{ __('Adults') }}</label>
-                                <span class="absolute right-4 top-[calc(50%+12px)] -translate-y-1/2 material-symbols-outlined text-primary">person</span>
-                                <input name="adults" id="adults" class="w-full pr-12 pl-4 py-4 bg-slate-50 border border-slate-200  rounded-lg focus:ring-1 focus:ring-primary focus:border-primary outline-none text-slate-800  font-text " placeholder="0" type="number" value="2" min="0" max="40" required/>
                             </div>
-                            <div class="relative">
-                                <label class="block text-xs font-medium text-slate-400 mb-1 font-text">{{ __('Children') }}</label>
-                                <span class="absolute right-4 top-[calc(50%+12px)] -translate-y-1/2 material-symbols-outlined text-primary">child_care</span>
-                                <input name="children" id="children" class="w-full pr-12 pl-4 py-4 bg-slate-50  border border-slate-200  rounded-lg focus:ring-1 focus:ring-primary focus:border-primary outline-none text-slate-800  font-text" placeholder="0" type="number" value="0" min="0" max="20" required/>
+                            <div class="mt-4 relative">
+                                <button type="button" id="add-destination-btn" class="inline-flex items-center gap-2 px-5 py-2.5 bg-slate-800 text-white rounded-xl text-sm hover:bg-primary transition-all shadow-md active:scale-95 font-text">
+                                    <span class="material-symbols-outlined text-sm">add_location</span>
+                                    {{ __('Add City') }}
+                                </button>
+                                <!-- Dropdown for available destinations -->
+                                <div id="destinations-dropdown" class="hidden absolute top-full ltr:left-0 rtl:right-0 mt-2 w-full max-w-sm bg-white border border-slate-100 rounded-2xl shadow-2xl z-50 max-h-72 overflow-y-auto p-2">
+                                    @if(count($availableDestinations) > 0)
+                                        @foreach($availableDestinations as $destination)
+                                            <button type="button" class="destination-option w-full text-start px-4 py-3 hover:bg-primary/5 rounded-xl transition-colors font-text flex items-center justify-between group" data-destination="{{ $destination['name'] ?? '' }}">
+                                                <div class="flex items-center gap-3">
+                                                    <span class="material-symbols-outlined text-slate-400 group-hover:text-primary transition-colors">location_on</span>
+                                                    <span class="text-slate-700 font-medium group-hover:text-primary">{{ $destination['name'] ?? '' }}</span>
+                                                </div>
+                                                <span class="material-symbols-outlined text-xs text-slate-300 opacity-0 group-hover:opacity-100 group-hover:text-primary transition-all">add</span>
+                                            </button>
+                                        @endforeach
+                                    @else
+                                        <div class="p-4 text-center text-slate-400 text-sm italic font-text">
+                                            {{ __('No destinations available') }}
+                                        </div>
+                                    @endif
+                                </div>
                             </div>
+                            <!-- Hidden input to store selected destinations -->
+                            <input type="hidden" id="selected-destinations" name="selected_destinations" value="[]">
                         </div>
-                    </div>
 
-                    <!-- Children Ages -->
-                    <div id="children-ages-container" class="hidden border border-slate-200 rounded-lg p-6 bg-slate-50/50 mt-4 mb-2">
-                        <label class="block text-sm font-medium text-slate-500 mb-4 font-text flex items-center gap-2">
-                            <span class="material-symbols-outlined text-primary text-sm">cake</span>
-                            {{ __('Children Ages') }}
-                        </label>
-                        <div id="children-ages-fields" class="grid grid-cols-2 gap-4">
-                            <!-- Age input fields will be added dynamically -->
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Dates -->
-                <div>
-                    <label class="block text-sm font-medium text-slate-500  mb-3 font-text">{{ __('Trip Dates') }}</label>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="date-input-wrapper relative">
-                            <label class="block text-xs font-medium text-slate-400 mb-1 font-text">{{ __('From Date') }}</label>
-                            <span class="absolute right-4 top-[calc(50%+12px)] -translate-y-1/2 material-symbols-outlined text-primary pointer-events-none z-10">calendar_today</span>
-                            <input 
-                                id="arrival-date"
-                                name="arrival_date"
-                                class="date-input w-full pr-12 pl-4 py-4 bg-slate-50 border border-slate-200 rounded-lg focus:ring-1 focus:ring-primary focus:border-primary outline-none text-slate-800 font-text" 
-                                type="date"
-                                min="{{ date('Y-m-d') }}"
-                                placeholder="{{ __('From Date') }}"
-                                required
-                            />
-                        </div>
-                        <div class="date-input-wrapper relative">
-                            <label class="block text-xs font-medium text-slate-400 mb-1 font-text">{{ __('To Date') }}</label>
-                            <span class="absolute right-4 top-[calc(50%+12px)] -translate-y-1/2 material-symbols-outlined text-primary pointer-events-none z-10">event</span>
-                            <input 
-                                id="departure-date"
-                                name="departure_date"
-                                class="date-input w-full pr-12 pl-4 py-4 bg-slate-50 border border-slate-200 rounded-lg focus:ring-1 focus:ring-primary focus:border-primary outline-none text-slate-800 font-text" 
-                                type="date"
-                                min="{{ date('Y-m-d') }}"
-                                placeholder="{{ __('To Date') }}"
-                                required
-                            />
+                        <!-- Dates -->
+                        <div class="col-span-full grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                            <div class="space-y-2">
+                                <label class="block text-sm font-semibold text-slate-700 font-text">{{ __('Trip Start') }}</label>
+                                <div class="relative group">
+                                    <span class="absolute ltr:right-4 rtl:left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 group-focus-within:text-primary transition-colors z-10 pointer-events-none">calendar_today</span>
+                                    <input id="arrival-date" name="arrival_date" class="date-input w-full ltr:pr-12 rtl:pl-12 ltr:pl-4 rtl:pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-slate-800 font-text shadow-sm transition-all text-start" type="date" min="{{ date('Y-m-d') }}" required/>
+                                </div>
+                            </div>
+                            <div class="space-y-2">
+                                <label class="block text-sm font-semibold text-slate-700 font-text">{{ __('Trip End') }}</label>
+                                <div class="relative group">
+                                    <span class="absolute ltr:right-4 rtl:left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 group-focus-within:text-primary transition-colors z-10 pointer-events-none">event</span>
+                                    <input id="departure-date" name="departure_date" class="date-input w-full ltr:pr-12 rtl:pl-12 ltr:pl-4 rtl:pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-slate-800 font-text shadow-sm transition-all text-start" type="date" min="{{ date('Y-m-d') }}" required/>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Service Selection Grid -->
-                <div class="col-span-full mt-6">
-                    <label class="block text-sm font-medium text-slate-500  mb-4 font-text">{{ __('Select Required Services') }}</label>
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        <label class="relative service-card cursor-pointer group flex flex-col items-center justify-center p-6 border border-slate-200 rounded-xl transition-all duration-300">
-                            <input name="services[]" value="flight" checked="" class="hidden peer" type="checkbox"/>
-                            <div class="peer-checked:bg-primary/20 w-full rounded-xl h-full absolute top-0 left-0"></div>
-                            <div class="size-14 rounded-full bg-slate-100  flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors peer-checked:bg-primary/20">
-                                <span class="material-symbols-outlined text-3xl text-slate-400 group-hover:text-primary transition-colors peer-checked:text-primary">flight_takeoff</span>
+                <!-- Step 2: Travelers -->
+                <div class="form-step hidden" id="step-2" data-step="2">
+                    <div class="space-y-8">
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-5 font-text text-center text-lg">{{ __('Who are you traveling with?') }}</label>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-100 flex items-center justify-between">
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-primary">
+                                            <span class="material-symbols-outlined">person</span>
+                                        </div>
+                                        <div>
+                                            <div class="font-bold text-slate-800 text-start">{{ __('Adults') }}</div>
+                                            <div class="text-xs text-slate-400 text-start">18+ {{ __('years') }}</div>
+                                        </div>
+                                    </div>
+                                    <input name="adults" id="adults" class="w-20 px-3 py-2 bg-white border border-slate-200 rounded-lg text-center font-bold text-slate-800 outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors shadow-sm" type="number" value="2" min="1" max="40" required/>
+                                </div>
+                                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-100 flex items-center justify-between">
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-primary">
+                                            <span class="material-symbols-outlined">child_care</span>
+                                        </div>
+                                        <div>
+                                            <div class="font-bold text-slate-800 text-start">{{ __('Children') }}</div>
+                                            <div class="text-xs text-slate-400 text-start">0-17 {{ __('years') }}</div>
+                                        </div>
+                                    </div>
+                                    <input name="children" id="children" class="w-20 px-3 py-2 bg-white border border-slate-200 rounded-lg text-center font-bold text-slate-800 outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors shadow-sm" type="number" value="0" min="0" max="20" required/>
+                                </div>
                             </div>
-                            <span class="text-sm font-bold text-slate-600   peer-checked:text-primary font-text">{{ __('Flight Tickets') }}</span>
-                        </label>
-                        <label class="relative service-card cursor-pointer group flex flex-col items-center justify-center p-6 border border-slate-200  rounded-xl transition-all duration-300">
-                            <input name="services[]" value="accommodation" checked="" class="hidden peer" type="checkbox"/>
-                            <div class="peer-checked:bg-primary/20 w-full rounded-xl h-full absolute top-0 left-0"></div>
-                            <div class="size-14 rounded-full bg-slate-100  flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors peer-checked:bg-primary/20">
-                                <span class="material-symbols-outlined text-3xl text-slate-400 group-hover:text-primary transition-colors peer-checked:text-primary">hotel</span>
+                        </div>
+
+                        <!-- Children Ages -->
+                        <div id="children-ages-container" class="hidden space-y-4 pt-4 border-t border-slate-100">
+                            <div class="flex items-center gap-3 text-slate-700 font-semibold mb-4">
+                                <div class="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center text-primary">
+                                    <span class="material-symbols-outlined text-sm">cake</span>
+                                </div>
+                                {{ __('Please provide children ages') }}
                             </div>
-                            <span class="text-sm font-bold text-slate-600  peer-checked:text-primary font-text">{{ __('Accommodation') }}</span>
-                        </label>
-                        <label class="relative service-card cursor-pointer group flex flex-col items-center justify-center p-6 border border-slate-200  rounded-xl transition-all duration-300">
-                            <input name="services[]" value="car_rental" class="hidden peer" type="checkbox"/>
-                            <div class="peer-checked:bg-primary/20 w-full rounded-xl h-full absolute top-0 left-0"></div>
-                            <div class="size-14 rounded-full bg-slate-100  flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors peer-checked:bg-primary/20">
-                                <span class="material-symbols-outlined text-3xl text-slate-400 group-hover:text-primary transition-colors peer-checked:text-primary">directions_car</span>
+                            <div id="children-ages-fields" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                                <!-- Age input fields will be added dynamically -->
                             </div>
-                            <span class="text-sm font-bold text-slate-600  peer-checked:text-primary font-text">{{ __('Car Rental without Driver') }}</span>
-                        </label>
-                        <label class="relative service-card cursor-pointer group flex flex-col items-center justify-center p-6 border border-slate-200  rounded-xl transition-all duration-300">
-                            <input name="services[]" value="tourist_trips" class="hidden peer" type="checkbox"/>
-                            <div class="peer-checked:bg-primary/20 w-full rounded-xl h-full absolute top-0 left-0"></div>
-                            <div class="size-14 rounded-full bg-slate-100  flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors peer-checked:bg-primary/20">
-                                <span class="material-symbols-outlined text-3xl text-slate-400 group-hover:text-primary transition-colors peer-checked:text-primary">map</span>
-                            </div>
-                            <span class="text-sm font-bold text-slate-600  peer-checked:text-primary font-text">{{ __('Tourist Trips') }}</span>
-                        </label>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Accommodation Type -->
-                <div id="accommodation-type-container" class="col-span-full hidden border border-slate-200 rounded-lg p-6 bg-slate-50/50 mt-4 mb-2">
-                    <label class="block text-sm font-medium text-slate-500 mb-4 font-text flex items-center gap-2">
-                        <span class="material-symbols-outlined text-primary text-sm">hotel</span>
-                        {{ __('Accommodation Type') }}
-                    </label>
-                    <div class="flex flex-wrap gap-6">
-                        <label class="flex items-center gap-2 cursor-pointer group">
-                            <input type="radio" name="accommodation_type" value="hotel" class="accent-primary size-4" checked>
-                            <span class="text-sm font-medium text-slate-700 font-text group-hover:text-primary transition-colors">{{ __('Hotel') }}</span>
-                        </label>
-                        <label class="flex items-center gap-2 cursor-pointer group">
-                            <input type="radio" name="accommodation_type" value="apartment_hotel" class="accent-primary size-4">
-                            <span class="text-sm font-medium text-slate-700 font-text group-hover:text-primary transition-colors">{{ __('Apartment Hotel') }}</span>
-                        </label>
-                        <label class="flex items-center gap-2 cursor-pointer group">
-                            <input type="radio" name="accommodation_type" value="cottage" class="accent-primary size-4">
-                            <span class="text-sm font-medium text-slate-700 font-text group-hover:text-primary transition-colors">{{ __('Cottage') }}</span>
-                        </label>
+                <!-- Step 3: Services -->
+                <div class="form-step hidden" id="step-3" data-step="3">
+                    <div class="space-y-8">
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-6 font-text">{{ __('Custom Services') }}</label>
+                            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                                @php
+                                    $services = [
+                                        ['id' => 'flight', 'icon' => 'flight_takeoff', 'label' => __('Flight Tickets'), 'checked' => true],
+                                        ['id' => 'accommodation', 'icon' => 'hotel', 'label' => __('Accommodation'), 'checked' => true],
+                                        ['id' => 'car_rental', 'icon' => 'directions_car', 'label' => __('Car Rental'), 'checked' => false],
+                                        ['id' => 'tourist_trips', 'icon' => 'map', 'label' => __('Tourist Trips'), 'checked' => false],
+                                    ];
+                                @endphp
+
+                                @foreach($services as $service)
+                                <label class="relative block cursor-pointer group h-full">
+                                    <input name="services[]" value="{{ $service['id'] }}" {{ $service['checked'] ? 'checked' : '' }} class="hidden peer" type="checkbox"/>
+                                    <div class="p-6 rounded-2xl border-2 border-slate-100 bg-slate-50 peer-checked:border-primary peer-checked:bg-primary/5 transition-all duration-300 group-hover:border-primary/30 group-hover:bg-primary/5 text-center h-full flex flex-col items-center justify-center">
+                                        <div class="w-14 h-14 bg-white rounded-xl shadow-sm flex items-center justify-center mx-auto mb-4 text-slate-400 peer-checked:group-[]:text-primary transition-colors">
+                                            <span class="material-symbols-outlined text-3xl">{{ $service['icon'] }}</span>
+                                        </div>
+                                        <span class="text-sm font-bold text-slate-600 peer-checked:group-[]:text-primary">{{ $service['label'] }}</span>
+                                        <div class="absolute top-3 ltr:right-3 rtl:left-3 opacity-0 peer-checked:opacity-100 transition-opacity">
+                                            <div class="w-6 h-6 bg-primary rounded-full flex items-center justify-center text-white">
+                                                <span class="material-symbols-outlined text-sm">check</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </label>
+                                @endforeach
+                            </div>
+                        </div>
+
+                        <!-- Conditional Sections -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-slate-100">
+                            <!-- Accommodation Type -->
+                            <div id="accommodation-type-container" class="hidden p-6 rounded-2xl border border-slate-100 bg-slate-50/50 space-y-4 transition-all">
+                                <label class="text-sm font-bold text-slate-800 flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-primary">bed</span>
+                                    {{ __('Accommodation Style') }}
+                                </label>
+                                <div class="space-y-3">
+                                    @foreach(['hotel' => __('Hotel'), 'apartment_hotel' => __('Apartment Hotel'), 'cottage' => __('Cottage')] as $val => $label)
+                                    <label class="flex items-center gap-3 cursor-pointer group">
+                                        <input type="radio" name="accommodation_type" value="{{ $val }}" {{ $loop->first ? 'checked' : '' }} class="accent-primary size-5 shadow-sm">
+                                        <span class="text-sm font-medium text-slate-600 group-hover:text-primary transition-colors">{{ $label }}</span>
+                                    </label>
+                                    @endforeach
+                                </div>
+                            </div>
+
+                            <!-- Trip Type -->
+                            <div id="trip-type-container" class="hidden p-6 rounded-2xl border border-slate-100 bg-slate-50/50 space-y-4 transition-all">
+                                <label class="text-sm font-bold text-slate-800 flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-primary">groups</span>
+                                    {{ __('Group Type') }}
+                                </label>
+                                <div class="space-y-3">
+                                    @foreach(['VIP' => __('VIP (Private)'), 'Grouped' => __('Group')] as $val => $label)
+                                    <label class="flex items-center gap-3 cursor-pointer group">
+                                        <input type="radio" name="trip_type" value="{{ $val }}" {{ $loop->first ? 'checked' : '' }} class="accent-primary size-5 shadow-sm">
+                                        <span class="text-sm font-medium text-slate-600 group-hover:text-primary transition-colors">{{ $label }}</span>
+                                    </label>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Tourist Trip Type -->
-                <div id="trip-type-container" class="col-span-full hidden border border-slate-200 rounded-lg p-6 bg-slate-50/50 mt-4 mb-2">
-                    <label class="block text-sm font-medium text-slate-500 mb-4 font-text flex items-center gap-2">
-                        <span class="material-symbols-outlined text-primary text-sm">group</span>
-                        {{ __('Trip Type') }}
-                    </label>
-                    <div class="flex gap-6">
-                        <label class="flex items-center gap-2 cursor-pointer group">
-                            <input type="radio" name="trip_type" value="VIP" class="accent-primary size-4" checked>
-                            <span class="text-sm font-medium text-slate-700 font-text group-hover:text-primary transition-colors">{{ __('VIP (Private)') }}</span>
-                        </label>
-                        <label class="flex items-center gap-2 cursor-pointer group">
-                            <input type="radio" name="trip_type" value="Grouped" class="accent-primary size-4">
-                            <span class="text-sm font-medium text-slate-700 font-text group-hover:text-primary transition-colors">{{ __('Group') }}</span>
-                        </label>
-                    </div>
-                </div>
-
-                <!-- CTA Button -->
-                <div class="col-span-full mt-10">
-                    <button type="submit" id="submit-inquiry-btn" class="w-full py-5 hover:brightness-110 bg-gold-gradient hover:shadow-lg hover:shadow-primary/20 transition-all rounded-lg text-white text-lg font-bold flex items-center justify-center gap-3 font-heading">
-                        <span class="material-symbols-outlined">send</span>
-                        <span id="submit-btn-text">{{ __('Submit Inquiry') }}</span>
+                <!-- Navigation Buttons -->
+                <div class="mt-12 flex flex-col md:flex-row items-center justify-between gap-4 border-t border-slate-100 pt-8">
+                    <button type="button" id="btn-prev" class="hidden w-full md:w-auto px-8 py-4 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-2xl transition-all duration-300 flex items-center justify-center gap-2">
+                        <span class="material-symbols-outlined rtl:rotate-180">arrow_back</span>
+                        {{ __('Back') }}
                     </button>
-                    <p class="text-center text-slate-400 text-xs mt-4 font-text">
+                    
+                    <button type="button" id="btn-next" class="w-full md:w-auto md:min-w-[200px] px-10 py-4 bg-gold-gradient hover:brightness-110 text-white font-extra-bold rounded-2xl shadow-xl shadow-primary/20 transition-all duration-300 flex items-center justify-center gap-3 ltr:ml-auto rtl:mr-auto">
+                        <span id="next-text">{{ __('Next Step') }}</span>
+                        <span class="material-symbols-outlined rtl:rotate-180" id="next-icon">arrow_forward</span>
+                    </button>
+                </div>
+
+                <div id="form-message" class="hidden mt-8 text-center p-4 rounded-xl text-sm font-text border"></div>
+                
+                <div class="mt-6 pt-4 text-center">
+                    <p class="text-slate-400 text-xs font-text flex items-center justify-center gap-2">
+                        <span class="material-symbols-outlined text-sm">support_agent</span>
                         {{ __('Once submitted, one of our consultants will contact you within 24 hours.') }}
                     </p>
-                    <div id="form-message" class="hidden mt-4 text-center text-sm font-text"></div>
                 </div>
             </form>
         </div>
@@ -242,91 +274,255 @@
     }
     
     /* Date Input Styling */
-    .date-input {
-        position: relative;
-        cursor: pointer;
-    }
+    .date-input { position: relative; cursor: pointer; }
+    .date-input::-webkit-calendar-picker-indicator { display: none; opacity: 0; position: absolute; right: 0; cursor: pointer; }
+    .date-input::-webkit-inner-spin-button, .date-input::-webkit-clear-button { display: none; appearance: none; }
+    .date-input[type="date"] { -moz-appearance: textfield; color: rgb(30, 41, 59); }
+    .date-input[type="date"]::-moz-calendar-picker-indicator { display: none; }
+    .date-input[type="date"]:invalid { color: rgb(148, 163, 184); }
+    .date-input[type="date"]::-moz-placeholder { color: rgb(148, 163, 184); }
+    .date-input-wrapper { position: relative; }
+    .date-input-wrapper .material-symbols-outlined { pointer-events: none; z-index: 1; }
+
+    /* Animations for Form Steps */
+    .form-step { display: none; opacity: 0; }
+    .form-step.active { display: block; animation: fadeInR 0.4s ease-out forwards; }
+    .form-step.enter-left { display: block; animation: fadeInL 0.4s ease-out forwards; }
     
-    /* Hide the default calendar picker icon */
-    .date-input::-webkit-calendar-picker-indicator {
-        display: none;
-        opacity: 0;
-        width: 0;
-        height: 0;
-        position: absolute;
-        right: 0;
-        cursor: pointer;
-    }
-    
-    /* Hide spinner buttons */
-    .date-input::-webkit-inner-spin-button,
-    .date-input::-webkit-clear-button {
-        display: none;
-        -webkit-appearance: none;
-        appearance: none;
-    }
-    
-    /* Firefox - Hide calendar icon */
-    .date-input[type="date"] {
-        -moz-appearance: textfield;
-    }
-    
-    .date-input[type="date"]::-moz-calendar-picker-indicator {
-        display: none;
-    }
-    
-    /* Ensure the input text is visible */
-    .date-input[type="date"] {
-        color: rgb(30, 41, 59);
-    }
-    
-    .date-input[type="date"]:invalid {
-        color: rgb(148, 163, 184);
-    }
-    
-    /* Firefox placeholder */
-    .date-input[type="date"]::-moz-placeholder {
-        color: rgb(148, 163, 184);
-    }
-    
-    /* Ensure the icon doesn't block clicks */
-    .date-input-wrapper {
-        position: relative;
-    }
-    
-    .date-input-wrapper .material-symbols-outlined {
-        pointer-events: none;
-        z-index: 1;
-    }
+    @keyframes fadeInR { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes fadeInL { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
 </style>
 @endpush
+
 @push('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Date picker functionality
+    let currentStep = 1;
+    const totalSteps = 3;
+    const form = document.getElementById('inquiry-form');
+    const btnNext = document.getElementById('btn-next');
+    const btnPrev = document.getElementById('btn-prev');
+    const nextText = document.getElementById('next-text');
+    const nextIcon = document.getElementById('next-icon');
+    const formSteps = document.querySelectorAll('.form-step');
+    const stepItems = document.querySelectorAll('.step-item');
+    const progressBar = document.getElementById('progress-bar');
+    const formMessage = document.getElementById('form-message');
+
+    // Destinations management
+    let selectedDestinations = [];
+    const destinationsContainer = document.getElementById('destinations-container');
+    const addDestinationBtn = document.getElementById('add-destination-btn');
+    const destinationsDropdown = document.getElementById('destinations-dropdown');
+    const selectedDestinationsInput = document.getElementById('selected-destinations');
+
+    // Date inputs
     const arrivalDateInput = document.getElementById('arrival-date');
     const departureDateInput = document.getElementById('departure-date');
-    
-    // Set minimum date for departure to be after arrival
+
+    // Helper functions
+    function updateProgress() {
+        const percent = ((currentStep - 1) / (totalSteps - 1)) * 100;
+        progressBar.style.width = percent + '%';
+
+        stepItems.forEach(item => {
+            const stepNum = parseInt(item.dataset.step);
+            const dot = item.querySelector('.step-dot');
+            const label = item.querySelector('.step-label');
+
+            if (stepNum < currentStep) {
+                // Completed
+                dot.className = 'step-dot w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg bg-primary text-white border-4 border-white shadow-md transition-all duration-500';
+                dot.innerHTML = '<span class="material-symbols-outlined">check</span>';
+                label.className = 'step-label absolute top-14 whitespace-nowrap text-sm font-semibold text-primary transition-all duration-300';
+            } else if (stepNum === currentStep) {
+                // Current
+                dot.className = 'step-dot w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg bg-primary text-white border-4 border-white shadow-md transition-all duration-500 ring-4 ring-primary/20 ring-offset-2';
+                dot.innerHTML = stepNum;
+                label.className = 'step-label absolute top-14 whitespace-nowrap text-sm font-bold text-primary transition-all duration-300';
+            } else {
+                // Future
+                dot.className = 'step-dot w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg bg-slate-100 text-slate-400 border-4 border-white transition-all duration-500';
+                dot.innerHTML = stepNum;
+                label.className = 'step-label absolute top-14 whitespace-nowrap text-sm font-semibold text-slate-400 transition-all duration-300';
+            }
+        });
+
+        // Update buttons
+        if (currentStep === 1) {
+            btnPrev.classList.add('hidden');
+        } else {
+            btnPrev.classList.remove('hidden');
+        }
+
+        if (currentStep === totalSteps) {
+            nextText.textContent = '{{ __("Submit Inquiry") }}';
+            nextIcon.textContent = 'send';
+            btnNext.classList.add('bg-primary', 'hover:brightness-110');
+        } else {
+            nextText.textContent = '{{ __("Next Step") }}';
+            nextIcon.textContent = 'arrow_forward';
+        }
+    }
+
+    function validateStep(step) {
+        if (step === 1) {
+            if (selectedDestinations.length === 0) {
+                alert('{{ __("Please select at least one destination.") }}');
+                return false;
+            }
+            if (!arrivalDateInput.value) {
+                alert('{{ __("Please select your trip start date.") }}');
+                return false;
+            }
+            if (!departureDateInput.value) {
+                alert('{{ __("Please select your trip end date.") }}');
+                return false;
+            }
+            if (departureDateInput.value < arrivalDateInput.value) {
+                alert('{{ __("Departure date must be after arrival date.") }}');
+                return false;
+            }
+        }
+        
+        if (step === 2) {
+            const adults = document.getElementById('adults').value;
+            const children = document.getElementById('children').value;
+            if (parseInt(adults) === 0 && parseInt(children) === 0) {
+                alert('{{ __("Please enter the number of travelers.") }}');
+                return false;
+            }
+            
+            // Check if all children ages are filled
+            const count = parseInt(children) || 0;
+            if (count > 0) {
+                const ageInputs = document.querySelectorAll('input[name="child_ages[]"]');
+                let allFilled = true;
+                ageInputs.forEach(input => {
+                    if (input.value === '') allFilled = false;
+                });
+                if (!allFilled) {
+                    alert('{{ __("Please provide ages for all children.") }}');
+                    return false;
+                }
+            }
+        }
+        
+        return true;
+    }
+
+    function showStep(step, direction) {
+        formSteps.forEach(fs => {
+            fs.classList.remove('active', 'enter-left');
+            fs.classList.add('hidden');
+        });
+        
+        const targetStep = document.getElementById(`step-${step}`);
+        targetStep.classList.remove('hidden');
+        
+        if (direction === 'next') {
+            targetStep.classList.add('active');
+        } else {
+            targetStep.classList.add('enter-left');
+        }
+    }
+
+    btnNext.addEventListener('click', function() {
+        if (!validateStep(currentStep)) return;
+
+        if (currentStep < totalSteps) {
+            currentStep++;
+            updateProgress();
+            showStep(currentStep, 'next');
+        } else {
+            // Submit form
+            submitForm();
+        }
+    });
+
+    btnPrev.addEventListener('click', function() {
+        if (currentStep > 1) {
+            currentStep--;
+            updateProgress();
+            showStep(currentStep, 'prev');
+        }
+    });
+
+    // Handle Destinations logic
+    function updateSelectedDestinationsInput() {
+        selectedDestinationsInput.value = JSON.stringify(selectedDestinations);
+    }
+
+    function updateDropdownOptions() {
+        const options = document.querySelectorAll('.destination-option');
+        options.forEach(option => {
+            if (selectedDestinations.includes(option.dataset.destination)) {
+                option.style.display = 'none';
+            } else {
+                option.style.display = 'flex';
+            }
+        });
+    }
+
+    function renderSelectedDestinations() {
+        if (selectedDestinations.length === 0) {
+            destinationsContainer.innerHTML = `<div class="text-slate-400 text-sm italic py-2 px-1 w-full" id="empty-destinations-msg">{{ __('Click "Add City" to start building your route...') }}</div>`;
+        } else {
+            destinationsContainer.innerHTML = '';
+            selectedDestinations.forEach((destination, index) => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary text-primary rounded-xl text-sm font-text destination-tag transition-all hover:bg-primary hover:text-white group';
+                btn.innerHTML = `
+                    <span class="material-symbols-outlined text-sm pt-0.5">location_on</span>
+                    <span class="font-bold">${destination}</span>
+                    <span class="material-symbols-outlined text-xs bg-white text-primary rounded-full p-0.5 group-hover:bg-primary/20 group-hover:text-white transition-colors">close</span>
+                `;
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    selectedDestinations.splice(index, 1);
+                    renderSelectedDestinations();
+                });
+                destinationsContainer.appendChild(btn);
+            });
+        }
+        updateSelectedDestinationsInput();
+        updateDropdownOptions();
+    }
+
+    addDestinationBtn?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        destinationsDropdown.classList.toggle('hidden');
+    });
+
+    document.addEventListener('click', (e) => {
+        if (addDestinationBtn && destinationsDropdown && !addDestinationBtn.contains(e.target) && !destinationsDropdown.contains(e.target)) {
+            destinationsDropdown.classList.add('hidden');
+        }
+    });
+
+    document.querySelectorAll('.destination-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const destName = this.dataset.destination;
+            if (destName && !selectedDestinations.includes(destName)) {
+                selectedDestinations.push(destName);
+                renderSelectedDestinations();
+                destinationsDropdown.classList.add('hidden');
+            }
+        });
+    });
+    updateDropdownOptions();
+
+    // Date limits
     if (arrivalDateInput && departureDateInput) {
         arrivalDateInput.addEventListener('change', function() {
             if (this.value) {
                 const arrivalDate = new Date(this.value);
                 arrivalDate.setDate(arrivalDate.getDate() + 1);
-                const minDepartureDate = arrivalDate.toISOString().split('T')[0];
-                departureDateInput.min = minDepartureDate;
-                
-                // If departure date is before arrival date, clear it
+                departureDateInput.min = arrivalDate.toISOString().split('T')[0];
                 if (departureDateInput.value && departureDateInput.value < this.value) {
                     departureDateInput.value = '';
                 }
-            }
-        });
-        
-        departureDateInput.addEventListener('change', function() {
-            if (this.value && arrivalDateInput.value && this.value < arrivalDateInput.value) {
-                alert('{{ __("Departure date must be after arrival date") }}');
-                this.value = '';
             }
         });
         
@@ -340,99 +536,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Destinations management
-    const destinationsContainer = document.getElementById('destinations-container');
-    const addDestinationBtn = document.getElementById('add-destination-btn');
-    const destinationsDropdown = document.getElementById('destinations-dropdown');
-    const selectedDestinationsInput = document.getElementById('selected-destinations');
-    let selectedDestinations = [];
-
-    // Function to update hidden input
-    function updateSelectedDestinationsInput() {
-        selectedDestinationsInput.value = JSON.stringify(selectedDestinations);
-    }
-
-    // Function to update dropdown options (hide already selected)
-    function updateDropdownOptions() {
-        const options = document.querySelectorAll('.destination-option');
-        options.forEach(option => {
-            const destinationName = option.dataset.destination;
-            if (selectedDestinations.includes(destinationName)) {
-                option.style.display = 'none';
-            } else {
-                option.style.display = 'block';
-            }
-        });
-    }
-
-    // Function to render selected destinations
-    function renderSelectedDestinations() {
-        destinationsContainer.innerHTML = '';
-        selectedDestinations.forEach((destination, index) => {
-            const destinationTag = document.createElement('button');
-            destinationTag.type = 'button';
-            destinationTag.className = 'flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary text-primary rounded-lg text-sm font-text destination-tag';
-            destinationTag.dataset.index = index;
-            destinationTag.innerHTML = `
-                <span class="material-symbols-outlined text-sm">location_on</span>
-                ${destination}
-                <span class="material-symbols-outlined text-xs destination-remove">close</span>
-            `;
-            
-            // Add remove functionality
-            const removeBtn = destinationTag.querySelector('.destination-remove');
-            removeBtn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                removeDestination(index);
-            });
-            
-            destinationsContainer.appendChild(destinationTag);
-        });
-        updateSelectedDestinationsInput();
-        updateDropdownOptions();
-    }
-
-    // Function to add destination
-    function addDestination(destinationName) {
-        if (destinationName && !selectedDestinations.includes(destinationName)) {
-            selectedDestinations.push(destinationName);
-            renderSelectedDestinations();
-            destinationsDropdown.classList.add('hidden');
-        }
-    }
-
-    // Function to remove destination
-    function removeDestination(index) {
-        selectedDestinations.splice(index, 1);
-        renderSelectedDestinations();
-    }
-
-    // Toggle dropdown
-    addDestinationBtn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        destinationsDropdown.classList.toggle('hidden');
-    });
-
-    // Close dropdown when clicking outside
-    document.addEventListener('click', function(e) {
-        if (!addDestinationBtn.contains(e.target) && !destinationsDropdown.contains(e.target)) {
-            destinationsDropdown.classList.add('hidden');
-        }
-    });
-
-    // Handle destination selection from dropdown
-    const destinationOptions = document.querySelectorAll('.destination-option');
-    destinationOptions.forEach(option => {
-        option.addEventListener('click', function() {
-            const destinationName = this.dataset.destination;
-            addDestination(destinationName);
-        });
-    });
-
-    // Initialize dropdown options on load
-    updateDropdownOptions();
-
-    // Children ages dynamic fields
+    // Children Ages Logic
     const childrenInput = document.getElementById('children');
     const childrenAgesContainer = document.getElementById('children-ages-container');
     const childrenAgesFields = document.getElementById('children-ages-fields');
@@ -447,7 +551,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 childrenAgesContainer.classList.add('hidden');
             }
 
-            // Store current values to preserve them if user changes count
             const currentInputs = childrenAgesFields.querySelectorAll('input');
             const currentValues = Array.from(currentInputs).map(input => input.value);
 
@@ -457,122 +560,103 @@ document.addEventListener('DOMContentLoaded', function() {
                 const val = currentValues[i] || '';
                 const fieldHTML = `
                     <div class="relative">
-                        <label class="block text-xs font-medium text-slate-400 mb-1.5 font-text">{{ __('Age of child') }} ${i + 1}</label>
-                        <input name="child_ages[]" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-lg focus:ring-1 focus:ring-primary focus:border-primary outline-none text-slate-800 font-text text-sm shadow-sm" type="number" min="0" max="17" placeholder="{{ __('Age') }}" value="${val}" required/>
+                        <label class="block text-xs font-semibold text-slate-500 mb-2 font-text">{{ __('Child') }} ${i + 1} {{ __('Age') }}</label>
+                        <input name="child_ages[]" class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-slate-800 font-text text-sm shadow-sm transition-all text-center" type="number" min="0" max="17" placeholder="{{ __('Age') }}" value="${val}" required/>
                     </div>
                 `;
                 childrenAgesFields.insertAdjacentHTML('beforeend', fieldHTML);
             }
         });
-        
-        // Trigger initially to set up fields if value is > 0
         childrenInput.dispatchEvent(new Event('input'));
     }
 
-    // Accommodation toggle
+    // Services UI Logic
     const accommodationCheckbox = document.querySelector('input[value="accommodation"]');
     const accommodationTypeContainer = document.getElementById('accommodation-type-container');
 
     if (accommodationCheckbox && accommodationTypeContainer) {
         accommodationCheckbox.addEventListener('change', function() {
-            if (this.checked) {
-                accommodationTypeContainer.classList.remove('hidden');
-            } else {
-                accommodationTypeContainer.classList.add('hidden');
-            }
+            if (this.checked) accommodationTypeContainer.classList.remove('hidden');
+            else accommodationTypeContainer.classList.add('hidden');
         });
-        
-        // Check initially
-        if (accommodationCheckbox.checked) {
-            accommodationTypeContainer.classList.remove('hidden');
-        }
+        if (accommodationCheckbox.checked) accommodationTypeContainer.classList.remove('hidden');
     }
 
-    // Tourist Trips toggle
     const touristTripsCheckbox = document.querySelector('input[value="tourist_trips"]');
     const tripTypeContainer = document.getElementById('trip-type-container');
 
     if (touristTripsCheckbox && tripTypeContainer) {
         touristTripsCheckbox.addEventListener('change', function() {
-            if (this.checked) {
-                tripTypeContainer.classList.remove('hidden');
-            } else {
-                tripTypeContainer.classList.add('hidden');
-            }
+            if (this.checked) tripTypeContainer.classList.remove('hidden');
+            else tripTypeContainer.classList.add('hidden');
         });
-        
-        // Check initially
-        if (touristTripsCheckbox.checked) {
-            tripTypeContainer.classList.remove('hidden');
-        }
+        if (touristTripsCheckbox.checked) tripTypeContainer.classList.remove('hidden');
     }
 
-    // Form submission
-    const inquiryForm = document.getElementById('inquiry-form');
-    const submitBtn = document.getElementById('submit-inquiry-btn');
-    const submitBtnText = document.getElementById('submit-btn-text');
-    const formMessage = document.getElementById('form-message');
+    // Submission Logic
+    async function submitForm() {
+        btnNext.disabled = true;
+        nextText.textContent = '{{ __("Sending...") }}';
+        formMessage.classList.add('hidden');
 
-    if (inquiryForm) {
-        inquiryForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
-
-            // Disable submit button
-            submitBtn.disabled = true;
-            submitBtnText.textContent = '{{ __("Sending...") }}';
-
-            // Collect form data
-            const formData = new FormData(inquiryForm);
-            
-            // Get selected services
+        try {
+            const formData = new FormData(form);
             const services = [];
-            document.querySelectorAll('input[name="services[]"]:checked').forEach(checkbox => {
-                services.push(checkbox.value);
-            });
+            document.querySelectorAll('input[name="services[]"]:checked').forEach(c => services.push(c.value));
             formData.append('services', JSON.stringify(services));
 
-            try {
-                const response = await fetch('{{ route("inquiry.submit", ["locale" => app()->getLocale()]) }}', {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
-                        'Accept': 'application/json',
-                    },
-                    body: formData,
-                });
+            const response = await fetch('/{{ app()->getLocale() }}/inquiry', {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
+                    'Accept': 'application/json',
+                },
+                body: formData,
+            });
 
-                const data = await response.json();
-
-                if (data.success) {
-                    formMessage.className = 'mt-4 text-center text-sm font-text text-green-600';
-                    formMessage.textContent = data.message || '{{ __("Inquiry submitted successfully!") }}';
-                    formMessage.classList.remove('hidden');
-
-                    // Redirect to WhatsApp after 1 second
-                    setTimeout(() => {
-                        if (data.whatsapp_url) {
-                            window.open(data.whatsapp_url, '_blank');
-                        }
-                        inquiryForm.reset();
-                        selectedDestinations = [];
-                        renderSelectedDestinations();
-                        formMessage.classList.add('hidden');
-                    }, 1000);
-                } else {
-                    formMessage.className = 'mt-4 text-center text-sm font-text text-red-600';
-                    formMessage.textContent = data.message || '{{ __("An error occurred. Please try again.") }}';
-                    formMessage.classList.remove('hidden');
-                }
-            } catch (error) {
-                formMessage.className = 'mt-4 text-center text-sm font-text text-red-600';
-                formMessage.textContent = '{{ __("An error occurred. Please try again.") }}';
-                formMessage.classList.remove('hidden');
-            } finally {
-                submitBtn.disabled = false;
-                submitBtnText.textContent = '{{ __("Submit Inquiry") }}';
+            if (!response.ok) {
+                let errorMessage = '{{ __("An error occurred. Please try again.") }}';
+                try {
+                    const errorData = await response.json();
+                    if (errorData.message) errorMessage = errorData.message;
+                } catch (e) { } 
+                throw new Error(errorMessage);
             }
-        });
+
+            const data = await response.json();
+
+            if (data.success) {
+                formMessage.className = 'mt-8 text-center p-4 rounded-xl text-sm font-text border border-green-200 bg-green-50 text-green-700';
+                formMessage.textContent = data.message || '{{ __("Inquiry submitted successfully!") }}';
+                formMessage.classList.remove('hidden');
+
+                setTimeout(() => {
+                    if (data.whatsapp_url) {
+                        window.location.href = data.whatsapp_url;
+                    }
+                    form.reset();
+                    selectedDestinations = [];
+                    renderSelectedDestinations();
+                    currentStep = 1;
+                    updateProgress();
+                    showStep(currentStep, 'prev');
+                    formMessage.classList.add('hidden');
+                }, 1000);
+            } else {
+                throw new Error(data.message || '{{ __("An error occurred. Please try again.") }}');
+            }
+        } catch (error) {
+            formMessage.className = 'mt-8 text-center p-4 rounded-xl text-sm font-text border border-red-200 bg-red-50 text-red-700';
+            formMessage.textContent = error.message;
+            formMessage.classList.remove('hidden');
+        } finally {
+            btnNext.disabled = false;
+            nextText.textContent = '{{ __("Submit Inquiry") }}';
+        }
     }
+    
+    // Initialize
+    updateProgress();
 });
 </script>
 @endpush
