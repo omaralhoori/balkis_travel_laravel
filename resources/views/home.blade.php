@@ -262,16 +262,25 @@
 
     @if(isset($topPrograms) && $topPrograms->isNotEmpty())
     <!-- Featured Programs Section -->
-    <section class="max-w-7xl mx-auto px-4 py-16 relative z-20">
+    <section class="max-w-7xl mx-auto px-4 py-16 relative z-20 bg-sky-50/40 rounded-3xl mt-8 border border-sky-100/50 shadow-sm">
         <div class="text-center mb-12">
             <h3 class="text-3xl font-bold text-slate-800 mb-4 font-heading">{{ __('Featured Programs') }}</h3>
             <div class="w-16 h-1 bg-primary mx-auto rounded-full mb-4"></div>
             <p class="text-slate-500 font-text">{{ __('Discover our most popular travel packages based on customer visits') }}</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            @foreach($topPrograms as $program)
-            <a href="{{ route('programs.show', ['locale' => app()->getLocale(), 'id' => $program->id]) }}" class="group block bg-white rounded-3xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden border border-slate-100 flex flex-col h-full hover:-translate-y-1">
+        <div class="relative group/slider">
+            <button class="hidden md:flex absolute -left-6 top-1/2 -translate-y-1/2 z-10 bg-white text-primary shadow-xl rounded-full w-12 h-12 items-center justify-center opacity-0 group-hover/slider:opacity-100 transition-all hover:scale-110 disabled:opacity-0" onclick="scrollCarousel(this, -1)">
+                <span class="material-symbols-outlined rtl:rotate-180">chevron_left</span>
+            </button>
+            <button class="hidden md:flex absolute -right-6 top-1/2 -translate-y-1/2 z-10 bg-white text-primary shadow-xl rounded-full w-12 h-12 items-center justify-center opacity-0 group-hover/slider:opacity-100 transition-all hover:scale-110 disabled:opacity-0" onclick="scrollCarousel(this, 1)">
+                <span class="material-symbols-outlined rtl:rotate-180">chevron_right</span>
+            </button>
+
+            <div class="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar gap-6 pb-6 -mx-4 px-4 sm:mx-0 sm:px-0">
+                @foreach($topPrograms as $program)
+                <div class="snap-start shrink-0 w-[85vw] sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] h-full pb-4">
+                    <a href="{{ route('programs.show', ['locale' => app()->getLocale(), 'id' => $program->id]) }}" class="group block bg-white rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-slate-100 flex flex-col h-full hover:-translate-y-1">
                 <div class="relative h-64 overflow-hidden shrink-0">
                     @if($program->image_url)
                         <img src="{{ $program->image_url }}" alt="{{ $program->title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out">
@@ -307,24 +316,35 @@
                         </span>
                     </div>
                 </div>
-            </a>
-            @endforeach
+                    </a>
+                </div>
+                @endforeach
+            </div>
         </div>
     </section>
     @endif
 
     @if(isset($touristTrips) && $touristTrips->isNotEmpty())
     <!-- Tourist Trips Section -->
-    <section id="tourist-trips" class="max-w-7xl mx-auto px-4 py-16 relative z-20">
+    <section id="tourist-trips" class="max-w-7xl mx-auto px-4 py-16 relative z-20 bg-rose-50/40 rounded-3xl mt-16 border border-rose-100/50 shadow-sm">
         <div class="text-center mb-12">
             <h3 class="text-3xl font-bold text-slate-800 mb-4 font-heading">{{ __('Tourist Trips') }}</h3>
             <div class="w-16 h-1 bg-primary mx-auto rounded-full mb-4"></div>
             <p class="text-slate-500 font-text">{{ __('Explore our carefully curated tourist trips') }}</p>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            @foreach($touristTrips as $trip)
-            <div class="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden flex flex-col md:flex-row group hover:shadow-xl transition-all duration-300">
+        <div class="relative group/slider">
+            <button class="hidden md:flex absolute -left-6 top-1/2 -translate-y-1/2 z-10 bg-white text-primary shadow-xl rounded-full w-12 h-12 items-center justify-center opacity-0 group-hover/slider:opacity-100 transition-all hover:scale-110 disabled:opacity-0" onclick="scrollCarousel(this, -1)">
+                <span class="material-symbols-outlined rtl:rotate-180">chevron_left</span>
+            </button>
+            <button class="hidden md:flex absolute -right-6 top-1/2 -translate-y-1/2 z-10 bg-white text-primary shadow-xl rounded-full w-12 h-12 items-center justify-center opacity-0 group-hover/slider:opacity-100 transition-all hover:scale-110 disabled:opacity-0" onclick="scrollCarousel(this, 1)">
+                <span class="material-symbols-outlined rtl:rotate-180">chevron_right</span>
+            </button>
+
+            <div class="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar gap-6 pb-6 -mx-4 px-4 sm:mx-0 sm:px-0">
+                @foreach($touristTrips as $trip)
+                <div class="snap-start shrink-0 w-[85vw] lg:w-[calc(50%-12px)] h-full pb-4">
+                    <div class="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden flex flex-col md:flex-row h-full group hover:shadow-xl transition-all duration-300">
                 <div class="w-full md:w-2/5 h-64 md:h-auto relative overflow-hidden shrink-0">
                     @if($trip->image_url)
                         <img src="{{ $trip->image_url }}" alt="{{ $trip->title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out">
@@ -374,23 +394,34 @@
                     </div>
                 </div>
             </div>
+            </div>
             @endforeach
+            </div>
         </div>
     </section>
     @endif
 
     @if(isset($touristGuidePosts) && $touristGuidePosts->isNotEmpty())
     <!-- Tourist Guide Section -->
-    <section id="tourist-guide" class="max-w-7xl mx-auto px-4 py-16 relative z-20 bg-slate-50/50 rounded-3xl mb-16 border border-slate-100">
+    <section id="tourist-guide" class="max-w-7xl mx-auto px-4 py-16 relative z-20 bg-amber-50/40 rounded-3xl mt-16 mb-16 border border-amber-100/50 shadow-sm">
         <div class="text-center mb-12">
             <h3 class="text-3xl font-bold text-slate-800 mb-4 font-heading">{{ __('Tourist Guide') }}</h3>
             <div class="w-16 h-1 bg-primary mx-auto rounded-full mb-4"></div>
             <p class="text-slate-500 font-text">{{ __('Discover our latest articles and travel tips') }}</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-            @foreach($touristGuidePosts as $post)
-            <a href="{{ route('blog.show', ['locale' => app()->getLocale(), 'slug' => $post->slug]) }}" class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden flex flex-col group hover:shadow-xl transition-all duration-300">
+        <div class="relative group/slider">
+            <button class="hidden md:flex absolute -left-6 top-1/2 -translate-y-1/2 z-10 bg-white text-primary shadow-xl rounded-full w-12 h-12 items-center justify-center opacity-0 group-hover/slider:opacity-100 transition-all hover:scale-110 disabled:opacity-0" onclick="scrollCarousel(this, -1)">
+                <span class="material-symbols-outlined rtl:rotate-180">chevron_left</span>
+            </button>
+            <button class="hidden md:flex absolute -right-6 top-1/2 -translate-y-1/2 z-10 bg-white text-primary shadow-xl rounded-full w-12 h-12 items-center justify-center opacity-0 group-hover/slider:opacity-100 transition-all hover:scale-110 disabled:opacity-0" onclick="scrollCarousel(this, 1)">
+                <span class="material-symbols-outlined rtl:rotate-180">chevron_right</span>
+            </button>
+
+            <div class="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar gap-6 pb-6 -mx-4 px-4 sm:mx-0 sm:px-0">
+                @foreach($touristGuidePosts as $post)
+                <div class="snap-start shrink-0 w-[85vw] sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] xl:w-[calc(25%-18px)] 2xl:w-[calc(20%-19.2px)] h-full pb-4">
+                    <a href="{{ route('blog.show', ['locale' => app()->getLocale(), 'slug' => $post->slug]) }}" class="bg-white h-full rounded-2xl shadow-sm border border-slate-100 overflow-hidden flex flex-col group hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
                 <div class="w-full h-40 relative overflow-hidden shrink-0">
                     @if($post->featured_image_url)
                         <img src="{{ $post->featured_image_url }}" alt="{{ $post->title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out">
@@ -412,8 +443,10 @@
                         <span class="material-symbols-outlined rtl:rotate-180 text-sm ml-1 rtl:mr-1 transition-transform group-hover:translate-x-1 rtl:group-hover:-translate-x-1">arrow_forward</span>
                     </div>
                 </div>
-            </a>
-            @endforeach
+                    </a>
+                </div>
+                @endforeach
+            </div>
         </div>
     </section>
     @endif
@@ -448,6 +481,9 @@
     
     @keyframes fadeInR { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
     @keyframes fadeInL { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
+    
+    .hide-scrollbar::-webkit-scrollbar { display: none; }
+    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 </style>
 @endpush
 
@@ -815,6 +851,15 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize
     updateProgress();
 });
+
+function scrollCarousel(btn, direction) {
+    const container = btn.parentElement.querySelector('.hide-scrollbar');
+    if (!container) return;
+    const scrollAmount = container.clientWidth * 0.8;
+    const isRtl = document.documentElement.dir === 'rtl';
+    const finalDirection = isRtl ? -direction : direction;
+    container.scrollBy({ left: finalDirection * scrollAmount, behavior: 'smooth' });
+}
 </script>
 @endpush
 @endsection
