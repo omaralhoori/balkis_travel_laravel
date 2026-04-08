@@ -23,7 +23,16 @@ Route::prefix('{locale}')
     ->where(['locale' => implode('|', config('app.supported_locales', ['ar', 'en', 'tr', 'fr']))])
     ->group(function () {
         Route::get('/', function () {
-            return view('home');
+            $topPrograms = \App\Models\Program::where('is_active', true)
+                ->orderBy('views', 'desc')
+                ->limit(6)
+                ->get();
+                
+            $touristTrips = \App\Models\TouristTrip::where('is_active', true)
+                ->orderBy('order')
+                ->get();
+                
+            return view('home', compact('topPrograms', 'touristTrips'));
         })->name('home');
 
         Route::get('/programs', function () {
@@ -44,6 +53,9 @@ Route::prefix('{locale}')
             $program = \App\Models\Program::where('id', $id)
                 ->where('is_active', true)
                 ->firstOrFail();
+
+            // Increment views
+            $program->increment('views');
 
             // Set locale on program to ensure translations work correctly
             $program->setLocale($locale);
@@ -140,6 +152,13 @@ Route::prefix('{locale}')
         Route::post('/inquiry', [\App\Http\Controllers\InquiryController::class, 'store'])->name('inquiry.submit');
 
         Route::post('/newsletter/subscribe', [\App\Http\Controllers\NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
+
+        Route::get('/tourist-trips', function () {
+            $touristTrips = \App\Models\TouristTrip::where('is_active', true)
+                ->orderBy('order')
+                ->get();
+            return view('tourist_trips', compact('touristTrips'));
+        })->name('tourist_trips.index');
 
         Route::post('/comments', [\App\Http\Controllers\CommentController::class, 'store'])->name('comments.store');
 

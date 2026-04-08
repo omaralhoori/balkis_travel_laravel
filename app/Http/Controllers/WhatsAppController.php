@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\WhatsAppNumber;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 
 class WhatsAppController extends Controller
 {
-    public function redirect(): RedirectResponse
+    public function redirect(Request $request): RedirectResponse
     {
         $numbers = WhatsAppNumber::getActiveNumbers();
         
@@ -26,6 +27,8 @@ class WhatsAppController extends Controller
         
         $number = $numbers->get($nextIndex);
         
-        return redirect($number->getWhatsAppUrl());
+        $message = $request->get('text');
+        
+        return redirect($number->getWhatsAppUrl($message));
     }
 }

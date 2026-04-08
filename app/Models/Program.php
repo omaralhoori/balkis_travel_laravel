@@ -49,6 +49,7 @@ class Program extends Model
         'meal_plan',
         'order',
         'is_active',
+        'views',
     ];
 
     protected $casts = [
@@ -61,6 +62,7 @@ class Program extends Model
         'includes' => 'array',
         'min_participants' => 'integer',
         'max_participants' => 'integer',
+        'views' => 'integer',
     ];
 
     public function getImageUrlAttribute(): ?string

@@ -259,6 +259,125 @@
             </form>
         </div>
     </section>
+
+    @if(isset($topPrograms) && $topPrograms->isNotEmpty())
+    <!-- Featured Programs Section -->
+    <section class="max-w-7xl mx-auto px-4 py-16 relative z-20">
+        <div class="text-center mb-12">
+            <h3 class="text-3xl font-bold text-slate-800 mb-4 font-heading">{{ __('Featured Programs') }}</h3>
+            <div class="w-16 h-1 bg-primary mx-auto rounded-full mb-4"></div>
+            <p class="text-slate-500 font-text">{{ __('Discover our most popular travel packages based on customer visits') }}</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            @foreach($topPrograms as $program)
+            <a href="{{ route('programs.show', ['locale' => app()->getLocale(), 'id' => $program->id]) }}" class="group block bg-white rounded-3xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden border border-slate-100 flex flex-col h-full hover:-translate-y-1">
+                <div class="relative h-64 overflow-hidden shrink-0">
+                    @if($program->image_url)
+                        <img src="{{ $program->image_url }}" alt="{{ $program->title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out">
+                    @else
+                        <div class="w-full h-full bg-slate-100 flex items-center justify-center">
+                            <span class="material-symbols-outlined text-5xl text-slate-300">landscape</span>
+                        </div>
+                    @endif
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity"></div>
+                    <div class="absolute bottom-5 left-5 right-5 flex justify-between items-end z-10">
+                        <div>
+                            @if($program->category)
+                            <span class="px-3 py-1 bg-primary/90 text-white text-xs font-bold rounded-lg mb-2 inline-block backdrop-blur-sm shadow-sm">{{ $program->category }}</span>
+                            @endif
+                            <h4 class="text-white text-xl font-bold font-heading drop-shadow-md leading-tight">{{ $program->title }}</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-6 flex flex-col grow">
+                    <div class="flex items-center gap-2 text-slate-500 text-sm mb-3">
+                        <span class="material-symbols-outlined text-sm text-primary">location_on</span>
+                        <span class="font-medium text-slate-600">{{ $program->location ?? __('Multiple Destinations') }}</span>
+                    </div>
+                    <p class="text-slate-500 text-sm line-clamp-2 mb-6 font-text leading-relaxed">{{ strip_tags($program->description) }}</p>
+                    <div class="flex items-center justify-between pt-4 border-t border-slate-100 mt-auto">
+                        <div class="flex items-center gap-1.5 text-slate-400 text-xs font-text bg-slate-50 px-2 py-1 rounded-md border border-slate-100">
+                            <span class="material-symbols-outlined text-[14px]">visibility</span>
+                            <span class="font-medium">{{ $program->views }} {{ __('Views') }}</span>
+                        </div>
+                        <span class="text-primary font-bold font-text flex items-center gap-1 text-sm group-hover:text-amber-600 transition-colors">
+                            {{ __('Explore') }}
+                            <span class="material-symbols-outlined rtl:rotate-180 text-sm transition-transform group-hover:translate-x-1 rtl:group-hover:-translate-x-1">arrow_forward</span>
+                        </span>
+                    </div>
+                </div>
+            </a>
+            @endforeach
+        </div>
+    </section>
+    @endif
+
+    @if(isset($touristTrips) && $touristTrips->isNotEmpty())
+    <!-- Tourist Trips Section -->
+    <section id="tourist-trips" class="max-w-7xl mx-auto px-4 py-16 relative z-20">
+        <div class="text-center mb-12">
+            <h3 class="text-3xl font-bold text-slate-800 mb-4 font-heading">{{ __('Tourist Trips') }}</h3>
+            <div class="w-16 h-1 bg-primary mx-auto rounded-full mb-4"></div>
+            <p class="text-slate-500 font-text">{{ __('Explore our carefully curated tourist trips') }}</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            @foreach($touristTrips as $trip)
+            <div class="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden flex flex-col md:flex-row group hover:shadow-xl transition-all duration-300">
+                <div class="w-full md:w-2/5 h-64 md:h-auto relative overflow-hidden shrink-0">
+                    @if($trip->image_url)
+                        <img src="{{ $trip->image_url }}" alt="{{ $trip->title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out">
+                    @else
+                        <div class="w-full h-full bg-slate-100 flex items-center justify-center">
+                            <span class="material-symbols-outlined text-5xl text-slate-300">tour</span>
+                        </div>
+                    @endif
+                    <div class="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-l from-slate-900/60 to-transparent"></div>
+                    <div class="absolute bottom-4 left-4 right-4 md:bottom-auto md:top-4 md:right-4 md:left-auto flex items-center gap-2">
+                        <span class="px-3 py-1 bg-white/90 backdrop-blur-sm text-primary text-xs font-bold rounded-lg shadow-sm">{{ __('Trip') }}</span>
+                    </div>
+                </div>
+                
+                <div class="p-6 md:p-8 flex flex-col grow">
+                    <h4 class="text-2xl font-bold font-heading text-slate-800 mb-6 group-hover:text-primary transition-colors">{{ $trip->title }}</h4>
+                    
+                    <div class="space-y-6 flex-grow font-text">
+                        <!-- What is included -->
+                        @if($trip->includes)
+                        <div>
+                            <h5 class="flex items-center gap-2 font-bold text-slate-700 mb-2">
+                                <span class="material-symbols-outlined text-primary text-lg flex-shrink-0">check_circle</span>
+                                {{ __('What is included') }}
+                            </h5>
+                            <div class="text-sm text-slate-500 leading-relaxed ps-7 line-clamp-3 prose prose-slate prose-sm text-slate-500">{!! $trip->includes !!}</div>
+                        </div>
+                        @endif
+
+                        <!-- What to bring / do -->
+                        @if($trip->what_to_bring)
+                        <div>
+                            <h5 class="flex items-center gap-2 font-bold text-slate-700 mb-2">
+                                <span class="material-symbols-outlined text-primary text-lg flex-shrink-0">backpack</span>
+                                {{ __('What to bring / Remarks') }}
+                            </h5>
+                            <div class="text-sm text-slate-500 leading-relaxed ps-7 line-clamp-3 prose prose-slate prose-sm text-slate-500">{!! $trip->what_to_bring !!}</div>
+                        </div>
+                        @endif
+                    </div>
+                    
+                    <div class="mt-8 pt-6 border-t border-slate-100 flex justify-end">
+                        <a href="{{ route('whatsapp.redirect', ['locale' => app()->getLocale()]) }}?text={{ urlencode(__('Inquiry about ') . $trip->title) }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-2.5 bg-slate-900 hover:bg-primary text-white text-sm font-bold rounded-xl transition-all duration-300">
+                            {{ __('Book Now') }}
+                            <span class="material-symbols-outlined text-sm rtl:rotate-180">arrow_forward</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            @endforeach
+        </div>
+    </section>
+    @endif
 </main>
 
 @push('styles')
