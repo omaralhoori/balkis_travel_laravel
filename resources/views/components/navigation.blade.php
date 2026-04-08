@@ -6,8 +6,9 @@
         </div>
         <nav class="hidden md:flex gap-8">
             <a class="text-gray-600 hover:text-primary transition-colors text-sm font-medium {{ request()->routeIs('home') ? 'text-primary border-b border-primary' : '' }}" href="{{ route('home', ['locale' => app()->getLocale()]) }}">{{ __('Home') }}</a>
-            <a class="text-gray-600 hover:text-primary transition-colors text-sm font-medium {{ request()->routeIs('programs.*') ? 'text-primary border-b border-primary' : '' }}" href="{{ route('programs.index', ['locale' => app()->getLocale()]) }}">{{ __('Programs') }}</a>
+            <a class="text-gray-600 hover:text-primary transition-colors text-sm font-medium {{ request()->routeIs('programs.*') ? 'text-primary border-b border-primary' : '' }}" href="{{ route('programs.index', ['locale' => app()->getLocale()]) }}">{{ __('Tourist Programs') }}</a>
             <a class="text-gray-600 hover:text-primary transition-colors text-sm font-medium {{ request()->routeIs('tourist_trips.*') ? 'text-primary border-b border-primary' : '' }}" href="{{ route('tourist_trips.index', ['locale' => app()->getLocale()]) }}">{{ __('Tourist Trips') }}</a>
+            <a class="text-gray-600 hover:text-primary transition-colors text-sm font-medium {{ request()->routeIs('accommodations.*') ? 'text-primary border-b border-primary' : '' }}" href="{{ route('accommodations.index', ['locale' => app()->getLocale()]) }}">{{ __('Accommodations') }}</a>
             <a class="text-gray-600 hover:text-primary transition-colors text-sm font-medium {{ request()->routeIs('blog.*') ? 'text-primary border-b border-primary' : '' }}" href="{{ route('blog.index', ['locale' => app()->getLocale()]) }}">{{ __('Blog') }}</a>
             <a class="text-gray-600 hover:text-primary transition-colors text-sm font-medium {{ request()->routeIs('about') ? 'text-primary border-b border-primary' : '' }}" href="{{ route('about', ['locale' => app()->getLocale()]) }}">{{ __('About') }}</a>
         </nav>
@@ -38,6 +39,7 @@
                 <a class="text-gray-600 hover:text-primary transition-colors text-lg font-medium py-2 {{ request()->routeIs('home') ? 'text-primary border-s-4 border-primary ps-4' : '' }}" href="{{ route('home', ['locale' => app()->getLocale()]) }}">{{ __('Home') }}</a>
                 <a class="text-gray-600 hover:text-primary transition-colors text-lg font-medium py-2 {{ request()->routeIs('programs.*') ? 'text-primary border-s-4 border-primary ps-4' : '' }}" href="{{ route('programs.index', ['locale' => app()->getLocale()]) }}">{{ __('Programs') }}</a>
                 <a class="text-gray-600 hover:text-primary transition-colors text-lg font-medium py-2 {{ request()->routeIs('tourist_trips.*') ? 'text-primary border-s-4 border-primary ps-4' : '' }}" href="{{ route('tourist_trips.index', ['locale' => app()->getLocale()]) }}">{{ __('Tourist Trips') }}</a>
+                <a class="text-gray-600 hover:text-primary transition-colors text-lg font-medium py-2 {{ request()->routeIs('accommodations.*') ? 'text-primary border-s-4 border-primary ps-4' : '' }}" href="{{ route('accommodations.index', ['locale' => app()->getLocale()]) }}">{{ __('Accommodations') }}</a>
                 <a class="text-gray-600 hover:text-primary transition-colors text-lg font-medium py-2 {{ request()->routeIs('blog.*') ? 'text-primary border-s-4 border-primary ps-4' : '' }}" href="{{ route('blog.index', ['locale' => app()->getLocale()]) }}">{{ __('Blog') }}</a>
                 <a class="text-gray-600 hover:text-primary transition-colors text-lg font-medium py-2 {{ request()->routeIs('about') ? 'text-primary border-s-4 border-primary ps-4' : '' }}" href="{{ route('about', ['locale' => app()->getLocale()]) }}">{{ __('About') }}</a>
                 

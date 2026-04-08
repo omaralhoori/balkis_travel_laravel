@@ -160,6 +160,26 @@ Route::prefix('{locale}')
             return view('tourist_trips', compact('touristTrips'));
         })->name('tourist_trips.index');
 
+        Route::get('/accommodations', function () {
+            $allAccommodations = \App\Models\Accommodation::where('is_active', true)
+                ->orderBy('order')
+                ->get();
+                
+            $cities = $allAccommodations->pluck('city')->unique()->values();
+            
+            $selectedCity = request('city');
+            $filteredAccommodations = null;
+            
+            if ($selectedCity) {
+                // filter accommodations by city text in current locale
+                $filteredAccommodations = $allAccommodations->filter(function($acc) use ($selectedCity) {
+                    return $acc->city === $selectedCity;
+                });
+            }
+
+            return view('accommodations.index', compact('cities', 'filteredAccommodations', 'allAccommodations'));
+        })->name('accommodations.index');
+
         Route::post('/comments', [\App\Http\Controllers\CommentController::class, 'store'])->name('comments.store');
 
         Route::get('/about', function () {
