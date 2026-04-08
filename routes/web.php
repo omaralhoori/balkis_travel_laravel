@@ -32,7 +32,32 @@ Route::prefix('{locale}')
                 ->orderBy('order')
                 ->get();
                 
-            return view('home', compact('topPrograms', 'touristTrips'));
+            // Tourist Guide Rotation Logic
+            $homePage = \App\Models\HomePage::getCurrent();
+            
+            if (!$homePage->tourist_guide_last_rotated_at || now()->diffInDays($homePage->tourist_guide_last_rotated_at) >= 3) {
+                $homePage->tourist_guide_offset += 5;
+                $homePage->tourist_guide_last_rotated_at = now();
+                $homePage->save();
+            }
+            
+            $offset = $homePage->tourist_guide_offset;
+            $allActivePosts = \App\Models\BlogPost::where('is_active', true)->orderBy('published_at', 'desc')->get();
+            
+            $totalPosts = $allActivePosts->count();
+            $touristGuidePosts = collect();
+            
+            if ($totalPosts > 0) {
+                $startIndex = $offset % $totalPosts;
+                $needed = min(5, $totalPosts);
+                
+                for ($i = 0; $i < $needed; $i++) {
+                    $index = ($startIndex + $i) % $totalPosts;
+                    $touristGuidePosts->push($allActivePosts[$index]);
+                }
+            }
+                
+            return view('home', compact('topPrograms', 'touristTrips', 'touristGuidePosts'));
         })->name('home');
 
         Route::get('/programs', function () {

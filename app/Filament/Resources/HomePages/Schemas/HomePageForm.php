@@ -58,6 +58,13 @@ class HomePageForm
                             ->collapsible()
                             ->itemLabel(fn (array $state): ?string => $state['name'] ?? 'وجهة جديدة')
                             ->columnSpanFull(),
+                            
+                        TextInput::make('tourist_guide_offset')
+                            ->label('ترتيب/تقدم مقالات دليلك السياحي (تتغير كل 3 أيام)')
+                            ->helperText('يتم إضافة 5 على هذا الرقم كل 3 أيام لعرض المقالات التالية.')
+                            ->numeric()
+                            ->default(0)
+                            ->columnSpanFull(),
                     ]),
 
                 Section::make('معلومات Footer')

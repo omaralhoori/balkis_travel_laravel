@@ -24,6 +24,8 @@ class HomePage extends Model
         'main_description',
         'main_background_image',
         'destinations',
+        'tourist_guide_offset',
+        'tourist_guide_last_rotated_at',
         // Footer Fields
         'footer_brand_name',
         'footer_brand_description',
@@ -51,6 +53,8 @@ class HomePage extends Model
 
     protected $casts = [
         'destinations' => 'array',
+        'tourist_guide_offset' => 'integer',
+        'tourist_guide_last_rotated_at' => 'datetime',
     ];
 
     public function getMainBackgroundImageUrlAttribute(): ?string

@@ -378,6 +378,45 @@
         </div>
     </section>
     @endif
+
+    @if(isset($touristGuidePosts) && $touristGuidePosts->isNotEmpty())
+    <!-- Tourist Guide Section -->
+    <section id="tourist-guide" class="max-w-7xl mx-auto px-4 py-16 relative z-20 bg-slate-50/50 rounded-3xl mb-16 border border-slate-100">
+        <div class="text-center mb-12">
+            <h3 class="text-3xl font-bold text-slate-800 mb-4 font-heading">{{ __('Tourist Guide') }}</h3>
+            <div class="w-16 h-1 bg-primary mx-auto rounded-full mb-4"></div>
+            <p class="text-slate-500 font-text">{{ __('Discover our latest articles and travel tips') }}</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+            @foreach($touristGuidePosts as $post)
+            <a href="{{ route('blog.show', ['locale' => app()->getLocale(), 'slug' => $post->slug]) }}" class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden flex flex-col group hover:shadow-xl transition-all duration-300">
+                <div class="w-full h-40 relative overflow-hidden shrink-0">
+                    @if($post->featured_image_url)
+                        <img src="{{ $post->featured_image_url }}" alt="{{ $post->title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out">
+                    @else
+                        <div class="w-full h-full bg-slate-100 flex items-center justify-center">
+                            <span class="material-symbols-outlined text-4xl text-slate-300">article</span>
+                        </div>
+                    @endif
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent opacity-60"></div>
+                </div>
+                
+                <div class="p-5 flex flex-col grow">
+                    <div class="text-xs text-primary font-bold mb-2">{{ $post->published_at ? $post->published_at->format('M d, Y') : '' }}</div>
+                    <h4 class="text-base font-bold font-heading text-slate-800 mb-3 group-hover:text-primary transition-colors line-clamp-2" title="{{ $post->title }}">{{ $post->title }}</h4>
+                    <p class="text-xs text-slate-500 font-text line-clamp-3 mb-4 flex-grow">{{ Str::limit(strip_tags($post->excerpt ?: $post->content), 80) }}</p>
+                    
+                    <div class="mt-auto pt-4 border-t border-slate-100 flex items-center text-primary text-sm font-bold group-hover:text-amber-600 transition-colors">
+                        {{ __('Read More') }}
+                        <span class="material-symbols-outlined rtl:rotate-180 text-sm ml-1 rtl:mr-1 transition-transform group-hover:translate-x-1 rtl:group-hover:-translate-x-1">arrow_forward</span>
+                    </div>
+                </div>
+            </a>
+            @endforeach
+        </div>
+    </section>
+    @endif
 </main>
 
 @push('styles')
