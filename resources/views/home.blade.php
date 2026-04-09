@@ -262,7 +262,7 @@
 
     @if(isset($topPrograms) && $topPrograms->isNotEmpty())
     <!-- Featured Programs Section -->
-    <section class="max-w-7xl mx-auto px-4 py-16 relative z-20 bg-sky-50/40 rounded-3xl mt-8 border border-sky-100/50 shadow-sm">
+    <section class="max-w-7xl mx-auto px-4 py-16 relative z-20 mt-8 ">
         <div class="text-center mb-12">
             <h3 class="text-3xl font-bold text-slate-800 mb-4 font-heading">{{ __('Featured Programs') }}</h3>
             <div class="w-16 h-1 bg-primary mx-auto rounded-full mb-4"></div>
