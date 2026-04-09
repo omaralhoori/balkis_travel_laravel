@@ -16,6 +16,7 @@ class HomePage extends Model
         'footer_brand_name',
         'footer_brand_description',
         'destinations',
+        'about_us',
     ];
 
     protected $fillable = [
@@ -24,6 +25,7 @@ class HomePage extends Model
         'main_description',
         'main_background_image',
         'destinations',
+        'about_us',
         'tourist_guide_offset',
         'tourist_guide_last_rotated_at',
         // Footer Fields

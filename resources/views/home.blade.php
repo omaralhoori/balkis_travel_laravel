@@ -450,6 +450,51 @@
         </div>
     </section>
     @endif
+
+    @if($homePage->about_us)
+    <!-- About Us Section -->
+    <section id="about-us" class="max-w-7xl mx-auto px-4 py-16 relative z-20 bg-slate-50/50 rounded-3xl mt-16 mb-16 border border-slate-100 shadow-sm">
+        <div class="text-center mb-12">
+            <h3 class="text-3xl font-bold text-slate-800 mb-4 font-heading">{{ __('About Us') }}</h3>
+            <div class="w-16 h-1 bg-primary mx-auto rounded-full"></div>
+        </div>
+        <div class="max-w-4xl mx-auto prose prose-slate lg:prose-lg font-text text-slate-600 text-center">
+            {!! $homePage->about_us !!}
+        </div>
+    </section>
+    @endif
+    @include('components.testimonials-section')
+
+    @if(isset($paymentMethods) && $paymentMethods->isNotEmpty())
+    <!-- Payment Methods Section -->
+    <section class="max-w-7xl mx-auto px-4 py-8 relative z-20 mt-8 mb-8 border-t border-slate-100">
+        <div class="flex flex-col items-center justify-center text-center mb-8">
+            <h3 class="text-2xl font-bold text-slate-800 mb-2 font-heading">{{ __('Payment Methods') }}</h3>
+            <p class="text-slate-500 font-text text-sm">{{ __('Secure, easy, and multiple payment options tailored for you') }}</p>
+        </div>
+        
+        <div class="flex flex-wrap justify-center items-center gap-6">
+            @foreach($paymentMethods->take(6) as $method)
+                @if($method->icon)
+                <div class="bg-white px-6 py-4 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-center hover:shadow-md transition-shadow grayscale hover:grayscale-0 hover:scale-105 transition-all cursor-pointer" title="{{ $method->name }}">
+                    <img src="{{ asset('storage/'.$method->icon) }}" alt="{{ $method->name }}" class="max-h-10 object-contain w-auto">
+                </div>
+                @else
+                <div class="bg-white px-6 py-4 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-center hover:shadow-md transition-shadow">
+                    <span class="font-bold text-slate-600 truncate max-w-[120px]">{{ $method->name }}</span>
+                </div>
+                @endif
+            @endforeach
+        </div>
+        
+        <div class="flex justify-center mt-8">
+            <a href="{{ route('payment_methods.index', app()->getLocale()) }}" class="inline-flex items-center gap-2 px-6 py-2.5 bg-slate-50 hover:bg-primary text-slate-600 hover:text-white text-sm font-bold rounded-xl transition-all duration-300 border border-slate-200 hover:border-primary">
+                {{ __('Learn More') }}
+                <span class="material-symbols-outlined text-sm rtl:rotate-180">arrow_forward</span>
+            </a>
+        </div>
+    </section>
+    @endif
 </main>
 
 @push('styles')

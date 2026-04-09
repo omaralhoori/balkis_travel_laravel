@@ -6,6 +6,7 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\RichEditor;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
@@ -64,6 +65,14 @@ class HomePageForm
                             ->helperText('يتم إضافة 5 على هذا الرقم كل 3 أيام لعرض المقالات التالية.')
                             ->numeric()
                             ->default(0)
+                            ->columnSpanFull(),
+                    ]),
+
+                Section::make('من نحن')
+                    ->schema([
+                        RichEditor::make('about_us')
+                            ->label('محتوى قسم من نحن')
+                            ->required()
                             ->columnSpanFull(),
                     ]),
 

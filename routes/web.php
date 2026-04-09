@@ -56,8 +56,9 @@ Route::prefix('{locale}')
                     $touristGuidePosts->push($allActivePosts[$index]);
                 }
             }
+            $paymentMethods = \App\Models\PaymentMethod::where('is_active', true)->orderBy('order')->get();
                 
-            return view('home', compact('topPrograms', 'touristTrips', 'touristGuidePosts'));
+            return view('home', compact('topPrograms', 'touristTrips', 'touristGuidePosts', 'paymentMethods'));
         })->name('home');
 
         Route::get('/programs', function () {
@@ -212,6 +213,13 @@ Route::prefix('{locale}')
 
             return view('about', ['aboutPage' => $aboutPage]);
         })->name('about');
+
+        Route::get('/payment-methods', function () {
+            $paymentMethods = \App\Models\PaymentMethod::where('is_active', true)
+                ->orderBy('order')
+                ->get();
+            return view('payment_methods.index', compact('paymentMethods'));
+        })->name('payment_methods.index');
 
         Route::get('/whatsapp', [\App\Http\Controllers\WhatsAppController::class, 'redirect'])->name('whatsapp.redirect');
     });
