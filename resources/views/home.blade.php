@@ -271,10 +271,10 @@
 
         <div class="relative group/slider">
             <button class="hidden md:flex absolute -left-6 top-1/2 -translate-y-1/2 z-10 bg-white text-primary shadow-xl rounded-full w-12 h-12 items-center justify-center opacity-0 group-hover/slider:opacity-100 transition-all hover:scale-110 disabled:opacity-0" onclick="scrollCarousel(this, -1)">
-                <span class="material-symbols-outlined rtl:rotate-180">chevron_left</span>
+                <span class="material-symbols-outlined">chevron_left</span>
             </button>
             <button class="hidden md:flex absolute -right-6 top-1/2 -translate-y-1/2 z-10 bg-white text-primary shadow-xl rounded-full w-12 h-12 items-center justify-center opacity-0 group-hover/slider:opacity-100 transition-all hover:scale-110 disabled:opacity-0" onclick="scrollCarousel(this, 1)">
-                <span class="material-symbols-outlined rtl:rotate-180">chevron_right</span>
+                <span class="material-symbols-outlined">chevron_right</span>
             </button>
 
             <div class="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar gap-6 pb-6 -mx-4 px-4 sm:mx-0 sm:px-0">
@@ -335,10 +335,10 @@
 
         <div class="relative group/slider">
             <button class="hidden md:flex absolute -left-6 top-1/2 -translate-y-1/2 z-10 bg-white text-primary shadow-xl rounded-full w-12 h-12 items-center justify-center opacity-0 group-hover/slider:opacity-100 transition-all hover:scale-110 disabled:opacity-0" onclick="scrollCarousel(this, -1)">
-                <span class="material-symbols-outlined rtl:rotate-180">chevron_left</span>
+                <span class="material-symbols-outlined">chevron_left</span>
             </button>
             <button class="hidden md:flex absolute -right-6 top-1/2 -translate-y-1/2 z-10 bg-white text-primary shadow-xl rounded-full w-12 h-12 items-center justify-center opacity-0 group-hover/slider:opacity-100 transition-all hover:scale-110 disabled:opacity-0" onclick="scrollCarousel(this, 1)">
-                <span class="material-symbols-outlined rtl:rotate-180">chevron_right</span>
+                <span class="material-symbols-outlined">chevron_right</span>
             </button>
 
             <div class="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar gap-6 pb-6 -mx-4 px-4 sm:mx-0 sm:px-0">
@@ -412,10 +412,10 @@
 
         <div class="relative group/slider">
             <button class="hidden md:flex absolute -left-6 top-1/2 -translate-y-1/2 z-10 bg-white text-primary shadow-xl rounded-full w-12 h-12 items-center justify-center opacity-0 group-hover/slider:opacity-100 transition-all hover:scale-110 disabled:opacity-0" onclick="scrollCarousel(this, -1)">
-                <span class="material-symbols-outlined rtl:rotate-180">chevron_left</span>
+                <span class="material-symbols-outlined">chevron_left</span>
             </button>
             <button class="hidden md:flex absolute -right-6 top-1/2 -translate-y-1/2 z-10 bg-white text-primary shadow-xl rounded-full w-12 h-12 items-center justify-center opacity-0 group-hover/slider:opacity-100 transition-all hover:scale-110 disabled:opacity-0" onclick="scrollCarousel(this, 1)">
-                <span class="material-symbols-outlined rtl:rotate-180">chevron_right</span>
+                <span class="material-symbols-outlined">chevron_right</span>
             </button>
 
             <div class="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar gap-6 pb-6 -mx-4 px-4 sm:mx-0 sm:px-0">
@@ -856,9 +856,7 @@ function scrollCarousel(btn, direction) {
     const container = btn.parentElement.querySelector('.hide-scrollbar');
     if (!container) return;
     const scrollAmount = container.clientWidth * 0.8;
-    const isRtl = document.documentElement.dir === 'rtl';
-    const finalDirection = isRtl ? -direction : direction;
-    container.scrollBy({ left: finalDirection * scrollAmount, behavior: 'smooth' });
+    container.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
 }
 </script>
 @endpush
