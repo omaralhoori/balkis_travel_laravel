@@ -26,6 +26,7 @@ class PaymentMethodForm
                 FileUpload::make('icon')
                     ->label('صورة / لوجو طريقة الدفع')
                     ->image()
+                    ->disk('public')
                     ->directory('payment-methods')
                     ->columnSpanFull(),
                 TextInput::make('order')

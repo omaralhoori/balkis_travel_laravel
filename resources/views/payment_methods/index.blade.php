@@ -39,7 +39,7 @@
                         <div class="relative z-10">
                             @if($method->icon)
                                 <div class="h-16 flex items-center justify-start mb-6">
-                                    <img src="{{ asset('storage/'.$method->icon) }}" alt="{{ $method->name }}" class="max-h-full max-w-[150px] object-contain drop-shadow-sm">
+                                    <img src="{{ $method->icon_url }}" alt="{{ $method->name }}" class="max-h-full max-w-[150px] object-contain drop-shadow-sm">
                                 </div>
                             @else
                                 <div class="w-16 h-16 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center mb-6">

@@ -23,4 +23,13 @@ class PaymentMethod extends Model
         'is_active' => 'boolean',
         'order' => 'integer',
     ];
+
+    public function getIconUrlAttribute(): ?string
+    {
+        if (! $this->icon) {
+            return null;
+        }
+
+        return asset('storage/' . $this->icon);
+    }
 }

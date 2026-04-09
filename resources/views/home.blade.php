@@ -477,7 +477,7 @@
             @foreach($paymentMethods->take(6) as $method)
                 @if($method->icon)
                 <div class="bg-white px-6 py-4 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-center hover:shadow-md transition-shadow grayscale hover:grayscale-0 hover:scale-105 transition-all cursor-pointer" title="{{ $method->name }}">
-                    <img src="{{ asset('storage/'.$method->icon) }}" alt="{{ $method->name }}" class="max-h-10 object-contain w-auto">
+                    <img src="{{ $method->icon_url }}" alt="{{ $method->name }}" class="max-h-10 object-contain w-auto">
                 </div>
                 @else
                 <div class="bg-white px-6 py-4 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-center hover:shadow-md transition-shadow">
