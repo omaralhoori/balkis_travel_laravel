@@ -51,12 +51,14 @@ class HomePage extends Model
         'footer_copyright_text',
         'footer_privacy_policy_url',
         'footer_terms_url',
+        'footer_clients_count',
     ];
 
     protected $casts = [
         'destinations' => 'array',
         'tourist_guide_offset' => 'integer',
         'tourist_guide_last_rotated_at' => 'datetime',
+        'footer_clients_count' => 'integer',
     ];
 
     public function getMainBackgroundImageUrlAttribute(): ?string

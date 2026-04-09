@@ -22,12 +22,13 @@
     $copyrightText = $homePage->footer_copyright_text ?? 'بلقيس القابضة. جميع الحقوق محفوظة.';
     $privacyUrl = $homePage->footer_privacy_policy_url ?? '#';
     $termsUrl = $homePage->footer_terms_url ?? '#';
+    $clientsCount = $homePage->footer_clients_count ?? 0;
 @endphp
 
 <footer class="bg-secondary border-t border-primary/20 pt-16 pb-8 px-4 md:px-10 lg:px-20 text-slate-200 relative">
     <div class="bg-pattern relative z-10" style="background-image: url('/image/pattern1.png');"></div>
     <div class="max-w-7xl mx-auto relative z-20">
-        <div class="flex flex-col md:flex-row justify-between items-start gap-12 mb-16">
+        <div class="flex flex-col lg:flex-row justify-between items-start gap-12 mb-16">
             <!-- Brand Column -->
             <div class="flex flex-col gap-6 max-w-sm">
                 <div class="flex items-center gap-3">
@@ -90,8 +91,16 @@
                     @endif
                 </div>
             </div>
+
+            <!-- Stats Center Column -->
+            <div class="flex flex-col items-center justify-center gap-2 self-center bg-white/5 p-8 rounded-3xl border border-white/10">
+                <span class="material-symbols-outlined text-primary text-4xl mb-2">groups</span>
+                <span class="text-4xl font-bold font-heading text-white counter-up">{{ number_format($clientsCount) }}</span>
+                <span class="text-sm font-semibold text-primary uppercase tracking-wider">{{ __('Happy Clients') }}</span>
+            </div>
+
             <!-- Links Columns -->
-                <div class="flex flex-wrap gap-12 md:gap-24">
+            <div class="flex flex-wrap gap-12 lg:gap-24">
                 <div class="flex flex-col gap-4">
                     <h4 class="text-slate-200 font-bold text-lg">{{ __('Quick Links') }}</h4>
                     <ul class="flex flex-col gap-3">
@@ -157,4 +166,3 @@
         </div>
     </div>
 </footer>
-

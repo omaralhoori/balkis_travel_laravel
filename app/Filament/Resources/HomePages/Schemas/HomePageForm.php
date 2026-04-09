@@ -112,6 +112,12 @@ class HomePageForm
                             ->rows(2)
                             ->nullable()
                             ->columnSpanFull(),
+
+                        TextInput::make('footer_clients_count')
+                            ->label('عدد العملاء السعداء')
+                            ->numeric()
+                            ->default(0)
+                            ->columnSpanFull(),
                     ])
                     ->columns(2),
 
