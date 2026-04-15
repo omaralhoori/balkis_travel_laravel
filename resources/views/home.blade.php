@@ -53,7 +53,7 @@
     </section>
 
     <!-- Main Selection Form Card -->
-    <section class="max-w-6xl mx-auto px-4 mt-4 relative z-20 pb-16">
+    <section class="max-w-6xl mx-auto px-4 -mt-16 relative z-20 pb-16">
         <div class="bg-white/95 backdrop-blur-md rounded-3xl p-6 md:p-8 shadow-2xl border border-white/20 relative">
             <div class="mb-8 text-center">
                 <h3 class="text-2xl font-bold text-slate-800 mb-3 font-heading">{{ __('Customize Your Journey') }}</h3>
