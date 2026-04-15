@@ -4,9 +4,9 @@ namespace App\Filament\Resources\HomePages\Schemas;
 
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\RichEditor;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
@@ -21,6 +21,16 @@ class HomePageForm
                         TextInput::make('main_title')
                             ->label('العنوان')
                             ->required()
+                            ->maxLength(255)
+                            ->columnSpanFull(),
+
+                        TextInput::make('main_badge_text')
+                            ->label('نص الشارة الرئيسية')
+                            ->maxLength(255)
+                            ->columnSpanFull(),
+
+                        TextInput::make('subtitle')
+                            ->label('عنوان فرعي')
                             ->maxLength(255)
                             ->columnSpanFull(),
 
@@ -59,7 +69,7 @@ class HomePageForm
                             ->collapsible()
                             ->itemLabel(fn (array $state): ?string => $state['name'] ?? 'وجهة جديدة')
                             ->columnSpanFull(),
-                            
+
                         TextInput::make('tourist_guide_offset')
                             ->label('ترتيب/تقدم مقالات دليلك السياحي (تتغير كل 3 أيام)')
                             ->helperText('يتم إضافة 5 على هذا الرقم كل 3 أيام لعرض المقالات التالية.')

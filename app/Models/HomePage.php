@@ -12,6 +12,8 @@ class HomePage extends Model
     /** @var array<string> */
     public array $translatable = [
         'main_title',
+        'main_badge_text',
+        'subtitle',
         'main_description',
         'footer_brand_name',
         'footer_brand_description',
@@ -22,6 +24,8 @@ class HomePage extends Model
     protected $fillable = [
         // Home Page Fields
         'main_title',
+        'main_badge_text',
+        'subtitle',
         'main_description',
         'main_background_image',
         'destinations',
@@ -74,6 +78,8 @@ class HomePage extends Model
     {
         return static::firstOrCreate([], [
             'main_title' => 'مجموعة بلقيس',
+            'main_badge_text' => 'نحملُ عنكَ التفاصيل.. لتعيشَ اللحظة',
+            'subtitle' => 'فخامة السياحة، العقارات، والاستثمار في تركيا',
             'main_description' => 'اكتشف قمة السياحة الفاخرة في تركيا، والعقارات المتميزة، والاستثمارات الاستراتيجية. نحن نصنع تجارب لا تُنسى ومستقبلاً واعداً.',
         ]);
     }

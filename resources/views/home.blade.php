@@ -16,7 +16,11 @@
             <div class="absolute inset-0 bg-gradient-to-b from-background-dark/40 via-background-dark/60 to-background-dark"></div>
         </div>
         <div class="relative z-10 text-center px-4 max-w-4xl mt-15">
-            <h2 class="text-white text-4xl md:text-5xl font-bold mb-4 leading-tight font-heading">{{ $homePage->main_title }}</h2>
+            <h2 class="text-white text-4xl md:text-5xl font-bold mb-4 leading-tight font-heading">
+                <!-- Replace Subtitle in title with primary color  -->  
+            {!! Str::replace($homePage->subtitle,'<span class="text-primary font-bold font-heading">'.$homePage->subtitle.'</span>',$homePage->main_title) !!}
+
+            </h2>
             <p class="text-slate-300 text-base md:text-lg font-light max-w-2xl mx-auto font-text">
                 {{ $homePage->main_description }}
             </p>
