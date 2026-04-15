@@ -20,11 +20,40 @@
             <p class="text-slate-300 text-base md:text-lg font-light max-w-2xl mx-auto font-text">
                 {{ $homePage->main_description }}
             </p>
+            <div class="hero-slogan-wrapper animate-hero-fade" style="animation-delay:0.3s">
+            <div class="relative inline-flex items-center justify-center px-10 py-4 rounded-xl bg-gold-gradient mt-4"
+                 style="background: linear-gradient(135deg, rgba(118,92,57,0.18) 0%, rgba(196,165,113,0.18) 100%);
+                        border: 1.5px solid transparent;
+                        background-clip: padding-box;">
+                {{-- Gold border via pseudo via box shadow --}}
+                <div class="absolute inset-0 rounded-xl pointer-events-none"
+                     style="background: linear-gradient(135deg,#765C39,#C4A571,#765C39) border-box;
+                            -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+                            -webkit-mask-composite: destination-out;
+                            mask-composite: exclude;
+                            border: 1.5px solid transparent;"></div>
+                {{-- Corner decorations --}}
+                <span class="absolute -top-1.5 -start-1.5 w-3 h-3 rounded-full bg-primary opacity-80"></span>
+                <span class="absolute -top-1.5 -end-1.5 w-3 h-3 rounded-full bg-primary opacity-80"></span>
+                <span class="absolute -bottom-1.5 -start-1.5 w-3 h-3 rounded-full bg-primary opacity-80"></span>
+                <span class="absolute -bottom-1.5 -end-1.5 w-3 h-3 rounded-full bg-primary opacity-80"></span>
+
+                <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-primary text-xl">format_quote</span>
+                    <span class="text-gold-gradient font-heading font-bold text-xl sm:text-2xl tracking-wide">
+                        {{ $homePage->main_badge_text ?? 'نحملُ عنكَ التفاصيل.. لتعيشَ اللحظة' }}
+                    </span>
+                    <span class="material-symbols-outlined text-primary text-xl rotate-180">format_quote</span>
+                </div>
+            </div>
         </div>
+        </div>
+
+        
     </section>
 
     <!-- Main Selection Form Card -->
-    <section class="max-w-6xl mx-auto px-4 -mt-36 md:-mt-48 relative z-20 pb-16">
+    <section class="max-w-6xl mx-auto px-4 mt-4 relative z-20 pb-16">
         <div class="bg-white/95 backdrop-blur-md rounded-3xl p-6 md:p-8 shadow-2xl border border-white/20 relative">
             <div class="mb-8 text-center">
                 <h3 class="text-2xl font-bold text-slate-800 mb-3 font-heading">{{ __('Customize Your Journey') }}</h3>
