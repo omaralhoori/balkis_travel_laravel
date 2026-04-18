@@ -10,7 +10,7 @@
 @endphp
 <main class="pt-15">
     <!-- Hero Section -->
-    <section class="relative h-[40vh] min-h-[300px] flex justify-center overflow-hidden">
+    <section class="relative h-[45vh] min-h-[300px] flex justify-center overflow-hidden">
         <div class="absolute inset-0">
             <img class="w-full h-full object-cover" alt="{{ __('Plan Your Luxury Trip') }}" src="{{ $mainBgImage }}"/>
             <div class="absolute inset-0 bg-gradient-to-b from-background-dark/40 via-background-dark/60 to-background-dark"></div>
@@ -43,8 +43,8 @@
                 <span class="absolute -bottom-1.5 -end-1.5 w-3 h-3 rounded-full bg-primary opacity-80"></span>
 
                 <div class="flex items-center gap-3">
-                    <span class="material-symbols-outlined text-primary text-xl">format_quote</span>
-                    <span class="text-gold-gradient font-heading font-bold text-xl sm:text-2xl tracking-wide">
+                    <span class="material-symbols-outlined text-primary text-l">format_quote</span>
+                    <span class="text-gold-gradient font-heading font-bold text-l sm:text-l tracking-wide">
                         {{ $homePage->main_badge_text ?? 'نحملُ عنكَ التفاصيل.. لتعيشَ اللحظة' }}
                     </span>
                     <span class="material-symbols-outlined text-primary text-xl rotate-180">format_quote</span>
@@ -57,11 +57,11 @@
     </section>
 
     <!-- Main Selection Form Card -->
-    <section class="max-w-6xl mx-auto px-4 -mt-16 relative z-20 pb-16">
+    <section class="max-w-6xl mx-auto px-4 -mt-4 relative z-20 pb-16">
         <div class="bg-white/95 backdrop-blur-md rounded-3xl p-6 md:p-8 shadow-2xl border border-white/20 relative">
             <div class="mb-8 text-center">
-                <h3 class="text-2xl font-bold text-slate-800 mb-3 font-heading">{{ __('Customize Your Journey') }}</h3>
-                <div class="w-16 h-1 bg-primary mx-auto rounded-full mb-8"></div>
+                <!-- <h3 class="text-2xl font-bold text-slate-800 mb-3 font-heading">{{ __('Customize Your Journey') }}</h3>
+                <div class="w-16 h-1 bg-primary mx-auto rounded-full mb-8"></div> -->
                 
                 <!-- Step Indicator -->
                 <div class="max-w-2xl mx-auto relative px-4">
@@ -97,37 +97,39 @@
                                 <span class="material-symbols-outlined text-primary text-lg">map</span>
                                 {{ __('Required Destinations (You can select multiple cities)') }}
                             </label>
-                            <div id="destinations-container" class="flex flex-wrap gap-2 p-5 border-2 border-dashed border-slate-200 rounded-2xl bg-slate-50/50 min-h-[80px] transition-all hover:border-primary/30">
-                                <div class="text-slate-400 text-sm italic py-2 px-1 w-full" id="empty-destinations-msg">
-                                    {{ __('Click "Add City" to start building your route...') }}
+                            <div class="flex flex-col md:flex-row justify-between gap-10 ">
+                                <div id="destinations-container" class="flex flex-wrap gap-2 p-5 w-full border-2 border-dashed border-slate-200 rounded-2xl bg-slate-50/50 min-h-[80px] transition-all hover:border-primary/30">
+                                    <div class="text-slate-400 text-sm italic py-2 px-1 w-full" id="empty-destinations-msg">
+                                        {{ __('Click "Add City" to start building your route...') }}
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="mt-4 relative">
-                                <button type="button" id="add-destination-btn" class="inline-flex items-center gap-2 px-5 py-2.5 bg-slate-800 text-white rounded-xl text-sm hover:bg-primary transition-all shadow-md active:scale-95 font-text">
-                                    <span class="material-symbols-outlined text-sm">add_location</span>
-                                    {{ __('Add City') }}
-                                </button>
-                                <!-- Dropdown for available destinations -->
-                                <div id="destinations-dropdown" class="hidden absolute top-full ltr:left-0 rtl:right-0 mt-2 w-full max-w-sm bg-white border border-slate-100 rounded-2xl shadow-2xl z-50 max-h-72 overflow-y-auto p-2">
-                                    @if(count($availableDestinations) > 0)
-                                        @foreach($availableDestinations as $destination)
-                                            <button type="button" class="destination-option w-full text-start px-4 py-3 hover:bg-primary/5 rounded-xl transition-colors font-text flex items-center justify-between group" data-destination="{{ $destination['name'] ?? '' }}">
-                                                <div class="flex items-center gap-3">
-                                                    <span class="material-symbols-outlined text-slate-400 group-hover:text-primary transition-colors">location_on</span>
-                                                    <span class="text-slate-700 font-medium group-hover:text-primary">{{ $destination['name'] ?? '' }}</span>
-                                                </div>
-                                                <span class="material-symbols-outlined text-xs text-slate-300 opacity-0 group-hover:opacity-100 group-hover:text-primary transition-all">add</span>
-                                            </button>
-                                        @endforeach
-                                    @else
-                                        <div class="p-4 text-center text-slate-400 text-sm italic font-text">
-                                            {{ __('No destinations available') }}
-                                        </div>
-                                    @endif
+                                <div class="mt-4 relative w-50">
+                                    <button type="button" id="add-destination-btn" class="inline-flex items-center gap-2 px-5 py-2.5 bg-slate-800 text-white rounded-xl text-sm hover:bg-primary transition-all shadow-md active:scale-95 font-text">
+                                        <span class="material-symbols-outlined text-sm">add_location</span>
+                                        {{ __('Add City') }}
+                                    </button>
+                                    <!-- Dropdown for available destinations -->
+                                    <div id="destinations-dropdown" class="hidden absolute top-full ltr:left-0 rtl:right-0 mt-2 w-full max-w-sm bg-white border border-slate-100 rounded-2xl shadow-2xl z-50 max-h-72 overflow-y-auto p-2">
+                                        @if(count($availableDestinations) > 0)
+                                            @foreach($availableDestinations as $destination)
+                                                <button type="button" class="destination-option w-full text-start px-4 py-3 hover:bg-primary/5 rounded-xl transition-colors font-text flex items-center justify-between group" data-destination="{{ $destination['name'] ?? '' }}">
+                                                    <div class="flex items-center gap-3">
+                                                        <span class="material-symbols-outlined text-slate-400 group-hover:text-primary transition-colors">location_on</span>
+                                                        <span class="text-slate-700 font-medium group-hover:text-primary">{{ $destination['name'] ?? '' }}</span>
+                                                    </div>
+                                                    <span class="material-symbols-outlined text-xs text-slate-300 opacity-0 group-hover:opacity-100 group-hover:text-primary transition-all">add</span>
+                                                </button>
+                                            @endforeach
+                                        @else
+                                            <div class="p-4 text-center text-slate-400 text-sm italic font-text">
+                                                {{ __('No destinations available') }}
+                                            </div>
+                                        @endif
+                                    </div>
                                 </div>
+                                <!-- Hidden input to store selected destinations -->
+                                <input type="hidden" id="selected-destinations" name="selected_destinations" value="[]">
                             </div>
-                            <!-- Hidden input to store selected destinations -->
-                            <input type="hidden" id="selected-destinations" name="selected_destinations" value="[]">
                         </div>
 
                         <div class="col-span-full grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
@@ -283,12 +285,12 @@
 
                 <div id="form-message" class="hidden mt-6 text-center p-3 rounded-lg text-sm font-text border"></div>
                 
-                <div class="mt-4 pt-2 text-center">
+                <!-- <div class="mt-4 pt-2 text-center">
                     <p class="text-slate-400 text-xs font-text flex items-center justify-center gap-1">
                         <span class="material-symbols-outlined text-xs">support_agent</span>
                         {{ __('Once submitted, one of our consultants will contact you within 24 hours.') }}
                     </p>
-                </div>
+                </div> -->
             </form>
         </div>
     </section>
