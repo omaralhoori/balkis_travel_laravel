@@ -361,19 +361,19 @@
 
     @if(isset($touristTrips) && $touristTrips->isNotEmpty())
     <!-- Tourist Trips Section -->
-    <section id="tourist-trips" class="max-w-7xl mx-auto px-4 py-16 relative z-20 bg-rose-50/40 rounded-3xl mt-16 border border-rose-100/50 shadow-sm">
-        <div class="text-center mb-12">
-            <h3 class="text-3xl font-bold text-slate-800 mb-4 font-heading">{{ __('Tourist Trips') }}</h3>
-            <div class="w-16 h-1 bg-primary mx-auto rounded-full mb-4"></div>
-            <p class="text-slate-500 font-text">{{ __('Explore our carefully curated tourist trips') }}</p>
+    <section id="tourist-trips" class="max-w-7xl mx-auto px-4 py-8 relative z-20 bg-rose-50/40 rounded-3xl mt-10 border border-rose-100/50 shadow-sm">
+        <div class="text-center mb-6">
+            <h3 class="text-xl font-bold text-slate-800 mb-2 font-heading">{{ __('Tourist Trips') }}</h3>
+            <div class="w-12 h-1 bg-primary mx-auto rounded-full mb-2"></div>
+            <p class="text-sm text-slate-500 font-text">{{ __('Explore our carefully curated tourist trips') }}</p>
         </div>
 
         <div class="relative group/slider">
-            <button class="hidden md:flex absolute -left-6 top-1/2 -translate-y-1/2 z-10 bg-white text-primary shadow-xl rounded-full w-12 h-12 items-center justify-center opacity-0 group-hover/slider:opacity-100 transition-all hover:scale-110 disabled:opacity-0" onclick="scrollCarousel(this, -1)">
-                <span class="material-symbols-outlined">chevron_left</span>
+            <button class="hidden md:flex absolute -left-6 top-1/2 -translate-y-1/2 z-10 bg-white text-primary shadow-lg rounded-full w-10 h-10 items-center justify-center opacity-0 group-hover/slider:opacity-100 transition-all hover:scale-110 disabled:opacity-0" onclick="scrollCarousel(this, -1)">
+                <span class="material-symbols-outlined text-xl">chevron_left</span>
             </button>
-            <button class="hidden md:flex absolute -right-6 top-1/2 -translate-y-1/2 z-10 bg-white text-primary shadow-xl rounded-full w-12 h-12 items-center justify-center opacity-0 group-hover/slider:opacity-100 transition-all hover:scale-110 disabled:opacity-0" onclick="scrollCarousel(this, 1)">
-                <span class="material-symbols-outlined">chevron_right</span>
+            <button class="hidden md:flex absolute -right-6 top-1/2 -translate-y-1/2 z-10 bg-white text-primary shadow-lg rounded-full w-10 h-10 items-center justify-center opacity-0 group-hover/slider:opacity-100 transition-all hover:scale-110 disabled:opacity-0" onclick="scrollCarousel(this, 1)">
+                <span class="material-symbols-outlined text-xl">chevron_right</span>
             </button>
 
             <div class="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar gap-4 pb-6 -mx-4 px-4 sm:mx-0 sm:px-0">
@@ -386,22 +386,22 @@
                             includes: `{!! addslashes($trip->includes) !!}`,
                             what_to_bring: `{!! addslashes($trip->what_to_bring) !!}`
                          })">
-                <div class="w-full h-48 relative overflow-hidden shrink-0">
+                <div class="w-full h-32 relative overflow-hidden shrink-0">
                     @if($trip->image_url)
                         <img src="{{ $trip->image_url }}" alt="{{ $trip->title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out">
                     @else
                         <div class="w-full h-full bg-slate-100 flex items-center justify-center">
-                            <span class="material-symbols-outlined text-4xl text-slate-300">tour</span>
+                            <span class="material-symbols-outlined text-3xl text-slate-300">tour</span>
                         </div>
                     @endif
                     <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent"></div>
-                    <div class="absolute top-3 ltr:left-3 rtl:right-3">
-                        <span class="px-2 py-0.5 bg-white/95 text-primary text-[10px] font-bold rounded shadow-sm border border-primary/10">{{ __('Trip') }}</span>
+                    <div class="absolute top-2 ltr:left-2 rtl:right-2">
+                        <span class="px-2 py-0.5 bg-white/95 text-primary text-[9px] font-bold rounded shadow-sm border border-primary/10">{{ __('Trip') }}</span>
                     </div>
                 </div>
                 
                 <div class="p-4 flex flex-col grow">
-                    <h4 class="text-base font-bold font-heading text-slate-800 mb-2 group-hover:text-primary transition-colors line-clamp-1" title="{{ $trip->title }}">{{ $trip->title }}</h4>
+                    <h4 class="text-sm font-bold font-heading text-slate-800 mb-1 group-hover:text-primary transition-colors line-clamp-1" title="{{ $trip->title }}">{{ $trip->title }}</h4>
                     
                     <div class="space-y-3 flex-grow font-text">
                         <!-- What is included (Compact) -->
@@ -433,44 +433,44 @@
 
     @if(isset($touristGuidePosts) && $touristGuidePosts->isNotEmpty())
     <!-- Tourist Guide Section -->
-    <section id="tourist-guide" class="max-w-7xl mx-auto px-4 py-16 relative z-20 bg-amber-50/40 rounded-3xl mt-16 mb-16 border border-amber-100/50 shadow-sm">
-        <div class="text-center mb-12">
-            <h3 class="text-3xl font-bold text-slate-800 mb-4 font-heading">{{ __('Tourist Guide') }}</h3>
-            <div class="w-16 h-1 bg-primary mx-auto rounded-full mb-4"></div>
-            <p class="text-slate-500 font-text">{{ __('Discover our latest articles and travel tips') }}</p>
+    <section id="tourist-guide" class="max-w-7xl mx-auto px-4 py-8 relative z-20 bg-amber-50/40 rounded-3xl mt-10 mb-10 border border-amber-100/50 shadow-sm">
+        <div class="text-center mb-6">
+            <h3 class="text-xl font-bold text-slate-800 mb-2 font-heading">{{ __('Tourist Guide') }}</h3>
+            <div class="w-12 h-1 bg-primary mx-auto rounded-full mb-2"></div>
+            <p class="text-sm text-slate-500 font-text">{{ __('Discover our latest articles and travel tips') }}</p>
         </div>
 
         <div class="relative group/slider">
-            <button class="hidden md:flex absolute -left-6 top-1/2 -translate-y-1/2 z-10 bg-white text-primary shadow-xl rounded-full w-12 h-12 items-center justify-center opacity-0 group-hover/slider:opacity-100 transition-all hover:scale-110 disabled:opacity-0" onclick="scrollCarousel(this, -1)">
-                <span class="material-symbols-outlined">chevron_left</span>
+            <button class="hidden md:flex absolute -left-6 top-1/2 -translate-y-1/2 z-10 bg-white text-primary shadow-lg rounded-full w-10 h-10 items-center justify-center opacity-0 group-hover/slider:opacity-100 transition-all hover:scale-110 disabled:opacity-0" onclick="scrollCarousel(this, -1)">
+                <span class="material-symbols-outlined text-xl">chevron_left</span>
             </button>
-            <button class="hidden md:flex absolute -right-6 top-1/2 -translate-y-1/2 z-10 bg-white text-primary shadow-xl rounded-full w-12 h-12 items-center justify-center opacity-0 group-hover/slider:opacity-100 transition-all hover:scale-110 disabled:opacity-0" onclick="scrollCarousel(this, 1)">
-                <span class="material-symbols-outlined">chevron_right</span>
+            <button class="hidden md:flex absolute -right-6 top-1/2 -translate-y-1/2 z-10 bg-white text-primary shadow-lg rounded-full w-10 h-10 items-center justify-center opacity-0 group-hover/slider:opacity-100 transition-all hover:scale-110 disabled:opacity-0" onclick="scrollCarousel(this, 1)">
+                <span class="material-symbols-outlined text-xl">chevron_right</span>
             </button>
 
             <div class="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar gap-6 pb-6 -mx-4 px-4 sm:mx-0 sm:px-0">
                 @foreach($touristGuidePosts as $post)
                 <div class="snap-start shrink-0 w-[85vw] sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] h-full pb-4">
                     <a href="{{ route('blog.show', ['locale' => app()->getLocale(), 'slug' => $post->slug]) }}" class="bg-white h-full rounded-2xl shadow-sm border border-slate-100 overflow-hidden flex flex-col group hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-                <div class="w-full h-40 relative overflow-hidden shrink-0">
+                <div class="w-full h-28 relative overflow-hidden shrink-0">
                     @if($post->featured_image_url)
                         <img src="{{ $post->featured_image_url }}" alt="{{ $post->title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out">
                     @else
                         <div class="w-full h-full bg-slate-100 flex items-center justify-center">
-                            <span class="material-symbols-outlined text-4xl text-slate-300">article</span>
+                            <span class="material-symbols-outlined text-3xl text-slate-300">article</span>
                         </div>
                     @endif
                     <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent opacity-60"></div>
                 </div>
                 
-                <div class="p-5 flex flex-col grow">
-                    <div class="text-xs text-primary font-bold mb-2">{{ $post->published_at ? $post->published_at->format('M d, Y') : '' }}</div>
-                    <h4 class="text-base font-bold font-heading text-slate-800 mb-3 group-hover:text-primary transition-colors line-clamp-2" title="{{ $post->title }}">{{ $post->title }}</h4>
-                    <p class="text-xs text-slate-500 font-text line-clamp-3 mb-4 flex-grow">{{ Str::limit(strip_tags($post->excerpt ?: $post->content), 80) }}</p>
+                <div class="p-4 flex flex-col grow">
+                    <div class="text-[10px] text-primary font-bold mb-1">{{ $post->published_at ? $post->published_at->format('M d, Y') : '' }}</div>
+                    <h4 class="text-sm font-bold font-heading text-slate-800 mb-1 group-hover:text-primary transition-colors line-clamp-1" title="{{ $post->title }}">{{ $post->title }}</h4>
+                    <p class="text-[11px] text-slate-500 font-text line-clamp-2 mb-2 flex-grow">{{ Str::limit(strip_tags($post->excerpt ?: $post->content), 60) }}</p>
                     
-                    <div class="mt-auto pt-4 border-t border-slate-100 flex items-center text-primary text-sm font-bold group-hover:text-amber-600 transition-colors">
+                    <div class="mt-auto pt-2 border-t border-slate-100 flex items-center text-primary text-[11px] font-bold group-hover:text-amber-600 transition-colors">
                         {{ __('Read More') }}
-                        <span class="material-symbols-outlined rtl:rotate-180 text-sm ml-1 rtl:mr-1 transition-transform group-hover:translate-x-1 rtl:group-hover:-translate-x-1">arrow_forward</span>
+                        <span class="material-symbols-outlined rtl:rotate-180 text-xs ml-1 rtl:mr-1 transition-transform group-hover:translate-x-1 rtl:group-hover:-translate-x-1">arrow_forward</span>
                     </div>
                 </div>
                     </a>
