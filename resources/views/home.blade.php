@@ -57,31 +57,31 @@
     </section>
 
     <!-- Main Selection Form Card -->
-    <section class="max-w-6xl mx-auto px-4 -mt-4 relative z-20 pb-16">
-        <div class="bg-white/95 backdrop-blur-md rounded-3xl p-6 md:p-8 shadow-2xl border border-white/20 relative">
+    <section class="max-w-6xl mx-auto px-4 -mt-4 relative z-20 pb-8">
+        <div class="bg-white/95 backdrop-blur-md rounded-3xl p-4 md:p-5 shadow-2xl border border-white/20 relative">
             <div class="mb-8 text-center">
                 <!-- <h3 class="text-2xl font-bold text-slate-800 mb-3 font-heading">{{ __('Customize Your Journey') }}</h3>
                 <div class="w-16 h-1 bg-primary mx-auto rounded-full mb-8"></div> -->
                 
                 <!-- Step Indicator -->
-                <div class="max-w-2xl mx-auto relative px-4">
-                    <div class="flex justify-between relative mb-10" dir="ltr">
+                <div class="max-w-xl mx-auto relative px-4">
+                    <div class="flex justify-between relative mb-8" dir="ltr">
                         <!-- Progress Line Background -->
                         <div class="absolute top-1/2 left-0 right-0 h-1 bg-slate-100 -translate-y-1/2 rounded-full z-0"></div>
                         <!-- Progress Line Active -->
                         <div id="progress-bar" class="absolute top-1/2 left-0 h-1 bg-primary -translate-y-1/2 transition-all duration-500 ease-out rounded-full z-0" style="width: 0%"></div>
                         
-                        <div class="step-item active flex flex-col items-center relative z-10 w-16" data-step="1">
-                            <div class="step-dot w-10 h-10 rounded-full flex items-center justify-center font-bold text-base bg-primary text-white border-4 border-white shadow-md transition-all duration-500">1</div>
-                            <span class="step-label absolute top-12 whitespace-nowrap text-xs font-semibold text-primary transition-all duration-300">{{ __('Destinations') }}</span>
+                        <div class="step-item active flex flex-col items-center relative z-10 w-12" data-step="1">
+                            <div class="step-dot w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm bg-primary text-white border-2 border-white shadow-md transition-all duration-500">1</div>
+                            <span class="step-label absolute top-10 whitespace-nowrap text-xs font-semibold text-primary transition-all duration-300">{{ __('Destinations') }}</span>
                         </div>
-                        <div class="step-item flex flex-col items-center relative z-10 w-16" data-step="2">
-                            <div class="step-dot w-10 h-10 rounded-full flex items-center justify-center font-bold text-base bg-slate-100 text-slate-400 border-4 border-white transition-all duration-500">2</div>
-                            <span class="step-label absolute top-12 whitespace-nowrap text-xs font-semibold text-slate-400 transition-all duration-300">{{ __('Travelers') }}</span>
+                        <div class="step-item flex flex-col items-center relative z-10 w-12" data-step="2">
+                            <div class="step-dot w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm bg-slate-100 text-slate-400 border-2 border-white transition-all duration-500">2</div>
+                            <span class="step-label absolute top-10 whitespace-nowrap text-xs font-semibold text-slate-400 transition-all duration-300">{{ __('Travelers') }}</span>
                         </div>
-                        <div class="step-item flex flex-col items-center relative z-10 w-16" data-step="3">
-                            <div class="step-dot w-10 h-10 rounded-full flex items-center justify-center font-bold text-base bg-slate-100 text-slate-400 border-4 border-white transition-all duration-500">3</div>
-                            <span class="step-label absolute top-12 whitespace-nowrap text-xs font-semibold text-slate-400 transition-all duration-300">{{ __('Services') }}</span>
+                        <div class="step-item flex flex-col items-center relative z-10 w-12" data-step="3">
+                            <div class="step-dot w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm bg-slate-100 text-slate-400 border-2 border-white transition-all duration-500">3</div>
+                            <span class="step-label absolute top-10 whitespace-nowrap text-xs font-semibold text-slate-400 transition-all duration-300">{{ __('Services') }}</span>
                         </div>
                     </div>
                 </div>
@@ -90,15 +90,15 @@
             <form id="inquiry-form" class="relative">
                 <!-- Step 1: Destinations & Dates -->
                 <div class="form-step active" id="step-1" data-step="1">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <!-- Destination Selection -->
                         <div class="col-span-full">
-                            <label class="block text-sm font-semibold text-slate-700 mb-3 font-text flex items-center gap-2">
-                                <span class="material-symbols-outlined text-primary text-lg">map</span>
+                            <label class="block text-xs font-semibold text-slate-700 mb-2 font-text flex items-center gap-2">
+                                <span class="material-symbols-outlined text-primary text-base">map</span>
                                 {{ __('Required Destinations (You can select multiple cities)') }}
                             </label>
-                            <div class="flex flex-col md:flex-row justify-between gap-10 ">
-                                <div id="destinations-container" class="flex flex-wrap gap-2 p-5 w-full border-2 border-dashed border-slate-200 rounded-2xl bg-slate-50/50 min-h-[80px] transition-all hover:border-primary/30">
+                            <div class="flex flex-col md:flex-row justify-between gap-4 ">
+                                <div id="destinations-container" class="flex flex-wrap gap-2 p-3 w-full border-2 border-dashed border-slate-200 rounded-2xl bg-slate-50/50 min-h-[60px] transition-all hover:border-primary/30">
                                     <div class="text-slate-400 text-sm italic py-2 px-1 w-full" id="empty-destinations-msg">
                                         {{ __('Click "Add City" to start building your route...') }}
                                     </div>
@@ -132,19 +132,19 @@
                             </div>
                         </div>
 
-                        <div class="col-span-full grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
-                            <div class="space-y-2">
-                                <label class="block text-sm font-semibold text-slate-700 font-text">{{ __('Trip Start') }}</label>
+                        <div class="col-span-full grid grid-cols-1 md:grid-cols-2 gap-4 mt-1">
+                            <div class="space-y-1">
+                                <label class="block text-xs font-semibold text-slate-700 font-text">{{ __('Trip Start') }}</label>
                                 <div class="relative group">
-                                    <span class="absolute ltr:right-4 rtl:left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 group-focus-within:text-primary transition-colors z-10 pointer-events-none text-xl">calendar_today</span>
-                                    <input id="arrival-date" name="arrival_date" class="date-input w-full ltr:pr-12 rtl:pl-12 ltr:pl-4 rtl:pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-slate-800 font-text shadow-sm transition-all text-start" type="date" min="{{ date('Y-m-d') }}" required/>
+                                    <span class="absolute ltr:right-3 rtl:left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 group-focus-within:text-primary transition-colors z-10 pointer-events-none text-lg">calendar_today</span>
+                                    <input id="arrival-date" name="arrival_date" class="date-input w-full ltr:pr-10 rtl:pl-10 ltr:pl-3 rtl:pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-slate-800 font-text shadow-sm transition-all text-start text-sm" type="date" min="{{ date('Y-m-d') }}" required/>
                                 </div>
                             </div>
-                            <div class="space-y-2">
-                                <label class="block text-sm font-semibold text-slate-700 font-text">{{ __('Trip End') }}</label>
+                            <div class="space-y-1">
+                                <label class="block text-xs font-semibold text-slate-700 font-text">{{ __('Trip End') }}</label>
                                 <div class="relative group">
-                                    <span class="absolute ltr:right-4 rtl:left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 group-focus-within:text-primary transition-colors z-10 pointer-events-none text-xl">event</span>
-                                    <input id="departure-date" name="departure_date" class="date-input w-full ltr:pr-12 rtl:pl-12 ltr:pl-4 rtl:pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-slate-800 font-text shadow-sm transition-all text-start" type="date" min="{{ date('Y-m-d') }}" required/>
+                                    <span class="absolute ltr:right-3 rtl:left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 group-focus-within:text-primary transition-colors z-10 pointer-events-none text-lg">event</span>
+                                    <input id="departure-date" name="departure_date" class="date-input w-full ltr:pr-10 rtl:pl-10 ltr:pl-3 rtl:pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-slate-800 font-text shadow-sm transition-all text-start text-sm" type="date" min="{{ date('Y-m-d') }}" required/>
                                 </div>
                             </div>
                         </div>
@@ -153,33 +153,33 @@
 
                 <!-- Step 2: Travelers -->
                 <div class="form-step hidden" id="step-2" data-step="2">
-                    <div class="space-y-8">
+                    <div class="space-y-4">
                         <div>
-                            <label class="block text-sm font-semibold text-slate-700 mb-5 font-text text-center text-lg">{{ __('Who are you traveling with?') }}</label>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-100 flex items-center justify-between">
-                                    <div class="flex items-center gap-4">
-                                        <div class="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-primary">
+                            <label class="block text-sm font-semibold text-slate-700 mb-3 font-text text-center text-base">{{ __('Who are you traveling with?') }}</label>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100 flex items-center justify-between">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 bg-white rounded-xl shadow-sm flex items-center justify-center text-primary">
                                             <span class="material-symbols-outlined">person</span>
                                         </div>
                                         <div>
-                                            <div class="font-bold text-slate-800 text-start">{{ __('Adults') }}</div>
-                                            <div class="text-xs text-slate-400 text-start">18+ {{ __('years') }}</div>
+                                            <div class="font-bold text-slate-800 text-start text-sm">{{ __('Adults') }}</div>
+                                            <div class="text-[10px] text-slate-400 text-start">18+ {{ __('years') }}</div>
                                         </div>
                                     </div>
-                                    <input name="adults" id="adults" class="w-20 px-3 py-2 bg-white border border-slate-200 rounded-lg text-center font-bold text-slate-800 outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors shadow-sm" type="number" value="2" min="1" max="40" required/>
+                                    <input name="adults" id="adults" class="w-16 px-2 py-1.5 bg-white border border-slate-200 rounded-lg text-center font-bold text-slate-800 outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors shadow-sm text-sm" type="number" value="2" min="1" max="40" required/>
                                 </div>
-                                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-100 flex items-center justify-between">
-                                    <div class="flex items-center gap-4">
-                                        <div class="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-primary">
+                                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100 flex items-center justify-between">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 bg-white rounded-xl shadow-sm flex items-center justify-center text-primary">
                                             <span class="material-symbols-outlined">child_care</span>
                                         </div>
                                         <div>
-                                            <div class="font-bold text-slate-800 text-start">{{ __('Children') }}</div>
-                                            <div class="text-xs text-slate-400 text-start">0-17 {{ __('years') }}</div>
+                                            <div class="font-bold text-slate-800 text-start text-sm">{{ __('Children') }}</div>
+                                            <div class="text-[10px] text-slate-400 text-start">0-17 {{ __('years') }}</div>
                                         </div>
                                     </div>
-                                    <input name="children" id="children" class="w-20 px-3 py-2 bg-white border border-slate-200 rounded-lg text-center font-bold text-slate-800 outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors shadow-sm" type="number" value="0" min="0" max="20" required/>
+                                    <input name="children" id="children" class="w-16 px-2 py-1.5 bg-white border border-slate-200 rounded-lg text-center font-bold text-slate-800 outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors shadow-sm text-sm" type="number" value="0" min="0" max="20" required/>
                                 </div>
                             </div>
                         </div>
@@ -201,10 +201,10 @@
 
                 <!-- Step 3: Services -->
                 <div class="form-step hidden" id="step-3" data-step="3">
-                    <div class="space-y-8">
+                    <div class="space-y-4">
                         <div>
-                            <label class="block text-sm font-semibold text-slate-700 mb-4 font-text">{{ __('Custom Services') }}</label>
-                            <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
+                            <label class="block text-xs font-semibold text-slate-700 mb-3 font-text">{{ __('Custom Services') }}</label>
+                            <div class="grid grid-cols-2 lg:grid-cols-4 gap-2">
                                 @php
                                     $services = [
                                         ['id' => 'flight', 'icon' => 'flight_takeoff', 'label' => __('Flight Tickets'), 'checked' => true],
@@ -217,14 +217,14 @@
                                 @foreach($services as $service)
                                 <label class="relative block cursor-pointer group h-full">
                                     <input name="services[]" value="{{ $service['id'] }}" {{ $service['checked'] ? 'checked' : '' }} class="hidden peer" type="checkbox"/>
-                                    <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 peer-checked:border-primary peer-checked:bg-primary/5 transition-all duration-300 group-hover:border-primary/30 group-hover:bg-primary/5 text-center h-full flex flex-col items-center justify-center">
-                                        <div class="w-10 h-10 bg-white rounded-lg shadow-sm flex items-center justify-center mx-auto mb-3 text-slate-400 peer-checked:group-[]:text-primary transition-colors">
-                                            <span class="material-symbols-outlined text-2xl">{{ $service['icon'] }}</span>
+                                    <div class="p-2.5 rounded-xl border border-slate-200 bg-slate-50 peer-checked:border-primary peer-checked:bg-primary/5 transition-all duration-300 group-hover:border-primary/30 group-hover:bg-primary/5 text-center h-full flex flex-col items-center justify-center">
+                                        <div class="w-8 h-8 bg-white rounded-lg shadow-sm flex items-center justify-center mx-auto mb-1 text-slate-400 peer-checked:group-[]:text-primary transition-colors">
+                                            <span class="material-symbols-outlined text-xl">{{ $service['icon'] }}</span>
                                         </div>
-                                        <span class="text-sm font-bold text-slate-600 peer-checked:group-[]:text-primary">{{ $service['label'] }}</span>
-                                        <div class="absolute top-2 ltr:right-2 rtl:left-2 opacity-0 peer-checked:opacity-100 transition-opacity">
-                                            <div class="w-6 h-6 bg-primary rounded-full flex items-center justify-center text-white">
-                                                <span class="material-symbols-outlined text-sm">check</span>
+                                        <span class="text-[11px] font-bold text-slate-600 peer-checked:group-[]:text-primary leading-tight">{{ $service['label'] }}</span>
+                                        <div class="absolute top-1 ltr:right-1 rtl:left-1 opacity-0 peer-checked:opacity-100 transition-opacity">
+                                            <div class="w-5 h-5 bg-primary rounded-full flex items-center justify-center text-white">
+                                                <span class="material-symbols-outlined text-[10px]">check</span>
                                             </div>
                                         </div>
                                     </div>
@@ -271,15 +271,15 @@
                 </div>
 
                 <!-- Navigation Buttons -->
-                <div class="mt-8 flex flex-col md:flex-row items-center justify-between gap-4 border-t border-slate-100 pt-6">
-                    <button type="button" id="btn-prev" class="hidden w-full md:w-auto px-6 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition-all duration-300 flex items-center justify-center gap-2">
-                        <span class="material-symbols-outlined rtl:rotate-180">arrow_back</span>
+                <div class="mt-4 flex flex-col md:flex-row items-center justify-between gap-3 border-t border-slate-100 pt-4">
+                    <button type="button" id="btn-prev" class="hidden w-full md:w-auto px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition-all duration-300 flex items-center justify-center gap-2 text-sm">
+                        <span class="material-symbols-outlined rtl:rotate-180 text-base">arrow_back</span>
                         {{ __('Back') }}
                     </button>
                     
-                    <button type="button" id="btn-next" class="w-full md:w-auto md:min-w-[200px] px-8 py-3 bg-gold-gradient hover:brightness-110 text-white font-extra-bold rounded-xl shadow-lg shadow-primary/20 transition-all duration-300 flex items-center justify-center gap-3 ltr:ml-auto rtl:mr-auto">
+                    <button type="button" id="btn-next" class="w-full md:w-auto md:min-w-[180px] px-6 py-2.5 bg-gold-gradient hover:brightness-110 text-white font-extra-bold rounded-xl shadow-lg shadow-primary/20 transition-all duration-300 flex items-center justify-center gap-3 ltr:ml-auto rtl:mr-auto text-sm">
                         <span id="next-text">{{ __('Next Step') }}</span>
-                        <span class="material-symbols-outlined rtl:rotate-180" id="next-icon">arrow_forward</span>
+                        <span class="material-symbols-outlined rtl:rotate-180 text-base" id="next-icon">arrow_forward</span>
                     </button>
                 </div>
 
@@ -605,19 +605,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (stepNum < currentStep) {
                 // Completed
-                dot.className = 'step-dot w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg bg-primary text-white border-4 border-white shadow-md transition-all duration-500';
-                dot.innerHTML = '<span class="material-symbols-outlined">check</span>';
-                label.className = 'step-label absolute top-14 whitespace-nowrap text-sm font-semibold text-primary transition-all duration-300';
+                dot.className = 'step-dot w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm bg-primary text-white border-2 border-white shadow-md transition-all duration-500';
+                dot.innerHTML = '<span class="material-symbols-outlined text-base">check</span>';
+                label.className = 'step-label absolute top-10 whitespace-nowrap text-[10px] font-semibold text-primary transition-all duration-300';
             } else if (stepNum === currentStep) {
                 // Current
-                dot.className = 'step-dot w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg bg-primary text-white border-4 border-white shadow-md transition-all duration-500 ring-4 ring-primary/20 ring-offset-2';
+                dot.className = 'step-dot w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm bg-primary text-white border-2 border-white shadow-md transition-all duration-500 ring-2 ring-primary/20 ring-offset-2';
                 dot.innerHTML = stepNum;
-                label.className = 'step-label absolute top-14 whitespace-nowrap text-sm font-bold text-primary transition-all duration-300';
+                label.className = 'step-label absolute top-10 whitespace-nowrap text-[10px] font-bold text-primary transition-all duration-300';
             } else {
                 // Future
-                dot.className = 'step-dot w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg bg-slate-100 text-slate-400 border-4 border-white transition-all duration-500';
+                dot.className = 'step-dot w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm bg-slate-100 text-slate-400 border-2 border-white transition-all duration-500';
                 dot.innerHTML = stepNum;
-                label.className = 'step-label absolute top-14 whitespace-nowrap text-sm font-semibold text-slate-400 transition-all duration-300';
+                label.className = 'step-label absolute top-10 whitespace-nowrap text-[10px] font-semibold text-slate-400 transition-all duration-300';
             }
         });
 
