@@ -376,53 +376,47 @@
                 <span class="material-symbols-outlined">chevron_right</span>
             </button>
 
-            <div class="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar gap-6 pb-6 -mx-4 px-4 sm:mx-0 sm:px-0">
+            <div class="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar gap-4 pb-6 -mx-4 px-4 sm:mx-0 sm:px-0">
                 @foreach($touristTrips as $trip)
-                <div class="snap-start shrink-0 w-[85vw] lg:w-[calc(50%-12px)] h-full pb-4">
-                    <div class="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden flex flex-col md:flex-row h-full group hover:shadow-xl transition-all duration-300">
-                <div class="w-full md:w-2/5 h-64 md:h-auto relative overflow-hidden shrink-0">
+                <div class="snap-start shrink-0 w-[85vw] sm:w-[calc(50%-12px)] lg:w-[calc(20%-13px)] h-full pb-4">
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden flex flex-col h-full group hover:shadow-md transition-all duration-300 cursor-pointer"
+                         onclick="openTripModal({
+                            title: '{{ addslashes($trip->title) }}',
+                            image: '{{ $trip->image_url }}',
+                            includes: `{!! addslashes($trip->includes) !!}`,
+                            what_to_bring: `{!! addslashes($trip->what_to_bring) !!}`
+                         })">
+                <div class="w-full h-48 relative overflow-hidden shrink-0">
                     @if($trip->image_url)
                         <img src="{{ $trip->image_url }}" alt="{{ $trip->title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out">
                     @else
                         <div class="w-full h-full bg-slate-100 flex items-center justify-center">
-                            <span class="material-symbols-outlined text-5xl text-slate-300">tour</span>
+                            <span class="material-symbols-outlined text-4xl text-slate-300">tour</span>
                         </div>
                     @endif
-                    <div class="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-l from-slate-900/60 to-transparent"></div>
-                    <div class="absolute bottom-4 left-4 right-4 md:bottom-auto md:top-4 md:right-4 md:left-auto flex items-center gap-2">
-                        <span class="px-3 py-1 bg-white/90 backdrop-blur-sm text-primary text-xs font-bold rounded-lg shadow-sm">{{ __('Trip') }}</span>
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent"></div>
+                    <div class="absolute top-3 ltr:left-3 rtl:right-3">
+                        <span class="px-2 py-0.5 bg-white/95 text-primary text-[10px] font-bold rounded shadow-sm border border-primary/10">{{ __('Trip') }}</span>
                     </div>
                 </div>
                 
-                <div class="p-6 md:p-8 flex flex-col grow">
-                    <h4 class="text-2xl font-bold font-heading text-slate-800 mb-6 group-hover:text-primary transition-colors">{{ $trip->title }}</h4>
+                <div class="p-4 flex flex-col grow">
+                    <h4 class="text-base font-bold font-heading text-slate-800 mb-2 group-hover:text-primary transition-colors line-clamp-1" title="{{ $trip->title }}">{{ $trip->title }}</h4>
                     
-                    <div class="space-y-6 flex-grow font-text">
-                        <!-- What is included -->
+                    <div class="space-y-3 flex-grow font-text">
+                        <!-- What is included (Compact) -->
                         @if($trip->includes)
-                        <div>
-                            <h5 class="flex items-center gap-2 font-bold text-slate-700 mb-2">
-                                <span class="material-symbols-outlined text-primary text-lg flex-shrink-0">check_circle</span>
-                                {{ __('What is included') }}
-                            </h5>
-                            <div class="text-sm text-slate-500 leading-relaxed ps-7 line-clamp-3 prose prose-slate prose-sm text-slate-500">{!! $trip->includes !!}</div>
-                        </div>
-                        @endif
-
-                        <!-- What to bring / do -->
-                        @if($trip->what_to_bring)
-                        <div>
-                            <h5 class="flex items-center gap-2 font-bold text-slate-700 mb-2">
-                                <span class="material-symbols-outlined text-primary text-lg flex-shrink-0">backpack</span>
-                                {{ __('What to bring / Remarks') }}
-                            </h5>
-                            <div class="text-sm text-slate-500 leading-relaxed ps-7 line-clamp-3 prose prose-slate prose-sm text-slate-500">{!! $trip->what_to_bring !!}</div>
+                        <div class="text-[11px] text-slate-500 leading-tight line-clamp-2 prose prose-slate prose-sm text-slate-500 pointer-events-none">
+                            {!! $trip->includes !!}
                         </div>
                         @endif
                     </div>
                     
-                    <div class="mt-8 pt-6 border-t border-slate-100 flex justify-end">
-                        <a href="{{ route('whatsapp.redirect', ['locale' => app()->getLocale()]) }}?text={{ urlencode(__('Inquiry about ') . $trip->title) }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-2.5 bg-slate-900 hover:bg-primary text-white text-sm font-bold rounded-xl transition-all duration-300">
+                    <div class="mt-4 pt-3 border-t border-slate-100 flex justify-center">
+                        <a href="{{ route('whatsapp.redirect', ['locale' => app()->getLocale()]) }}?text={{ urlencode(__('Inquiry about ') . $trip->title) }}" 
+                           target="_blank" rel="noopener noreferrer" 
+                           class="w-full inline-flex items-center justify-center gap-2 px-4 py-2 bg-slate-900 hover:bg-primary text-white text-[11px] font-bold rounded-lg transition-all duration-300"
+                           onclick="event.stopPropagation()">
                             {{ __('Book Now') }}
                             <span class="material-symbols-outlined text-sm rtl:rotate-180">arrow_forward</span>
                         </a>
@@ -431,6 +425,7 @@
             </div>
             </div>
             @endforeach
+            </div>
             </div>
         </div>
     </section>
@@ -530,6 +525,51 @@
         </div>
     </section>
     @endif
+
+    <!-- Trip Details Modal -->
+    <div id="trip-modal" class="fixed inset-0 z-[100] hidden">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeTripModal()"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl max-h-[90vh] overflow-y-auto px-4">
+            <div class="bg-white rounded-3xl shadow-2xl overflow-hidden relative">
+                <button onclick="closeTripModal()" class="absolute top-4 right-4 z-10 w-10 h-10 bg-white/90 backdrop-blur shadow-md rounded-full flex items-center justify-center text-slate-500 hover:text-primary transition-colors">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+                
+                <div class="h-64 sm:h-80 w-full relative">
+                    <img id="modal-trip-image" src="" alt="" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent"></div>
+                    <div class="absolute bottom-6 left-6 right-6">
+                        <h3 id="modal-trip-title" class="text-2xl sm:text-3xl font-bold text-white font-heading"></h3>
+                    </div>
+                </div>
+                
+                <div class="p-6 sm:p-8 space-y-8">
+                    <div id="modal-trip-includes-container">
+                        <h4 class="flex items-center gap-2 font-bold text-slate-800 mb-4 font-heading">
+                            <span class="material-symbols-outlined text-primary">check_circle</span>
+                            {{ __('What is included') }}
+                        </h4>
+                        <div id="modal-trip-includes" class="prose prose-slate max-w-none text-slate-600 font-text"></div>
+                    </div>
+                    
+                    <div id="modal-trip-bring-container">
+                        <h4 class="flex items-center gap-2 font-bold text-slate-800 mb-4 font-heading">
+                            <span class="material-symbols-outlined text-primary">backpack</span>
+                            {{ __('What to bring / Remarks') }}
+                        </h4>
+                        <div id="modal-trip-bring" class="prose prose-slate max-w-none text-slate-600 font-text"></div>
+                    </div>
+                    
+                    <div class="pt-6 border-t border-slate-100 flex justify-end">
+                        <a id="modal-whatsapp-link" href="#" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-8 py-3 bg-slate-900 hover:bg-primary text-white font-bold rounded-xl transition-all duration-300">
+                            {{ __('Book Now') }}
+                            <span class="material-symbols-outlined rtl:rotate-180">arrow_forward</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </main>
 
 @push('styles')
@@ -785,6 +825,46 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     updateDropdownOptions();
+
+    // Modal Logic
+    const tripModal = document.getElementById('trip-modal');
+    const modalImage = document.getElementById('modal-trip-image');
+    const modalTitle = document.getElementById('modal-trip-title');
+    const modalIncludes = document.getElementById('modal-trip-includes');
+    const modalBring = document.getElementById('modal-trip-bring');
+    const modalIncludesContainer = document.getElementById('modal-trip-includes-container');
+    const modalBringContainer = document.getElementById('modal-trip-bring-container');
+    const modalWhatsappLink = document.getElementById('modal-whatsapp-link');
+
+    window.openTripModal = function(data) {
+        modalImage.src = data.image || '';
+        modalTitle.textContent = data.title;
+        
+        if (data.includes && data.includes !== 'null' && data.includes.trim() !== '') {
+            modalIncludes.innerHTML = data.includes;
+            modalIncludesContainer.classList.remove('hidden');
+        } else {
+            modalIncludesContainer.classList.add('hidden');
+        }
+        
+        if (data.what_to_bring && data.what_to_bring !== 'null' && data.what_to_bring.trim() !== '') {
+            modalBring.innerHTML = data.what_to_bring;
+            modalBringContainer.classList.remove('hidden');
+        } else {
+            modalBringContainer.classList.add('hidden');
+        }
+        
+        const whatsappText = encodeURIComponent('{{ __("Inquiry about ") }}' + data.title);
+        modalWhatsappLink.href = `{{ route('whatsapp.redirect', ['locale' => app()->getLocale()]) }}?text=${whatsappText}`;
+        
+        tripModal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+
+    window.closeTripModal = function() {
+        tripModal.classList.add('hidden');
+        document.body.style.overflow = '';
+    }
 
     // Date limits
     if (arrivalDateInput && departureDateInput) {
