@@ -483,7 +483,7 @@
 
     @if($homePage->about_us)
     <!-- About Us Section -->
-    <section id="about-us" class="max-w-7xl mx-auto px-4 py-16 relative z-20 bg-slate-50/50 rounded-3xl mt-16 mb-16 border border-slate-100 shadow-sm">
+    <!-- <section id="about-us" class="max-w-7xl mx-auto px-4 py-16 relative z-20 bg-slate-50/50 rounded-3xl mt-16 border border-slate-100 shadow-sm">
         <div class="text-center mb-12">
             <h3 class="text-3xl font-bold text-slate-800 mb-4 font-heading">{{ __('About Us') }}</h3>
             <div class="w-16 h-1 bg-primary mx-auto rounded-full"></div>
@@ -491,8 +491,61 @@
         <div class="max-w-4xl mx-auto prose prose-slate lg:prose-lg font-text text-slate-600 text-center">
             {!! $homePage->about_us !!}
         </div>
-    </section>
+    </section> -->
     @endif
+
+    <!-- Statistics counter section -->
+    <section class="max-w-7xl mx-auto px-4 py-12 relative z-20">
+        <div class="bg-slate-900 rounded-[3rem] p-10 shadow-2xl border border-white/5 relative overflow-hidden">
+            <div class="absolute inset-0 opacity-10" style="background-image: url('/image/pattern1.png');"></div>
+            <div class="relative z-10 grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
+                <!-- Clients -->
+                <div class="flex flex-col items-center text-center group">
+                    <div class="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center mb-4 border border-white/10 group-hover:border-primary/50 transition-all duration-500">
+                        <span class="material-symbols-outlined text-primary text-3xl">groups</span>
+                    </div>
+                    <div class="flex items-baseline gap-1">
+                        <span class="text-4xl md:text-5xl font-bold text-white font-heading counter-up" data-target="{{ $homePage->stats_clients_count ?? 0 }}">0</span>
+                        <span class="text-primary font-bold text-xl">+</span>
+                    </div>
+                    <span class="text-slate-400 text-sm font-semibold mt-2 tracking-wide uppercase">{{ __('Happy Clients') }}</span>
+                </div>
+
+                <!-- Programs -->
+                <div class="flex flex-col items-center text-center group">
+                    <div class="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center mb-4 border border-white/10 group-hover:border-primary/50 transition-all duration-500">
+                        <span class="material-symbols-outlined text-primary text-3xl">map</span>
+                    </div>
+                    <div class="flex items-baseline gap-1">
+                        <span class="text-4xl md:text-5xl font-bold text-white font-heading counter-up" data-target="{{ $homePage->stats_programs_count ?? 0 }}">0</span>
+                    </div>
+                    <span class="text-slate-400 text-sm font-semibold mt-2 tracking-wide uppercase">{{ __('Travel Programs') }}</span>
+                </div>
+
+                <!-- Services -->
+                <div class="flex flex-col items-center text-center group">
+                    <div class="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center mb-4 border border-white/10 group-hover:border-primary/50 transition-all duration-500">
+                        <span class="material-symbols-outlined text-primary text-3xl">hotel_class</span>
+                    </div>
+                    <div class="flex items-baseline gap-1">
+                        <span class="text-4xl md:text-5xl font-bold text-white font-heading counter-up" data-target="{{ $homePage->stats_services_count ?? 0 }}">0</span>
+                    </div>
+                    <span class="text-slate-400 text-sm font-semibold mt-2 tracking-wide uppercase">{{ __('Luxury Services') }}</span>
+                </div>
+
+                <!-- Years -->
+                <div class="flex flex-col items-center text-center group">
+                    <div class="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center mb-4 border border-white/10 group-hover:border-primary/50 transition-all duration-500">
+                        <span class="material-symbols-outlined text-primary text-3xl">verified</span>
+                    </div>
+                    <div class="flex items-baseline gap-1">
+                        <span class="text-4xl md:text-5xl font-bold text-white font-heading counter-up" data-target="{{ $homePage->stats_years_count ?? 0 }}">0</span>
+                    </div>
+                    <span class="text-slate-400 text-sm font-semibold mt-2 tracking-wide uppercase">{{ __('Years of Excellence') }}</span>
+                </div>
+            </div>
+        </div>
+    </section>
     @include('components.testimonials-section')
 
     @if(isset($paymentMethods) && $paymentMethods->isNotEmpty())
@@ -1008,6 +1061,36 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
+    // Statistics Counter Animation
+    const counterObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const counters = entry.target.querySelectorAll('.counter-up');
+                counters.forEach(counter => {
+                    const target = parseInt(counter.dataset.target);
+                    const duration = 2000; // 2 seconds
+                    const step = target / (duration / 16); // 60fps
+                    let current = 0;
+                    
+                    const updateCounter = () => {
+                        current += step;
+                        if (current < target) {
+                            counter.textContent = Math.floor(current);
+                            requestAnimationFrame(updateCounter);
+                        } else {
+                            counter.textContent = target;
+                        }
+                    };
+                    updateCounter();
+                });
+                counterObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+
+    const statsSection = document.querySelector('.counter-up')?.closest('section');
+    if (statsSection) counterObserver.observe(statsSection);
+
     // Initialize
     updateProgress();
 });

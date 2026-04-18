@@ -86,6 +86,32 @@ class HomePageForm
                             ->columnSpanFull(),
                     ]),
 
+                Section::make('إحصائيات الشركة')
+                    ->description('تظهر هذه الأرقام في قسم الإحصائيات بعد قسم من نحن')
+                    ->schema([
+                        TextInput::make('stats_clients_count')
+                            ->label('عدد العملاء السعداء')
+                            ->numeric()
+                            ->default(0)
+                            ->required(),
+                        TextInput::make('stats_programs_count')
+                            ->label('عدد البرامج/الرحلات')
+                            ->numeric()
+                            ->default(0)
+                            ->required(),
+                        TextInput::make('stats_services_count')
+                            ->label('عدد الخدمات')
+                            ->numeric()
+                            ->default(0)
+                            ->required(),
+                        TextInput::make('stats_years_count')
+                            ->label('عدد سنوات الخبرة')
+                            ->numeric()
+                            ->default(0)
+                            ->required(),
+                    ])
+                    ->columns(2),
+
                 Section::make('معلومات Footer')
                     ->schema([
                         TextInput::make('footer_brand_name')
@@ -121,12 +147,6 @@ class HomePageForm
                             ->label('نص حقوق النشر')
                             ->rows(2)
                             ->nullable()
-                            ->columnSpanFull(),
-
-                        TextInput::make('footer_clients_count')
-                            ->label('عدد العملاء السعداء')
-                            ->numeric()
-                            ->default(0)
                             ->columnSpanFull(),
                     ])
                     ->columns(2),

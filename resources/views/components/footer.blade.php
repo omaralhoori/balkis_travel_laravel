@@ -92,12 +92,7 @@
                 </div>
             </div>
 
-            <!-- Stats Center Column -->
-            <div class="flex flex-col items-center justify-center gap-2 self-center bg-white/5 p-8 rounded-3xl border border-white/10">
-                <span class="material-symbols-outlined text-primary text-4xl mb-2">groups</span>
-                <span class="text-4xl font-bold font-heading text-white counter-up">{{ number_format($clientsCount) }}</span>
-                <span class="text-sm font-semibold text-primary uppercase tracking-wider">{{ __('Happy Clients') }}</span>
-            </div>
+
 
             <!-- Links Columns -->
             <div class="flex flex-wrap gap-12 lg:gap-24">

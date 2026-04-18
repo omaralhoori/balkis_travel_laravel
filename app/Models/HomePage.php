@@ -30,6 +30,10 @@ class HomePage extends Model
         'main_background_image',
         'destinations',
         'about_us',
+        'stats_clients_count',
+        'stats_services_count',
+        'stats_years_count',
+        'stats_programs_count',
         'tourist_guide_offset',
         'tourist_guide_last_rotated_at',
         // Footer Fields
@@ -63,6 +67,10 @@ class HomePage extends Model
         'tourist_guide_offset' => 'integer',
         'tourist_guide_last_rotated_at' => 'datetime',
         'footer_clients_count' => 'integer',
+        'stats_clients_count' => 'integer',
+        'stats_services_count' => 'integer',
+        'stats_years_count' => 'integer',
+        'stats_programs_count' => 'integer',
     ];
 
     public function getMainBackgroundImageUrlAttribute(): ?string
