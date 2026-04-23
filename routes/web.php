@@ -213,6 +213,12 @@ Route::prefix('{locale}')
 
             return view('about', ['aboutPage' => $aboutPage]);
         })->name('about');
+        
+        Route::get('/accounts', function () {
+            // $accountsPage = \App\Models\AccountsPage::getCurrent();
+
+            return view('accounts', ); // ['aboutPage' => $aboutPage]
+        })->name('accounts');
 
         Route::get('/payment-methods', function () {
             $paymentMethods = \App\Models\PaymentMethod::where('is_active', true)
