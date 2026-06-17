@@ -153,7 +153,7 @@
 <body class="flex flex-col items-center justify-between py-12 px-4 relative select-none">
     <!-- Ambient backgrounds -->
     <div class="absolute inset-0 opacity-[0.03] bg-repeat pointer-events-none" style="background-image: url('{{ asset('image/pattern1.png') }}'); background-size: 300px;"></div>
-    <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[140px] pointer-events-none"></div>
+    <!-- <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[140px] pointer-events-none"></div> -->
 
     <!-- Header bar -->
     <div class="w-full max-w-md flex items-center justify-between mb-8 z-10 px-2">
