@@ -29,7 +29,7 @@
 
 <main class="container mx-auto px-6 py-12">
     <div class="flex flex-col lg:flex-row gap-12">
-        <div class="grow lg:w-1/3 order-1 lg:order-1">
+        <div class="grow lg:w-full order-1 lg:order-1">
             @if($program->overview)
                 <section class="mb-12">
                     <h3 class="text-2xl font-bold mb-6 text-primary border-r-4 border-primary pr-4 font-heading">{{ __('Program Overview') }}</h3>
@@ -102,7 +102,7 @@
        
         </div>
 
-        <aside class="lg:w-2/3 order-2 lg:order-2">
+        <aside class="lg:w-full order-2 lg:order-2">
             <div class="sticky top-28 space-y-6">
                 <div class="rounded-2xl border border-primary/30 p-8 shadow-2xl relative overflow-hidden bg-white">
                     <div class="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -mr-16 -mt-16 blur-3xl"></div>
