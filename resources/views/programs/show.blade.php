@@ -29,7 +29,7 @@
 
 <main class="container mx-auto px-6 py-12">
     <div class="flex flex-col lg:flex-row gap-12">
-        <div class="grow lg:w-2/3 order-1 lg:order-1">
+        <div class="grow lg:w-1/3 order-1 lg:order-1">
             @if($program->overview)
                 <section class="mb-12">
                     <h3 class="text-2xl font-bold mb-6 text-primary border-r-4 border-primary pr-4 font-heading">{{ __('Program Overview') }}</h3>
@@ -98,7 +98,61 @@
                 </section>
             @endif
 
-            @if(count($features) > 0)
+           
+       
+        </div>
+
+        <aside class="lg:w-2/3 order-2 lg:order-2">
+            <div class="sticky top-28 space-y-6">
+                <div class="rounded-2xl border border-primary/30 p-8 shadow-2xl relative overflow-hidden bg-white">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -mr-16 -mt-16 blur-3xl"></div>
+                    @if($program->price)
+                        <div class="mb-8">
+                            <span class="text-gray-400 text-sm block mb-1 font-text">{{ __('Starting from') }}</span>
+                            <div class="flex items-baseline gap-2">
+                                <span class="text-4xl font-black text-primary font-heading">{{ $program->price }}</span>
+                            </div>
+                        </div>
+                    @endif
+                    <!-- <h4 class="text-xl font-bold mb-6 font-heading">{{ __('Request More Information') }}</h4>
+                    <form id="program-inquiry-form" class="space-y-4" action="{{ route('inquiry.submit', ['locale' => app()->getLocale()]) }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="program_id" value="{{ $program->id }}">
+                        <input type="hidden" name="program_title" value="{{ $program->title }}">
+                        <div>
+                            <label class="block text-xs text-gray-400 mb-1 mr-1 font-text">{{ __('Full Name') }}</label>
+                            <input name="name" class="w-full bg-gray-50 border-gray-200 rounded-lg py-3 px-4 text-sm focus:ring-primary focus:border-primary font-text" placeholder="{{ __('Enter your name') }}" type="text" required/>
+                        </div>
+                        <div>
+                            <label class="block text-xs text-gray-400 mb-1 mr-1 font-text">{{ __('Phone Number') }}</label>
+                            <input name="phone" class="w-full bg-gray-50 border-gray-200 rounded-lg py-3 px-4 text-sm focus:ring-primary focus:border-primary font-text" dir="ltr" placeholder="+966 50 000 0000" type="tel" required/>
+                        </div>
+                        <div>
+                            <label class="block text-xs text-gray-400 mb-1 mr-1 font-text">{{ __('Email') }}</label>
+                            <input name="email" class="w-full bg-gray-50 border-gray-200 rounded-lg py-3 px-4 text-sm focus:ring-primary focus:border-primary font-text" placeholder="mail@example.com" type="email" required/>
+                        </div>
+                        <button type="submit" id="submit-program-inquiry-btn" class="w-full bg-gold-gradient text-white font-bold py-4 rounded-xl hover:brightness-110 transition-all shadow-lg shadow-primary/10 mt-4 font-heading">
+                            <span id="submit-btn-text">{{ __('Send Request') }}</span>
+                        </button>
+                        <p id="form-message" class="mt-4 text-center text-sm font-text text-slate-400 hidden"></p>
+                    </form> -->
+                    <div class="mt-8 pt-8 border-t border-primary/20">
+                        <p class="text-center text-xs text-gray-500 mb-4 font-text">{{ __('Contact us directly via') }}</p>
+                        <a class="flex items-center justify-center gap-3 w-full py-3 rounded-xl border border-primary/40 text-primary hover:bg-primary/5 transition-all font-bold font-text" href="{{ route('whatsapp.redirect', ['locale' => app()->getLocale()]) }}?text={{ urlencode(__('Inquiry about ') . $program->title) }}" target="_blank">
+                            <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
+                                <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.284l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.18-2.587-5.768-5.764-5.768zm3.393 8.125c-.15.424-.766.776-1.061.821-.285.043-.657.069-1.061-.06-.246-.079-.558-.189-.927-.352-1.571-.692-2.588-2.288-2.666-2.392-.078-.103-.639-.851-.639-1.624 0-.773.401-1.154.544-1.307.143-.153.312-.191.416-.191.104 0 .208.001.3.006.101.005.232-.039.363.273.134.319.458 1.116.498 1.197.04.081.066.176.013.282-.053.107-.078.176-.156.264-.078.088-.164.196-.234.264-.081.079-.165.166-.071.327.094.161.418.691.897 1.117.618.55 1.139.721 1.3.8.161.079.255.066.349-.043.094-.109.403-.468.511-.628.109-.16.216-.134.364-.079.148.055.939.442 1.1.523.161.081.268.121.307.189.039.068.039.394-.111.817zM12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2z"></path>
+                            </svg>
+                            {{ __('WhatsApp') }}
+                        </a>
+                    </div>
+                </div>
+                <!-- <div class="bg-primary/5 rounded-2xl p-6 border border-primary/10">
+                    <div class="flex items-center gap-4 text-sm text-gray-400 font-text">
+                        <span class="material-symbols-outlined text-primary">support_agent</span>
+                        <span>{{ __('Free consultation with our real estate expert') }}</span>
+                    </div>
+                </div> -->
+                @if(count($features) > 0)
                 <section class="mb-12">
                     <h3 class="text-2xl font-bold mb-6 text-primary border-r-4 border-primary pr-4 font-heading">{{ __('Exclusive Features') }}</h3>
                     <div class="grid md:grid-cols-2 gap-4">
@@ -231,58 +285,6 @@
                     </div>
                 </section>
             @endif
-        </div>
-
-        <aside class="lg:w-1/3 order-2 lg:order-2">
-            <div class="sticky top-28 space-y-6">
-                <div class="rounded-2xl border border-primary/30 p-8 shadow-2xl relative overflow-hidden bg-white">
-                    <div class="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -mr-16 -mt-16 blur-3xl"></div>
-                    @if($program->price)
-                        <div class="mb-8">
-                            <span class="text-gray-400 text-sm block mb-1 font-text">{{ __('Starting from') }}</span>
-                            <div class="flex items-baseline gap-2">
-                                <span class="text-4xl font-black text-primary font-heading">{{ $program->price }}</span>
-                            </div>
-                        </div>
-                    @endif
-                    <!-- <h4 class="text-xl font-bold mb-6 font-heading">{{ __('Request More Information') }}</h4>
-                    <form id="program-inquiry-form" class="space-y-4" action="{{ route('inquiry.submit', ['locale' => app()->getLocale()]) }}" method="POST">
-                        @csrf
-                        <input type="hidden" name="program_id" value="{{ $program->id }}">
-                        <input type="hidden" name="program_title" value="{{ $program->title }}">
-                        <div>
-                            <label class="block text-xs text-gray-400 mb-1 mr-1 font-text">{{ __('Full Name') }}</label>
-                            <input name="name" class="w-full bg-gray-50 border-gray-200 rounded-lg py-3 px-4 text-sm focus:ring-primary focus:border-primary font-text" placeholder="{{ __('Enter your name') }}" type="text" required/>
-                        </div>
-                        <div>
-                            <label class="block text-xs text-gray-400 mb-1 mr-1 font-text">{{ __('Phone Number') }}</label>
-                            <input name="phone" class="w-full bg-gray-50 border-gray-200 rounded-lg py-3 px-4 text-sm focus:ring-primary focus:border-primary font-text" dir="ltr" placeholder="+966 50 000 0000" type="tel" required/>
-                        </div>
-                        <div>
-                            <label class="block text-xs text-gray-400 mb-1 mr-1 font-text">{{ __('Email') }}</label>
-                            <input name="email" class="w-full bg-gray-50 border-gray-200 rounded-lg py-3 px-4 text-sm focus:ring-primary focus:border-primary font-text" placeholder="mail@example.com" type="email" required/>
-                        </div>
-                        <button type="submit" id="submit-program-inquiry-btn" class="w-full bg-gold-gradient text-white font-bold py-4 rounded-xl hover:brightness-110 transition-all shadow-lg shadow-primary/10 mt-4 font-heading">
-                            <span id="submit-btn-text">{{ __('Send Request') }}</span>
-                        </button>
-                        <p id="form-message" class="mt-4 text-center text-sm font-text text-slate-400 hidden"></p>
-                    </form> -->
-                    <div class="mt-8 pt-8 border-t border-primary/20">
-                        <p class="text-center text-xs text-gray-500 mb-4 font-text">{{ __('Contact us directly via') }}</p>
-                        <a class="flex items-center justify-center gap-3 w-full py-3 rounded-xl border border-primary/40 text-primary hover:bg-primary/5 transition-all font-bold font-text" href="{{ route('whatsapp.redirect', ['locale' => app()->getLocale()]) }}?text={{ urlencode(__('Inquiry about ') . $program->title) }}" target="_blank">
-                            <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
-                                <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.284l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.18-2.587-5.768-5.764-5.768zm3.393 8.125c-.15.424-.766.776-1.061.821-.285.043-.657.069-1.061-.06-.246-.079-.558-.189-.927-.352-1.571-.692-2.588-2.288-2.666-2.392-.078-.103-.639-.851-.639-1.624 0-.773.401-1.154.544-1.307.143-.153.312-.191.416-.191.104 0 .208.001.3.006.101.005.232-.039.363.273.134.319.458 1.116.498 1.197.04.081.066.176.013.282-.053.107-.078.176-.156.264-.078.088-.164.196-.234.264-.081.079-.165.166-.071.327.094.161.418.691.897 1.117.618.55 1.139.721 1.3.8.161.079.255.066.349-.043.094-.109.403-.468.511-.628.109-.16.216-.134.364-.079.148.055.939.442 1.1.523.161.081.268.121.307.189.039.068.039.394-.111.817zM12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2z"></path>
-                            </svg>
-                            {{ __('WhatsApp') }}
-                        </a>
-                    </div>
-                </div>
-                <!-- <div class="bg-primary/5 rounded-2xl p-6 border border-primary/10">
-                    <div class="flex items-center gap-4 text-sm text-gray-400 font-text">
-                        <span class="material-symbols-outlined text-primary">support_agent</span>
-                        <span>{{ __('Free consultation with our real estate expert') }}</span>
-                    </div>
-                </div> -->
             </div>
         </aside>
     </div>
