@@ -71,7 +71,11 @@
                         @endif
                     </div>
                     
-                    <div class="mt-8 pt-6 border-t border-slate-100 flex justify-end">
+                    <div class="mt-8 pt-6 border-t border-slate-100 flex flex-wrap items-center justify-end gap-3">
+                        <a href="{{ route('tourist_trips.show', ['locale' => app()->getLocale(), 'id' => $trip->id]) }}" class="inline-flex items-center gap-2 px-6 py-2.5 border border-slate-300 hover:border-primary hover:text-primary text-slate-700 text-sm font-bold rounded-xl transition-all duration-300">
+                            {{ __('More Details') }}
+                            <span class="material-symbols-outlined text-sm">info</span>
+                        </a>
                         <a href="{{ route('whatsapp.redirect', ['locale' => app()->getLocale()]) }}?text={{ urlencode(__('Inquiry about ').$trip->title) }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-2.5 bg-slate-900 hover:bg-primary text-white text-sm font-bold rounded-xl transition-all duration-300">
                             {{ __('Book Now') }}
                             <span class="material-symbols-outlined text-sm rtl:rotate-180">arrow_forward</span>

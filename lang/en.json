@@ -105,5 +105,13 @@
     "Group": "Group",
     "Hotel": "Hotel",
     "Apartment Hotel": "Apartment Hotel",
-    "Cottage": "Cottage"
+    "Cottage": "Cottage",
+    "More Details": "More Details",
+    "Other Trips": "Other Trips",
+    "Trip Overview": "Trip Overview",
+    "Trip Highlights": "Trip Highlights",
+    "Trip Itinerary": "Trip Itinerary",
+    "Trip Details": "Trip Details",
+    "Destination": "Destination",
+    "Meeting Point": "Meeting Point"
 }

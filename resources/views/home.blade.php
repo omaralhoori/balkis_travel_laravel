@@ -412,7 +412,13 @@
                         @endif
                     </div>
                     
-                    <div class="mt-4 pt-3 border-t border-slate-100 flex justify-center">
+                    <div class="mt-4 pt-3 border-t border-slate-100 flex flex-col gap-2">
+                        <a href="{{ route('tourist_trips.show', ['locale' => app()->getLocale(), 'id' => $trip->id]) }}"
+                           class="w-full inline-flex items-center justify-center gap-2 px-4 py-2 border border-slate-200 hover:border-primary hover:text-primary text-slate-700 text-[11px] font-bold rounded-lg transition-all duration-300"
+                           onclick="event.stopPropagation()">
+                            {{ __('More Details') }}
+                            <span class="material-symbols-outlined text-sm">info</span>
+                        </a>
                         <a href="{{ route('whatsapp.redirect', ['locale' => app()->getLocale()]) }}?text={{ urlencode(__('Inquiry about ') . $trip->title) }}" 
                            target="_blank" rel="noopener noreferrer" 
                            class="w-full inline-flex items-center justify-center gap-2 px-4 py-2 bg-slate-900 hover:bg-primary text-white text-[11px] font-bold rounded-lg transition-all duration-300"

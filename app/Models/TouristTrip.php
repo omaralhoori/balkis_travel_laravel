@@ -16,15 +16,27 @@ class TouristTrip extends Model
     /** @var array<string> */
     public array $translatable = [
         'title',
+        'description',
+        'location',
+        'duration',
+        'meeting_point',
         'includes',
         'what_to_bring',
     ];
 
     protected $fillable = [
         'title',
+        'description',
+        'location',
+        'duration',
+        'meeting_point',
+        'price',
         'image',
+        'gallery_images',
         'includes',
         'what_to_bring',
+        'highlights',
+        'itinerary',
         'order',
         'is_active',
     ];
@@ -34,6 +46,9 @@ class TouristTrip extends Model
         return [
             'is_active' => 'boolean',
             'order' => 'integer',
+            'gallery_images' => 'array',
+            'highlights' => 'array',
+            'itinerary' => 'array',
         ];
     }
 
@@ -44,5 +59,19 @@ class TouristTrip extends Model
         }
 
         return asset('storage/'.$this->image);
+    }
+
+    /**
+     * Get gallery images URLs.
+     *
+     * @return array<string>
+     */
+    public function getGalleryImagesUrlsAttribute(): array
+    {
+        if (! $this->gallery_images || ! is_array($this->gallery_images)) {
+            return [];
+        }
+
+        return array_map(fn (string $image): string => asset('storage/'.$image), $this->gallery_images);
     }
 }

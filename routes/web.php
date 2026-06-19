@@ -14,7 +14,8 @@ Route::get('/sitemap.xml', function () {
 
 // Robots.txt Route
 Route::get('/robots.txt', function () {
-    $content = "User-agent: *\nDisallow:\n\nSitemap: " . url('/sitemap.xml') . "\n";
+    $content = "User-agent: *\nDisallow:\n\nSitemap: ".url('/sitemap.xml')."\n";
+
     return response($content)->header('Content-Type', 'text/plain');
 });
 
@@ -27,37 +28,37 @@ Route::prefix('{locale}')
                 ->orderBy('views', 'desc')
                 ->limit(6)
                 ->get();
-                
+
             $touristTrips = \App\Models\TouristTrip::where('is_active', true)
                 ->orderBy('order')
                 ->get();
-                
+
             // Tourist Guide Rotation Logic
             $homePage = \App\Models\HomePage::getCurrent();
-            
-            if (!$homePage->tourist_guide_last_rotated_at || now()->diffInDays($homePage->tourist_guide_last_rotated_at) >= 3) {
+
+            if (! $homePage->tourist_guide_last_rotated_at || now()->diffInDays($homePage->tourist_guide_last_rotated_at) >= 3) {
                 $homePage->tourist_guide_offset += 5;
                 $homePage->tourist_guide_last_rotated_at = now();
                 $homePage->save();
             }
-            
+
             $offset = $homePage->tourist_guide_offset;
             $allActivePosts = \App\Models\BlogPost::where('is_active', true)->orderBy('published_at', 'desc')->get();
-            
+
             $totalPosts = $allActivePosts->count();
             $touristGuidePosts = collect();
-            
+
             if ($totalPosts > 0) {
                 $startIndex = $offset % $totalPosts;
                 $needed = min(5, $totalPosts);
-                
+
                 for ($i = 0; $i < $needed; $i++) {
                     $index = ($startIndex + $i) % $totalPosts;
                     $touristGuidePosts->push($allActivePosts[$index]);
                 }
             }
             $paymentMethods = \App\Models\PaymentMethod::where('is_active', true)->orderBy('order')->get();
-                
+
             return view('home', compact('topPrograms', 'touristTrips', 'touristGuidePosts', 'paymentMethods'));
         })->name('home');
 
@@ -183,22 +184,39 @@ Route::prefix('{locale}')
             $touristTrips = \App\Models\TouristTrip::where('is_active', true)
                 ->orderBy('order')
                 ->get();
+
             return view('tourist_trips', compact('touristTrips'));
         })->name('tourist_trips.index');
+
+        Route::get('/tourist-trips/{id}', function (string $locale, int $id) {
+            $trip = \App\Models\TouristTrip::where('id', $id)
+                ->where('is_active', true)
+                ->firstOrFail();
+
+            $trip->setLocale($locale);
+
+            $relatedTrips = \App\Models\TouristTrip::where('is_active', true)
+                ->where('id', '!=', $trip->id)
+                ->orderBy('order')
+                ->limit(3)
+                ->get();
+
+            return view('tourist_trips.show', compact('trip', 'relatedTrips'));
+        })->name('tourist_trips.show');
 
         Route::get('/accommodations', function () {
             $allAccommodations = \App\Models\Accommodation::where('is_active', true)
                 ->orderBy('order')
                 ->get();
-                
+
             $cities = $allAccommodations->pluck('city')->unique()->values();
-            
+
             $selectedCity = request('city');
             $filteredAccommodations = null;
-            
+
             if ($selectedCity) {
                 // filter accommodations by city text in current locale
-                $filteredAccommodations = $allAccommodations->filter(function($acc) use ($selectedCity) {
+                $filteredAccommodations = $allAccommodations->filter(function ($acc) use ($selectedCity) {
                     return $acc->city === $selectedCity;
                 });
             }
@@ -213,17 +231,18 @@ Route::prefix('{locale}')
 
             return view('about', ['aboutPage' => $aboutPage]);
         })->name('about');
-        
+
         Route::get('/accounts', function () {
             // $accountsPage = \App\Models\AccountsPage::getCurrent();
 
-            return view('accounts', ); // ['aboutPage' => $aboutPage]
+            return view('accounts'); // ['aboutPage' => $aboutPage]
         })->name('accounts');
 
         Route::get('/payment-methods', function () {
             $paymentMethods = \App\Models\PaymentMethod::where('is_active', true)
                 ->orderBy('order')
                 ->get();
+
             return view('payment_methods.index', compact('paymentMethods'));
         })->name('payment_methods.index');
 
