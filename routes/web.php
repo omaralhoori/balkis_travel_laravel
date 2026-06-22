@@ -25,12 +25,13 @@ Route::prefix('{locale}')
     ->group(function () {
         Route::get('/', function () {
             $topPrograms = \App\Models\Program::where('is_active', true)
-                ->orderBy('views', 'desc')
+                ->orderBy('created_at', 'desc')
                 ->limit(6)
                 ->get();
 
             $touristTrips = \App\Models\TouristTrip::where('is_active', true)
-                ->orderBy('order')
+                ->orderBy('created_at', 'desc')
+                ->limit(6)
                 ->get();
 
             // Tourist Guide Rotation Logic
@@ -76,8 +77,8 @@ Route::prefix('{locale}')
             ]);
         })->name('programs.index');
 
-        Route::get('/programs/{id}', function (string $locale, int $id) {
-            $program = \App\Models\Program::where('id', $id)
+        Route::get('/programs/{slug}', function (string $locale, string $slug) {
+            $program = \App\Models\Program::where('slug', $slug)
                 ->where('is_active', true)
                 ->firstOrFail();
 
@@ -188,8 +189,8 @@ Route::prefix('{locale}')
             return view('tourist_trips', compact('touristTrips'));
         })->name('tourist_trips.index');
 
-        Route::get('/tourist-trips/{id}', function (string $locale, int $id) {
-            $trip = \App\Models\TouristTrip::where('id', $id)
+        Route::get('/tourist-trips/{slug}', function (string $locale, string $slug) {
+            $trip = \App\Models\TouristTrip::where('slug', $slug)
                 ->where('is_active', true)
                 ->firstOrFail();
 

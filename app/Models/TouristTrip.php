@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HasSlug;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
@@ -11,6 +12,7 @@ class TouristTrip extends Model
     /** @use HasFactory<\Database\Factories\TouristTripFactory> */
     use HasFactory;
 
+    use HasSlug;
     use HasTranslations;
 
     /** @var array<string> */
@@ -26,6 +28,7 @@ class TouristTrip extends Model
 
     protected $fillable = [
         'title',
+        'slug',
         'description',
         'location',
         'duration',

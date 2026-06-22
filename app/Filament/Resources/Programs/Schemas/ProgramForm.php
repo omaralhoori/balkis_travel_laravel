@@ -9,6 +9,7 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 
 class ProgramForm
@@ -23,6 +24,17 @@ class ProgramForm
                             ->label('عنوان البرنامج')
                             ->required()
                             ->maxLength(255)
+                            ->live(onBlur: true)
+                            ->afterStateUpdated(function (Set $set, ?string $state): void {
+                                $set('slug', \App\Models\Program::makeSlug($state));
+                            })
+                            ->columnSpanFull(),
+
+                        TextInput::make('slug')
+                            ->label('الرابط (Slug)')
+                            ->maxLength(255)
+                            ->unique(ignoreRecord: true)
+                            ->helperText('يُستخدم في رابط الصفحة. يُترك فارغاً للإنشاء التلقائي من العنوان.')
                             ->columnSpanFull(),
 
                         Textarea::make('description')

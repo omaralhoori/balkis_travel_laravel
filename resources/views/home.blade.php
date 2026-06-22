@@ -315,7 +315,7 @@
             <div class="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar gap-6 pb-6 -mx-4 px-4 sm:mx-0 sm:px-0">
                 @foreach($topPrograms as $program)
                 <div class="snap-start shrink-0 w-[85vw] sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] h-full pb-4">
-                    <a href="{{ route('programs.show', ['locale' => app()->getLocale(), 'id' => $program->id]) }}" class="group block bg-white rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-slate-100 flex flex-col h-full hover:-translate-y-1">
+                    <a href="{{ route('programs.show', ['locale' => app()->getLocale(), 'slug' => $program->slug]) }}" class="group block bg-white rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-slate-100 flex flex-col h-full hover:-translate-y-1">
                 <div class="relative h-64 overflow-hidden shrink-0">
                     @if($program->image_url)
                         <img src="{{ $program->image_url }}" alt="{{ $program->title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out">
@@ -355,6 +355,13 @@
                 </div>
                 @endforeach
             </div>
+        </div>
+
+        <div class="text-center mt-10">
+            <a href="{{ route('programs.index', ['locale' => app()->getLocale()]) }}" class="inline-flex items-center gap-2 px-8 py-3.5 bg-gold-gradient hover:brightness-110 text-white font-bold rounded-xl shadow-lg shadow-primary/20 transition-all duration-300 font-heading">
+                {{ __('Explore All Programs') }}
+                <span class="material-symbols-outlined rtl:rotate-180">arrow_forward</span>
+            </a>
         </div>
     </section>
     @endif
@@ -413,7 +420,7 @@
                     </div>
                     
                     <div class="mt-4 pt-3 border-t border-slate-100 flex flex-col gap-2">
-                        <a href="{{ route('tourist_trips.show', ['locale' => app()->getLocale(), 'id' => $trip->id]) }}"
+                        <a href="{{ route('tourist_trips.show', ['locale' => app()->getLocale(), 'slug' => $trip->slug]) }}"
                            class="w-full inline-flex items-center justify-center gap-2 px-4 py-2 border border-slate-200 hover:border-primary hover:text-primary text-slate-700 text-[11px] font-bold rounded-lg transition-all duration-300"
                            onclick="event.stopPropagation()">
                             {{ __('More Details') }}
@@ -433,6 +440,13 @@
             @endforeach
             </div>
             </div>
+        </div>
+
+        <div class="text-center mt-8">
+            <a href="{{ route('tourist_trips.index', ['locale' => app()->getLocale()]) }}" class="inline-flex items-center gap-2 px-8 py-3 bg-slate-900 hover:bg-primary text-white font-bold rounded-xl shadow-lg transition-all duration-300 font-heading">
+                {{ __('Explore All Trips') }}
+                <span class="material-symbols-outlined rtl:rotate-180">arrow_forward</span>
+            </a>
         </div>
     </section>
     @endif

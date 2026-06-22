@@ -48,12 +48,25 @@
         <!-- Individual Programs -->
         @foreach(\App\Models\Program::where('is_active', true)->get() as $program)
             <url>
-                <loc>{{ url('/' . $locale . '/programs/' . $program->id) }}</loc>
+                <loc>{{ url('/' . $locale . '/programs/' . $program->slug) }}</loc>
                 <lastmod>{{ $program->updated_at->tz('UTC')->toAtomString() }}</lastmod>
                 <changefreq>weekly</changefreq>
                 <priority>0.8</priority>
                 @foreach(config('app.supported_locales', ['ar', 'en', 'tr', 'fr']) as $altLocale)
-                    <xhtml:link rel="alternate" hreflang="{{ $altLocale }}" href="{{ url('/' . $altLocale . '/programs/' . $program->id) }}" />
+                    <xhtml:link rel="alternate" hreflang="{{ $altLocale }}" href="{{ url('/' . $altLocale . '/programs/' . $program->slug) }}" />
+                @endforeach
+            </url>
+        @endforeach
+
+        <!-- Individual Tourist Trips -->
+        @foreach(\App\Models\TouristTrip::where('is_active', true)->get() as $trip)
+            <url>
+                <loc>{{ url('/' . $locale . '/tourist-trips/' . $trip->slug) }}</loc>
+                <lastmod>{{ $trip->updated_at->tz('UTC')->toAtomString() }}</lastmod>
+                <changefreq>weekly</changefreq>
+                <priority>0.7</priority>
+                @foreach(config('app.supported_locales', ['ar', 'en', 'tr', 'fr']) as $altLocale)
+                    <xhtml:link rel="alternate" hreflang="{{ $altLocale }}" href="{{ url('/' . $altLocale . '/tourist-trips/' . $trip->slug) }}" />
                 @endforeach
             </url>
         @endforeach
