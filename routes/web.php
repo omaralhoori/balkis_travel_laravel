@@ -64,7 +64,7 @@ Route::prefix('{locale}')
         })->name('home');
 
         Route::get('/programs', function () {
-            $programs = \App\Models\Program::where('is_active', true)->orderBy('order')->get();
+            $programs = \App\Models\Program::where('is_active', true)->orderBy('created_at', 'desc')->get();
             $categories = \App\Models\Program::where('is_active', true)
                 ->distinct()
                 ->pluck('category')
@@ -183,7 +183,7 @@ Route::prefix('{locale}')
 
         Route::get('/tourist-trips', function () {
             $touristTrips = \App\Models\TouristTrip::where('is_active', true)
-                ->orderBy('order')
+                ->orderBy('created_at', 'desc')
                 ->get();
 
             return view('tourist_trips', compact('touristTrips'));
@@ -198,7 +198,7 @@ Route::prefix('{locale}')
 
             $relatedTrips = \App\Models\TouristTrip::where('is_active', true)
                 ->where('id', '!=', $trip->id)
-                ->orderBy('order')
+                ->orderBy('created_at', 'desc')
                 ->limit(3)
                 ->get();
 
