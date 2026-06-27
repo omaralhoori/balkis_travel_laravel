@@ -1,7 +1,9 @@
 <header class="fixed top-0 w-full z-50 border-b border-primary/10 bg-bg-main/90 backdrop-blur-md" id="main-header">
     <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
         <div class="flex items-center gap-3">
-            <img src="{{ asset('image/BALKIS TRAVEL TEXT HORIZONTAL.png') }}" alt="Balkis Premium Group" class="h-10">
+            <a href="{{ route('home', ['locale' => app()->getLocale()]) }}" aria-label="{{ __('Home') }}" class="inline-flex items-center">
+                <img src="{{ asset('image/BALKIS TRAVEL TEXT HORIZONTAL.png') }}" alt="Balkis Premium Group" class="h-10">
+            </a>
             <!-- <h2 class="text-gray-900 text-xl font-extrabold tracking-widest font-heading">BALKIS <span class="text-primary font-light">PREMIUM</span></h2> -->
         </div>
         <nav class="hidden md:flex gap-8">
@@ -28,7 +30,9 @@
         <div class="flex flex-col h-full">
             <!-- Mobile Menu Header -->
             <div class="flex items-center justify-between px-6 py-4 border-b border-primary/10">
-                <img src="{{ asset('image/BALKIS GROUP TEXT HORIZONTAL.png') }}" alt="Balkis Premium Group" class="h-10">
+                <a href="{{ route('home', ['locale' => app()->getLocale()]) }}" aria-label="{{ __('Home') }}" class="inline-flex items-center">
+                    <img src="{{ asset('image/BALKIS GROUP TEXT HORIZONTAL.png') }}" alt="Balkis Premium Group" class="h-10">
+                </a>
                 <button type="button" id="mobile-menu-close" class="text-gray-900 p-2 hover:text-primary transition-colors" aria-label="Close menu">
                     <span class="material-symbols-outlined text-2xl">close</span>
                 </button>

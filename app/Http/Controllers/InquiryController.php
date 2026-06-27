@@ -132,7 +132,12 @@ class InquiryController extends Controller
                             continue;
                         }
                         $typeLabel = $accommodationLabels[$type] ?? $type;
-                        $message .= '   - '.__('Day', [], $locale).' '.$day.': '.$typeLabel."\n";
+                        $city = $entry['city'] ?? null;
+                        $dayLabel = __('Day', [], $locale).' '.$day;
+                        if (! empty($city)) {
+                            $dayLabel .= ' ('.$city.')';
+                        }
+                        $message .= '   - '.$dayLabel.': '.$typeLabel."\n";
                     }
                 }
 

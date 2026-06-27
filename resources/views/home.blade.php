@@ -1226,9 +1226,23 @@ document.addEventListener('DOMContentLoaded', function() {
     function getAccommodationDays() {
         const days = [];
         document.querySelectorAll('.accommodation-day-select').forEach(sel => {
-            days.push({ day: parseInt(sel.dataset.day), type: sel.value });
+            days.push({ day: parseInt(sel.dataset.day), type: sel.value, city: sel.dataset.city || null });
         });
         return days;
+    }
+
+    // Map each trip day to the allocated city (based on days distribution order)
+    function getDayCityMap(total) {
+        const map = new Array(total).fill(null);
+        let dayIndex = 0;
+        selectedDestinations.forEach(dest => {
+            const allocated = parseInt(dest.days) || 0;
+            for (let i = 0; i < allocated && dayIndex < total; i++) {
+                map[dayIndex] = dest.name;
+                dayIndex++;
+            }
+        });
+        return map;
     }
 
     function updateAccommodationDaysInput() {
@@ -1261,17 +1275,23 @@ document.addEventListener('DOMContentLoaded', function() {
         accommodationDaysList.classList.remove('hidden');
         accommodationDaysList.innerHTML = '';
 
+        const dayCityMap = getDayCityMap(total);
+
         for (let day = 1; day <= total; day++) {
             const row = document.createElement('div');
             row.className = 'flex items-center justify-between gap-3 px-3 py-2 bg-white border border-slate-200 rounded-xl';
 
+            const cityName = dayCityMap[day - 1];
+
             const label = document.createElement('span');
-            label.className = 'flex items-center gap-2 text-sm font-semibold text-slate-700 font-text';
-            label.innerHTML = `<span class="w-6 h-6 rounded-full bg-primary/10 text-primary text-[10px] font-bold flex items-center justify-center">${day}</span>{{ __('Day') }} ${day}`;
+            label.className = 'flex items-center gap-2 text-sm font-semibold text-slate-700 font-text min-w-0';
+            label.innerHTML = `<span class="w-6 h-6 rounded-full bg-primary/10 text-primary text-[10px] font-bold flex items-center justify-center shrink-0">${day}</span><span class="shrink-0">{{ __('Day') }} ${day}</span>` +
+                (cityName ? `<span class="inline-flex items-center gap-0.5 text-primary text-xs font-bold truncate"><span class="material-symbols-outlined text-sm">location_on</span>${cityName}</span>` : '');
 
             const select = document.createElement('select');
-            select.className = 'accommodation-day-select px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-800 outline-none focus:border-primary';
+            select.className = 'accommodation-day-select px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-800 outline-none focus:border-primary shrink-0';
             select.dataset.day = day;
+            select.dataset.city = cityName || '';
             accommodationOptions.forEach(opt => {
                 const option = document.createElement('option');
                 option.value = opt.value;
@@ -1356,10 +1376,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 formMessage.textContent = data.message || '{{ __("Inquiry submitted successfully!") }}';
                 formMessage.classList.remove('hidden');
 
+                if (data.whatsapp_url) {
+                    window.open(data.whatsapp_url, '_blank');
+                }
+
                 setTimeout(() => {
-                    if (data.whatsapp_url) {
-                        window.location.href = data.whatsapp_url;
-                    }
                     form.reset();
                     selectedDestinations = [];
                     renderSelectedDestinations();
