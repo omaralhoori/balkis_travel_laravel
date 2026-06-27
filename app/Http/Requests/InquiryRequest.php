@@ -44,6 +44,8 @@ class InquiryRequest extends FormRequest
             'child_ages.*' => ['integer', 'min:0', 'max:17'],
             'trip_type' => ['nullable', 'string', 'in:VIP,Grouped'],
             'accommodation_type' => ['nullable', 'string', 'in:hotel,apartment_hotel,cottage'],
+            'accommodation_days' => ['nullable', 'string'],
+            'car_rental_type' => ['nullable', 'string', 'in:with_driver,without_driver'],
         ];
     }
 

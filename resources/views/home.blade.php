@@ -130,6 +130,7 @@
                                 <!-- Hidden input to store selected destinations -->
                                 <input type="hidden" id="selected-destinations" name="selected_destinations" value="[]">
                             </div>
+                            <p class="mt-2 text-[11px] text-slate-400 font-text">{{ __('You can add the same city more than once. You can set the days for each city below.') }}</p>
                         </div>
 
                         <div class="col-span-full grid grid-cols-1 md:grid-cols-2 gap-4 mt-1">
@@ -147,6 +148,27 @@
                                     <input id="departure-date" name="departure_date" class="date-input w-full ltr:pr-10 rtl:pl-10 ltr:pl-3 rtl:pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-slate-800 font-text shadow-sm transition-all text-start text-sm" type="date" min="{{ date('Y-m-d') }}" required/>
                                 </div>
                             </div>
+                        </div>
+
+                        <!-- Days Allocation -->
+                        <div class="col-span-full mt-1">
+                            <label class="block text-xs font-semibold text-slate-700 mb-2 font-text flex items-center gap-2">
+                                <span class="material-symbols-outlined text-primary text-base">event_available</span>
+                                {{ __('Distribute Days Across Cities') }} <span class="text-slate-400 font-normal">({{ __('optional') }})</span>
+                            </label>
+                            <div class="p-3 border-2 border-dashed border-slate-200 rounded-2xl bg-slate-50/50">
+                                <div id="days-allocation-empty" class="text-slate-400 text-sm italic py-2 px-1 font-text">
+                                    {{ __('Select your cities and trip dates to distribute the days.') }}
+                                </div>
+                                <div id="days-allocation-list" class="hidden space-y-2"></div>
+                                <div id="days-allocation-summary" class="hidden mt-3 pt-3 border-t border-slate-200 flex flex-wrap items-center justify-between gap-2 text-xs font-text">
+                                    <span class="text-slate-600">{{ __('Allocated Days') }}: <strong id="allocated-days" class="text-slate-800">0</strong> / <strong id="total-trip-days" class="text-slate-800">0</strong> {{ __('days') }}</span>
+                                    <span id="days-remaining" class="font-semibold text-primary"></span>
+                                </div>
+                            </div>
+                            <p id="days-warning" class="hidden mt-2 text-xs text-red-600 font-semibold items-center gap-1">
+                                {{ __('Allocated days exceed total trip days') }}
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -204,10 +226,9 @@
                     <div class="space-y-4">
                         <div>
                             <label class="block text-xs font-semibold text-slate-700 mb-3 font-text">{{ __('Custom Services') }}</label>
-                            <div class="grid grid-cols-2 lg:grid-cols-4 gap-2">
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                                 @php
                                     $services = [
-                                        // ['id' => 'flight', 'icon' => 'flight_takeoff', 'label' => __('Flight Tickets'), 'checked' => true],
                                         ['id' => 'accommodation', 'icon' => 'hotel', 'label' => __('Accommodation'), 'checked' => true],
                                         ['id' => 'car_rental', 'icon' => 'directions_car', 'label' => __('Car Rental'), 'checked' => false],
                                         ['id' => 'tourist_trips', 'icon' => 'map', 'label' => __('Tourist Trips'), 'checked' => false],
@@ -217,12 +238,12 @@
                                 @foreach($services as $service)
                                 <label class="relative block cursor-pointer group h-full">
                                     <input name="services[]" value="{{ $service['id'] }}" {{ $service['checked'] ? 'checked' : '' }} class="hidden peer" type="checkbox"/>
-                                    <div class="p-2.5 rounded-xl border border-slate-200 bg-slate-50 peer-checked:border-primary peer-checked:bg-primary/5 transition-all duration-300 group-hover:border-primary/30 group-hover:bg-primary/5 text-center h-full flex flex-col items-center justify-center">
-                                        <div class="w-8 h-8 bg-white rounded-lg shadow-sm flex items-center justify-center mx-auto mb-1 text-slate-400 peer-checked:group-[]:text-primary transition-colors">
-                                            <span class="material-symbols-outlined text-xl">{{ $service['icon'] }}</span>
+                                    <div class="p-4 rounded-2xl border border-slate-200 bg-slate-50 peer-checked:border-primary peer-checked:bg-primary/5 transition-all duration-300 group-hover:border-primary/30 group-hover:bg-primary/5 text-center h-full flex flex-row sm:flex-col items-center justify-center gap-3 sm:gap-2">
+                                        <div class="w-11 h-11 bg-white rounded-xl shadow-sm flex items-center justify-center text-slate-400 peer-checked:group-[]:text-primary transition-colors shrink-0">
+                                            <span class="material-symbols-outlined text-2xl">{{ $service['icon'] }}</span>
                                         </div>
-                                        <span class="text-[11px] font-bold text-slate-600 peer-checked:group-[]:text-primary leading-tight">{{ $service['label'] }}</span>
-                                        <div class="absolute top-1 ltr:right-1 rtl:left-1 opacity-0 peer-checked:opacity-100 transition-opacity">
+                                        <span class="text-sm font-bold text-slate-600 peer-checked:group-[]:text-primary leading-tight">{{ $service['label'] }}</span>
+                                        <div class="absolute top-2 ltr:right-2 rtl:left-2 opacity-0 peer-checked:opacity-100 transition-opacity">
                                             <div class="w-5 h-5 bg-primary rounded-full flex items-center justify-center text-white">
                                                 <span class="material-symbols-outlined text-[10px]">check</span>
                                             </div>
@@ -234,36 +255,52 @@
                         </div>
 
                         <!-- Conditional Sections -->
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-slate-100">
-                            <!-- Accommodation Type -->
+                        <div class="space-y-6 pt-4 border-t border-slate-100">
+                            <!-- Accommodation Type per Day -->
                             <div id="accommodation-type-container" class="hidden p-6 rounded-2xl border border-slate-100 bg-slate-50/50 space-y-4 transition-all">
                                 <label class="text-sm font-bold text-slate-800 flex items-center gap-2">
                                     <span class="material-symbols-outlined text-primary">bed</span>
-                                    {{ __('Accommodation Style') }}
+                                    {{ __('Accommodation per Day') }}
                                 </label>
-                                <div class="space-y-3">
-                                    @foreach(['hotel' => __('Hotel'), 'apartment_hotel' => __('Apartment Hotel'), 'cottage' => __('Cottage')] as $val => $label)
-                                    <label class="flex items-center gap-3 cursor-pointer group">
-                                        <input type="radio" name="accommodation_type" value="{{ $val }}" {{ $loop->first ? 'checked' : '' }} class="accent-primary size-5 shadow-sm">
-                                        <span class="text-sm font-medium text-slate-600 group-hover:text-primary transition-colors">{{ $label }}</span>
-                                    </label>
-                                    @endforeach
+                                <p class="text-xs text-slate-400 font-text -mt-2">{{ __('Choose the accommodation type for each day of your trip.') }}</p>
+                                <div id="accommodation-days-empty" class="text-slate-400 text-sm italic font-text">
+                                    {{ __('Select your trip dates first to choose accommodation per day.') }}
                                 </div>
+                                <div id="accommodation-days-list" class="hidden grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+                                <input type="hidden" id="accommodation-days-input" name="accommodation_days" value="[]">
                             </div>
 
-                            <!-- Trip Type -->
-                            <div id="trip-type-container" class="hidden p-6 rounded-2xl border border-slate-100 bg-slate-50/50 space-y-4 transition-all">
-                                <label class="text-sm font-bold text-slate-800 flex items-center gap-2">
-                                    <span class="material-symbols-outlined text-primary">groups</span>
-                                    {{ __('Group Type') }}
-                                </label>
-                                <div class="space-y-3">
-                                    @foreach(['VIP' => __('VIP (Private)'), 'Grouped' => __('Group')] as $val => $label)
-                                    <label class="flex items-center gap-3 cursor-pointer group">
-                                        <input type="radio" name="trip_type" value="{{ $val }}" {{ $loop->first ? 'checked' : '' }} class="accent-primary size-5 shadow-sm">
-                                        <span class="text-sm font-medium text-slate-600 group-hover:text-primary transition-colors">{{ $label }}</span>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <!-- Car Rental Type -->
+                                <div id="car-rental-type-container" class="hidden p-6 rounded-2xl border border-slate-100 bg-slate-50/50 space-y-4 transition-all">
+                                    <label class="text-sm font-bold text-slate-800 flex items-center gap-2">
+                                        <span class="material-symbols-outlined text-primary">directions_car</span>
+                                        {{ __('Car Rental Type') }}
                                     </label>
-                                    @endforeach
+                                    <div class="space-y-3">
+                                        @foreach(['with_driver' => __('With Driver'), 'without_driver' => __('Without Driver')] as $val => $label)
+                                        <label class="flex items-center gap-3 cursor-pointer group">
+                                            <input type="radio" name="car_rental_type" value="{{ $val }}" {{ $loop->first ? 'checked' : '' }} class="accent-primary size-5 shadow-sm">
+                                            <span class="text-sm font-medium text-slate-600 group-hover:text-primary transition-colors">{{ $label }}</span>
+                                        </label>
+                                        @endforeach
+                                    </div>
+                                </div>
+
+                                <!-- Trip Type -->
+                                <div id="trip-type-container" class="hidden p-6 rounded-2xl border border-slate-100 bg-slate-50/50 space-y-4 transition-all">
+                                    <label class="text-sm font-bold text-slate-800 flex items-center gap-2">
+                                        <span class="material-symbols-outlined text-primary">groups</span>
+                                        {{ __('Group Type') }}
+                                    </label>
+                                    <div class="space-y-3">
+                                        @foreach(['VIP' => __('VIP (Private)'), 'Grouped' => __('Group')] as $val => $label)
+                                        <label class="flex items-center gap-3 cursor-pointer group">
+                                            <input type="radio" name="trip_type" value="{{ $val }}" {{ $loop->first ? 'checked' : '' }} class="accent-primary size-5 shadow-sm">
+                                            <span class="text-sm font-medium text-slate-600 group-hover:text-primary transition-colors">{{ $label }}</span>
+                                        </label>
+                                        @endforeach
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -831,6 +868,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 alert('{{ __("Departure date must be after arrival date.") }}');
                 return false;
             }
+            const totalDays = getTotalTripDays();
+            if (totalDays > 0 && getAllocatedDays() > totalDays) {
+                alert('{{ __("Allocated days exceed total trip days") }}');
+                return false;
+            }
         }
         
         if (step === 2) {
@@ -882,6 +924,9 @@ document.addEventListener('DOMContentLoaded', function() {
             currentStep++;
             updateProgress();
             showStep(currentStep, 'next');
+            if (currentStep === 3 && typeof renderAccommodationDays === 'function') {
+                renderAccommodationDays();
+            }
         } else {
             // Submit form
             submitForm();
@@ -897,18 +942,35 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Handle Destinations logic
+    const daysAllocationEmpty = document.getElementById('days-allocation-empty');
+    const daysAllocationList = document.getElementById('days-allocation-list');
+    const daysAllocationSummary = document.getElementById('days-allocation-summary');
+
     function updateSelectedDestinationsInput() {
         selectedDestinationsInput.value = JSON.stringify(selectedDestinations);
     }
 
-    function updateDropdownOptions() {
-        const options = document.querySelectorAll('.destination-option');
-        options.forEach(option => {
-            if (selectedDestinations.includes(option.dataset.destination)) {
-                option.style.display = 'none';
-            } else {
-                option.style.display = 'flex';
-            }
+    function getTotalTripDays() {
+        if (!arrivalDateInput.value || !departureDateInput.value) return 0;
+        const arrival = new Date(arrivalDateInput.value);
+        const departure = new Date(departureDateInput.value);
+        const diff = Math.round((departure - arrival) / 86400000);
+        return diff > 0 ? diff : 0;
+    }
+
+    function getAllocatedDays() {
+        return selectedDestinations.reduce((sum, dest) => sum + (parseInt(dest.days) || 0), 0);
+    }
+
+    // Ensure allocated days never exceed total trip days
+    function normalizeDays(total) {
+        if (total <= 0) return;
+        let remaining = total;
+        selectedDestinations.forEach(dest => {
+            if (dest.days == null) return;
+            const allowed = Math.min(parseInt(dest.days) || 0, Math.max(remaining, 0));
+            dest.days = allowed > 0 ? allowed : null;
+            remaining -= (allowed > 0 ? allowed : 0);
         });
     }
 
@@ -918,24 +980,112 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             destinationsContainer.innerHTML = '';
             selectedDestinations.forEach((destination, index) => {
-                const btn = document.createElement('button');
-                btn.type = 'button';
-                btn.className = 'flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary text-primary rounded-xl text-sm font-text destination-tag transition-all hover:bg-primary hover:text-white group';
-                btn.innerHTML = `
-                    <span class="material-symbols-outlined text-sm pt-0.5">location_on</span>
-                    <span class="font-bold">${destination}</span>
-                    <span class="material-symbols-outlined text-xs bg-white text-primary rounded-full p-0.5 group-hover:bg-primary/20 group-hover:text-white transition-colors">close</span>
+                const tag = document.createElement('div');
+                tag.className = 'flex items-center gap-1.5 px-3 py-2 bg-primary/10 border border-primary text-primary rounded-xl text-sm font-text';
+                tag.innerHTML = `
+                    <span class="w-5 h-5 rounded-full bg-primary text-white text-[10px] font-bold flex items-center justify-center shrink-0">${index + 1}</span>
+                    <span class="material-symbols-outlined text-sm">location_on</span>
+                    <span class="font-bold">${destination.name}</span>
                 `;
-                btn.addEventListener('click', (e) => {
+                const removeBtn = document.createElement('button');
+                removeBtn.type = 'button';
+                removeBtn.className = 'flex items-center text-primary hover:text-red-500 transition-colors';
+                removeBtn.innerHTML = `<span class="material-symbols-outlined text-base">close</span>`;
+                removeBtn.addEventListener('click', (e) => {
                     e.stopPropagation();
                     selectedDestinations.splice(index, 1);
                     renderSelectedDestinations();
                 });
-                destinationsContainer.appendChild(btn);
+                tag.appendChild(removeBtn);
+                destinationsContainer.appendChild(tag);
             });
         }
         updateSelectedDestinationsInput();
-        updateDropdownOptions();
+        renderDaysAllocation();
+    }
+
+    function renderDaysAllocation() {
+        const total = getTotalTripDays();
+        normalizeDays(total);
+
+        const canAllocate = selectedDestinations.length > 0 && total > 0;
+
+        if (!canAllocate) {
+            daysAllocationEmpty?.classList.remove('hidden');
+            if (daysAllocationList) { daysAllocationList.classList.add('hidden'); daysAllocationList.innerHTML = ''; }
+            daysAllocationSummary?.classList.add('hidden');
+            updateSelectedDestinationsInput();
+            updateDaysSummary();
+            return;
+        }
+
+        daysAllocationEmpty?.classList.add('hidden');
+        if (daysAllocationList) {
+            daysAllocationList.classList.remove('hidden');
+            daysAllocationList.innerHTML = '';
+            selectedDestinations.forEach((destination, index) => {
+                const row = document.createElement('div');
+                row.className = 'flex items-center justify-between gap-3 px-3 py-2 bg-white border border-slate-200 rounded-xl';
+
+                const label = document.createElement('div');
+                label.className = 'flex items-center gap-2 text-sm text-slate-700 font-text min-w-0';
+                label.innerHTML = `
+                    <span class="w-5 h-5 rounded-full bg-primary/10 text-primary text-[10px] font-bold flex items-center justify-center shrink-0">${index + 1}</span>
+                    <span class="material-symbols-outlined text-primary text-sm">location_on</span>
+                    <span class="font-semibold truncate">${destination.name}</span>
+                `;
+
+                const input = document.createElement('input');
+                input.type = 'number';
+                input.min = '0';
+                input.max = String(total);
+                input.value = destination.days ?? '';
+                input.placeholder = '{{ __('Days') }}';
+                input.className = 'days-allocation-input w-20 px-2 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-center text-sm text-slate-800 outline-none focus:border-primary shrink-0';
+                input.addEventListener('input', () => {
+                    let val = parseInt(input.value);
+                    if (isNaN(val) || val <= 0) {
+                        selectedDestinations[index].days = null;
+                    } else {
+                        const others = selectedDestinations.reduce((s, d, i) => i === index ? s : s + (parseInt(d.days) || 0), 0);
+                        const maxForThis = Math.max(total - others, 0);
+                        if (val > maxForThis) {
+                            val = maxForThis;
+                            input.value = val > 0 ? val : '';
+                        }
+                        selectedDestinations[index].days = val > 0 ? val : null;
+                    }
+                    updateSelectedDestinationsInput();
+                    updateDaysSummary();
+                });
+
+                row.appendChild(label);
+                row.appendChild(input);
+                daysAllocationList.appendChild(row);
+            });
+        }
+        daysAllocationSummary?.classList.remove('hidden');
+        updateSelectedDestinationsInput();
+        updateDaysSummary();
+    }
+
+    function updateDaysSummary() {
+        const total = getTotalTripDays();
+        const allocated = getAllocatedDays();
+        const totalEl = document.getElementById('total-trip-days');
+        const allocatedEl = document.getElementById('allocated-days');
+        const remainingEl = document.getElementById('days-remaining');
+        const warning = document.getElementById('days-warning');
+
+        if (totalEl) totalEl.textContent = total;
+        if (allocatedEl) allocatedEl.textContent = allocated;
+        if (remainingEl) {
+            const remaining = total - allocated;
+            remainingEl.textContent = (total > 0 && remaining >= 0) ? `{{ __('Remaining') }}: ${remaining}` : '';
+        }
+        if (warning) {
+            warning.classList.toggle('hidden', !(total > 0 && allocated > total));
+        }
     }
 
     addDestinationBtn?.addEventListener('click', (e) => {
@@ -952,14 +1102,16 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.destination-option').forEach(option => {
         option.addEventListener('click', function() {
             const destName = this.dataset.destination;
-            if (destName && !selectedDestinations.includes(destName)) {
-                selectedDestinations.push(destName);
+            if (destName) {
+                selectedDestinations.push({ name: destName, days: null });
                 renderSelectedDestinations();
                 destinationsDropdown.classList.add('hidden');
             }
         });
     });
-    updateDropdownOptions();
+
+    arrivalDateInput?.addEventListener('change', () => { renderDaysAllocation(); renderAccommodationDays(); });
+    departureDateInput?.addEventListener('change', () => { renderDaysAllocation(); renderAccommodationDays(); });
 
     // Modal Logic
     const tripModal = document.getElementById('trip-modal');
@@ -1061,13 +1213,97 @@ document.addEventListener('DOMContentLoaded', function() {
     // Services UI Logic
     const accommodationCheckbox = document.querySelector('input[value="accommodation"]');
     const accommodationTypeContainer = document.getElementById('accommodation-type-container');
+    const accommodationDaysEmpty = document.getElementById('accommodation-days-empty');
+    const accommodationDaysList = document.getElementById('accommodation-days-list');
+    const accommodationDaysInput = document.getElementById('accommodation-days-input');
+
+    const accommodationOptions = [
+        { value: 'hotel', label: '{{ __('Hotel') }}' },
+        { value: 'apartment_hotel', label: '{{ __('Apartment Hotel') }}' },
+        { value: 'cottage', label: '{{ __('Cottage') }}' },
+    ];
+
+    function getAccommodationDays() {
+        const days = [];
+        document.querySelectorAll('.accommodation-day-select').forEach(sel => {
+            days.push({ day: parseInt(sel.dataset.day), type: sel.value });
+        });
+        return days;
+    }
+
+    function updateAccommodationDaysInput() {
+        if (accommodationDaysInput) {
+            accommodationDaysInput.value = JSON.stringify(getAccommodationDays());
+        }
+    }
+
+    function renderAccommodationDays() {
+        if (!accommodationDaysList) return;
+
+        const total = getTotalTripDays();
+        const isActive = accommodationCheckbox && accommodationCheckbox.checked;
+
+        if (!isActive || total <= 0) {
+            accommodationDaysList.classList.add('hidden');
+            accommodationDaysEmpty?.classList.remove('hidden');
+            accommodationDaysList.innerHTML = '';
+            updateAccommodationDaysInput();
+            return;
+        }
+
+        // Preserve previously chosen types
+        const previous = {};
+        accommodationDaysList.querySelectorAll('.accommodation-day-select').forEach(sel => {
+            previous[sel.dataset.day] = sel.value;
+        });
+
+        accommodationDaysEmpty?.classList.add('hidden');
+        accommodationDaysList.classList.remove('hidden');
+        accommodationDaysList.innerHTML = '';
+
+        for (let day = 1; day <= total; day++) {
+            const row = document.createElement('div');
+            row.className = 'flex items-center justify-between gap-3 px-3 py-2 bg-white border border-slate-200 rounded-xl';
+
+            const label = document.createElement('span');
+            label.className = 'flex items-center gap-2 text-sm font-semibold text-slate-700 font-text';
+            label.innerHTML = `<span class="w-6 h-6 rounded-full bg-primary/10 text-primary text-[10px] font-bold flex items-center justify-center">${day}</span>{{ __('Day') }} ${day}`;
+
+            const select = document.createElement('select');
+            select.className = 'accommodation-day-select px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-800 outline-none focus:border-primary';
+            select.dataset.day = day;
+            accommodationOptions.forEach(opt => {
+                const option = document.createElement('option');
+                option.value = opt.value;
+                option.textContent = opt.label;
+                select.appendChild(option);
+            });
+            select.value = previous[day] || 'hotel';
+            select.addEventListener('change', updateAccommodationDaysInput);
+
+            row.appendChild(label);
+            row.appendChild(select);
+            accommodationDaysList.appendChild(row);
+        }
+        updateAccommodationDaysInput();
+    }
 
     if (accommodationCheckbox && accommodationTypeContainer) {
         accommodationCheckbox.addEventListener('change', function() {
-            if (this.checked) accommodationTypeContainer.classList.remove('hidden');
-            else accommodationTypeContainer.classList.add('hidden');
+            accommodationTypeContainer.classList.toggle('hidden', !this.checked);
+            renderAccommodationDays();
         });
-        if (accommodationCheckbox.checked) accommodationTypeContainer.classList.remove('hidden');
+        accommodationTypeContainer.classList.toggle('hidden', !accommodationCheckbox.checked);
+    }
+
+    const carRentalCheckbox = document.querySelector('input[value="car_rental"]');
+    const carRentalTypeContainer = document.getElementById('car-rental-type-container');
+
+    if (carRentalCheckbox && carRentalTypeContainer) {
+        carRentalCheckbox.addEventListener('change', function() {
+            carRentalTypeContainer.classList.toggle('hidden', !this.checked);
+        });
+        carRentalTypeContainer.classList.toggle('hidden', !carRentalCheckbox.checked);
     }
 
     const touristTripsCheckbox = document.querySelector('input[value="tourist_trips"]');
@@ -1075,11 +1311,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (touristTripsCheckbox && tripTypeContainer) {
         touristTripsCheckbox.addEventListener('change', function() {
-            if (this.checked) tripTypeContainer.classList.remove('hidden');
-            else tripTypeContainer.classList.add('hidden');
+            tripTypeContainer.classList.toggle('hidden', !this.checked);
         });
-        if (touristTripsCheckbox.checked) tripTypeContainer.classList.remove('hidden');
+        tripTypeContainer.classList.toggle('hidden', !touristTripsCheckbox.checked);
     }
+
+    renderAccommodationDays();
 
     // Submission Logic
     async function submitForm() {
@@ -1088,6 +1325,7 @@ document.addEventListener('DOMContentLoaded', function() {
         formMessage.classList.add('hidden');
 
         try {
+            updateAccommodationDaysInput();
             const formData = new FormData(form);
             const services = [];
             document.querySelectorAll('input[name="services[]"]:checked').forEach(c => services.push(c.value));
@@ -1125,6 +1363,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     form.reset();
                     selectedDestinations = [];
                     renderSelectedDestinations();
+                    renderAccommodationDays();
                     currentStep = 1;
                     updateProgress();
                     showStep(currentStep, 'prev');

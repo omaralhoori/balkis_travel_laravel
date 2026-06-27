@@ -72,7 +72,17 @@ class InquiryController extends Controller
         $message .= '📍 *'.__('Required Destinations', [], $locale).":*\n";
         if (! empty($destinations)) {
             foreach ($destinations as $destination) {
-                $message .= "• {$destination}\n";
+                if (is_array($destination)) {
+                    $name = $destination['name'] ?? '';
+                    $days = $destination['days'] ?? null;
+                    $line = "• {$name}";
+                    if (! empty($days)) {
+                        $line .= ' — '.$days.' '.__('days', [], $locale);
+                    }
+                    $message .= $line."\n";
+                } else {
+                    $message .= "• {$destination}\n";
+                }
             }
         } else {
             $message .= '• '.__('No destinations selected', [], $locale)."\n";
@@ -98,18 +108,41 @@ class InquiryController extends Controller
         if (! empty($services)) {
             $message .= "\n✨ *".__('Required Services', [], $locale).":*\n";
             $serviceNames = [
-                // 'flight' => __('Flight Tickets', [], $locale),
                 'accommodation' => __('Accommodation', [], $locale),
-                'car_rental' => __('Car Rental without Driver', [], $locale),
+                'car_rental' => __('Car Rental', [], $locale),
                 'tourist_trips' => __('Tourist Trips', [], $locale),
+            ];
+            $accommodationLabels = [
+                'hotel' => __('Hotel', [], $locale),
+                'apartment_hotel' => __('Apartment Hotel', [], $locale),
+                'cottage' => __('Cottage', [], $locale),
             ];
             foreach ($services as $service) {
                 $message .= '• '.($serviceNames[$service] ?? $service)."\n";
-                if ($service === 'accommodation' && ! empty($data['accommodation_type'])) {
-                    $accType = $data['accommodation_type'];
-                    $accTranslated = $accType === 'hotel' ? __('Hotel', [], $locale) : ($accType === 'apartment_hotel' ? __('Apartment Hotel', [], $locale) : __('Cottage', [], $locale));
-                    $message .= '   - '.__('Accommodation Type', [], $locale).': '.$accTranslated."\n";
+
+                if ($service === 'accommodation') {
+                    $accommodationDays = json_decode($data['accommodation_days'] ?? '[]', true) ?: [];
+                    foreach ($accommodationDays as $entry) {
+                        if (! is_array($entry)) {
+                            continue;
+                        }
+                        $day = $entry['day'] ?? null;
+                        $type = $entry['type'] ?? null;
+                        if ($day === null || $type === null) {
+                            continue;
+                        }
+                        $typeLabel = $accommodationLabels[$type] ?? $type;
+                        $message .= '   - '.__('Day', [], $locale).' '.$day.': '.$typeLabel."\n";
+                    }
                 }
+
+                if ($service === 'car_rental' && ! empty($data['car_rental_type'])) {
+                    $carTypeTranslated = $data['car_rental_type'] === 'with_driver'
+                        ? __('With Driver', [], $locale)
+                        : __('Without Driver', [], $locale);
+                    $message .= '   - '.__('Car Rental Type', [], $locale).': '.$carTypeTranslated."\n";
+                }
+
                 if ($service === 'tourist_trips' && ! empty($data['trip_type'])) {
                     $tripTypeTranslated = $data['trip_type'] === 'VIP' ? __('VIP (Private)', [], $locale) : __('Group', [], $locale);
                     $message .= '   - '.__('Trip Type', [], $locale).': '.$tripTypeTranslated."\n";
