@@ -34,6 +34,10 @@ Route::prefix('{locale}')
                 ->limit(6)
                 ->get();
 
+            $exclusiveServices = \App\Models\ExclusiveService::where('is_active', true)
+                ->orderBy('order')
+                ->get();
+
             // Tourist Guide Rotation Logic
             $homePage = \App\Models\HomePage::getCurrent();
 
@@ -60,7 +64,7 @@ Route::prefix('{locale}')
             }
             $paymentMethods = \App\Models\PaymentMethod::where('is_active', true)->orderBy('order')->get();
 
-            return view('home', compact('topPrograms', 'touristTrips', 'touristGuidePosts', 'paymentMethods'));
+            return view('home', compact('topPrograms', 'touristTrips', 'exclusiveServices', 'touristGuidePosts', 'paymentMethods'));
         })->name('home');
 
         Route::get('/programs', function () {
@@ -188,6 +192,22 @@ Route::prefix('{locale}')
 
             return view('tourist_trips', compact('touristTrips'));
         })->name('tourist_trips.index');
+
+        Route::get('/exclusive-services/{slug}', function (string $locale, string $slug) {
+            $service = \App\Models\ExclusiveService::where('slug', $slug)
+                ->where('is_active', true)
+                ->firstOrFail();
+
+            $service->setLocale($locale);
+
+            $relatedServices = \App\Models\ExclusiveService::where('is_active', true)
+                ->where('id', '!=', $service->id)
+                ->orderBy('order')
+                ->limit(3)
+                ->get();
+
+            return view('exclusive_services.show', compact('service', 'relatedServices'));
+        })->name('exclusive_services.show');
 
         Route::get('/tourist-trips/{slug}', function (string $locale, string $slug) {
             $trip = \App\Models\TouristTrip::where('slug', $slug)
