@@ -36,7 +36,7 @@ Route::prefix('{locale}')
 
             $exclusiveServices = \App\Models\ExclusiveService::where('is_active', true)
                 ->orderBy('created_at', 'desc')
-                ->limit(6)
+                ->limit(4)
                 ->get();
 
             // Tourist Guide Rotation Logic
