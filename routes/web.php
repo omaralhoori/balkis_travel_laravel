@@ -35,7 +35,8 @@ Route::prefix('{locale}')
                 ->get();
 
             $exclusiveServices = \App\Models\ExclusiveService::where('is_active', true)
-                ->orderBy('order')
+                ->orderBy('created_at', 'desc')
+                ->limit(6)
                 ->get();
 
             // Tourist Guide Rotation Logic
@@ -192,6 +193,14 @@ Route::prefix('{locale}')
 
             return view('tourist_trips', compact('touristTrips'));
         })->name('tourist_trips.index');
+
+        Route::get('/exclusive-services', function () {
+            $exclusiveServices = \App\Models\ExclusiveService::where('is_active', true)
+                ->orderBy('created_at', 'desc')
+                ->get();
+
+            return view('exclusive_services.index', compact('exclusiveServices'));
+        })->name('exclusive_services.index');
 
         Route::get('/exclusive-services/{slug}', function (string $locale, string $slug) {
             $service = \App\Models\ExclusiveService::where('slug', $slug)

@@ -462,6 +462,13 @@
             </div>
             @endforeach
         </div>
+
+        <div class="text-center mt-10">
+            <a href="{{ route('exclusive_services.index', ['locale' => app()->getLocale()]) }}" class="inline-flex items-center gap-2 px-8 py-3.5 bg-gold-gradient hover:brightness-110 text-white font-bold rounded-xl shadow-lg shadow-primary/20 transition-all duration-300 font-heading">
+                {{ __('Discover All Services') }}
+                <span class="material-symbols-outlined rtl:rotate-180">arrow_forward</span>
+            </a>
+        </div>
     </section>
     @endif
 
