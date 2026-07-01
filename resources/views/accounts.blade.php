@@ -167,7 +167,12 @@
 
     <style>
         body {
-            background: radial-gradient(circle at center, #1a202c 0%, #0d1117 100%);
+            background-color: #0d1117;
+            background-image: url('{{ asset('image/accounts_bacground.png') }}');
+            background-size: cover;
+            background-position: center top;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
             min-height: 100vh;
             color: #f3f4f6;
             overflow-x: hidden;
@@ -201,7 +206,6 @@
     </style>
 </head>
 <body class="flex flex-col items-center justify-between py-12 px-4 relative select-none">
-    <div class="absolute inset-0 opacity-[0.03] bg-repeat pointer-events-none" style="background-image: url('{{ asset('image/pattern1.png') }}'); background-size: 300px;"></div>
 
     <div class="w-full max-w-md flex items-center justify-between mb-8 z-10 px-2">
         <a href="{{ $websiteUrl }}" class="flex items-center gap-2 text-xs font-semibold text-gray-400 hover:text-primary transition-colors py-2 px-3 rounded-full bg-white/5 border border-white/10 hover:border-primary/30">
