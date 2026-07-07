@@ -1395,7 +1395,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 formMessage.classList.remove('hidden');
 
                 if (data.whatsapp_url) {
-                    window.open(data.whatsapp_url, '_blank');
+                    if (typeof window.trackWhatsAppConversion === 'function') {
+                        window.trackWhatsAppConversion(null, {
+                            url: data.whatsapp_url,
+                            openInNewTab: true,
+                        });
+                    } else {
+                        window.open(data.whatsapp_url, '_blank');
+                    }
                 }
 
                 setTimeout(() => {
