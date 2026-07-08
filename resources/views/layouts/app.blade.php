@@ -110,6 +110,8 @@
         @endphp
         @include('components.footer', ['homePage' => $homePage])
     </div>
+
+    <x-floating-contact />
     
     @stack('scripts')
 </body>

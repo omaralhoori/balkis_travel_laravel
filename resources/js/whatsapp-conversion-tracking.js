@@ -16,21 +16,21 @@ function navigateToWhatsApp(url, openInNewTab) {
     window.location.href = url;
 }
 
-function trackTikTokWhatsAppClick() {
+function trackTikTokWhatsAppClick(link) {
     if (typeof ttq === 'undefined') {
         return;
     }
 
     ttq.track('Contact', {
-        content_name: 'WhatsApp Button',
+        content_name: link?.dataset?.trackSource || 'WhatsApp Button',
         content_category: 'Lead Generation',
     });
 }
 
 export function trackWhatsAppConversion(callback, options = {}) {
-    const { url = null, openInNewTab = false } = options;
+    const { url = null, openInNewTab = false, link = null } = options;
 
-    trackTikTokWhatsAppClick();
+    trackTikTokWhatsAppClick(link);
 
     const navigate = () => {
         if (typeof callback === 'function') {
@@ -88,6 +88,7 @@ function initWhatsAppConversionTracking() {
         trackWhatsAppConversion(null, {
             url: targetUrl,
             openInNewTab,
+            link,
         });
     });
 }
