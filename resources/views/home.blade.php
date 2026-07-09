@@ -576,8 +576,6 @@
             <div class="w-12 h-1 bg-primary mx-auto rounded-full mb-2"></div>
             <p class="text-sm text-slate-500 font-text">{{ __('Discover our latest articles and travel tips') }}</p>
         </div>
-        <div id="soro-blog"></div>
-        <script src="https://app.trysoro.com/api/embed/345dfaef-e9d6-4234-a402-0fc907925da9" defer></script></div>
         <div class="relative group/slider">
             <button class="hidden md:flex absolute -left-6 top-1/2 -translate-y-1/2 z-10 bg-white text-primary shadow-lg rounded-full w-10 h-10 items-center justify-center opacity-0 group-hover/slider:opacity-100 transition-all hover:scale-110 disabled:opacity-0" onclick="scrollCarousel(this, -1)">
                 <span class="material-symbols-outlined text-xl">chevron_left</span>
