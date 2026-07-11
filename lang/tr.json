@@ -258,5 +258,13 @@
     "Without Driver": "Şoförsüz",
     "Day": "Gün",
     "Discover All Services": "Tüm Hizmetleri Keşfet",
-    "No services available": "Mevcut hizmet yok"
+    "No services available": "Mevcut hizmet yok",
+    "Full Name": "Tam Adınız",
+    "Phone Number": "Telefon Numaranız",
+    "Please enter your full name.": "Lütfen tam adınızı girin.",
+    "Please enter your phone number.": "Lütfen telefon numaranızı girin.",
+    "Choose your preferred accommodation type for the package.": "Paket için tercih ettiğiniz konaklama türünü seçin.",
+    "Hotel + Cottage": "Otel + Kulübe",
+    "Apartment Hotel + Cottage": "Apart Otel + Kulübe",
+    "Accommodation Type": "Konaklama Türü"
 }

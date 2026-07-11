@@ -258,5 +258,13 @@
     "Without Driver": "Sans chauffeur",
     "Day": "Jour",
     "Discover All Services": "Découvrir tous les services",
-    "No services available": "Aucun service disponible"
+    "No services available": "Aucun service disponible",
+    "Full Name": "Nom Complet",
+    "Phone Number": "Numéro de Téléphone",
+    "Please enter your full name.": "Veuillez saisir votre nom complet.",
+    "Please enter your phone number.": "Veuillez saisir votre numéro de téléphone.",
+    "Choose your preferred accommodation type for the package.": "Choisissez le type d'hébergement souhaité pour le forfait.",
+    "Hotel + Cottage": "Hôtel + Chalet",
+    "Apartment Hotel + Cottage": "Appart'hôtel + Chalet",
+    "Accommodation Type": "Type d'hébergement"
 }

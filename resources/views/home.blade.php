@@ -178,6 +178,18 @@
                     <div class="space-y-4">
                         <div>
                             <label class="block text-sm font-semibold text-slate-700 mb-3 font-text text-center text-base">{{ __('Who are you traveling with?') }}</label>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div class="space-y-1">
+                                    <label for="contact-name" class="block text-xs font-semibold text-slate-700 font-text">{{ __('Full Name') }}</label>
+                                    <input id="contact-name" name="name" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-slate-800 font-text text-sm shadow-sm transition-all" type="text" placeholder="{{ __('Full Name') }}" required/>
+                                </div>
+                                <div class="space-y-1">
+                                    <label for="contact-phone" class="block text-xs font-semibold text-slate-700 font-text">{{ __('Phone Number') }}</label>
+                                    <input id="contact-phone" name="phone" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-slate-800 font-text text-sm shadow-sm transition-all" type="tel" placeholder="{{ __('Phone Number') }}" required/>
+                                </div>
+                            </div>
+
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100 flex items-center justify-between">
                                     <div class="flex items-center gap-3">
@@ -256,18 +268,27 @@
 
                         <!-- Conditional Sections -->
                         <div class="space-y-6 pt-4 border-t border-slate-100">
-                            <!-- Accommodation Type per Day -->
+                            <!-- Accommodation Type (Package) -->
                             <div id="accommodation-type-container" class="hidden p-6 rounded-2xl border border-slate-100 bg-slate-50/50 space-y-4 transition-all">
                                 <label class="text-sm font-bold text-slate-800 flex items-center gap-2">
                                     <span class="material-symbols-outlined text-primary">bed</span>
-                                    {{ __('Accommodation per Day') }}
+                                    {{ __('Accommodation') }}
                                 </label>
-                                <p class="text-xs text-slate-400 font-text -mt-2">{{ __('Choose the accommodation type for each day of your trip.') }}</p>
-                                <div id="accommodation-days-empty" class="text-slate-400 text-sm italic font-text">
-                                    {{ __('Select your trip dates first to choose accommodation per day.') }}
+                                <p class="text-xs text-slate-400 font-text -mt-2">{{ __('Choose your preferred accommodation type for the package.') }}</p>
+                                <div class="space-y-3">
+                                    @foreach([
+                                        'hotel' => __('Hotel'),
+                                        'apartment_hotel' => __('Apartment Hotel'),
+                                        'cottage' => __('Cottage'),
+                                        'hotel_cottage' => __('Hotel + Cottage'),
+                                        'apartment_hotel_cottage' => __('Apartment Hotel + Cottage'),
+                                    ] as $val => $label)
+                                    <label class="flex items-center gap-3 cursor-pointer group px-3 py-2.5 bg-white border border-slate-200 rounded-xl hover:border-primary/30 transition-colors">
+                                        <input type="radio" name="accommodation_type" value="{{ $val }}" {{ $loop->first ? 'checked' : '' }} class="accent-primary size-5 shadow-sm">
+                                        <span class="text-sm font-medium text-slate-600 group-hover:text-primary transition-colors">{{ $label }}</span>
+                                    </label>
+                                    @endforeach
                                 </div>
-                                <div id="accommodation-days-list" class="hidden grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
-                                <input type="hidden" id="accommodation-days-input" name="accommodation_days" value="[]">
                             </div>
 
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -893,6 +914,18 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         if (step === 2) {
+            const name = document.getElementById('contact-name')?.value.trim();
+            const phone = document.getElementById('contact-phone')?.value.trim();
+
+            if (!name) {
+                alert('{{ __("Please enter your full name.") }}');
+                return false;
+            }
+            if (!phone) {
+                alert('{{ __("Please enter your phone number.") }}');
+                return false;
+            }
+
             const adults = document.getElementById('adults').value;
             const children = document.getElementById('children').value;
             if (parseInt(adults) === 0 && parseInt(children) === 0) {
@@ -941,8 +974,12 @@ document.addEventListener('DOMContentLoaded', function() {
             currentStep++;
             updateProgress();
             showStep(currentStep, 'next');
-            if (currentStep === 3 && typeof renderAccommodationDays === 'function') {
-                renderAccommodationDays();
+            if (currentStep === 3) {
+                const accCb = document.querySelector('input[value="accommodation"]');
+                const accContainer = document.getElementById('accommodation-type-container');
+                if (accCb && accContainer) {
+                    accContainer.classList.toggle('hidden', !accCb.checked);
+                }
             }
         } else {
             // Submit form
@@ -1127,8 +1164,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    arrivalDateInput?.addEventListener('change', () => { renderDaysAllocation(); renderAccommodationDays(); });
-    departureDateInput?.addEventListener('change', () => { renderDaysAllocation(); renderAccommodationDays(); });
+    arrivalDateInput?.addEventListener('change', () => { renderDaysAllocation(); });
+    departureDateInput?.addEventListener('change', () => { renderDaysAllocation(); });
 
     // Modal Logic
     const tripModal = document.getElementById('trip-modal');
@@ -1230,105 +1267,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // Services UI Logic
     const accommodationCheckbox = document.querySelector('input[value="accommodation"]');
     const accommodationTypeContainer = document.getElementById('accommodation-type-container');
-    const accommodationDaysEmpty = document.getElementById('accommodation-days-empty');
-    const accommodationDaysList = document.getElementById('accommodation-days-list');
-    const accommodationDaysInput = document.getElementById('accommodation-days-input');
-
-    const accommodationOptions = [
-        { value: 'hotel', label: '{{ __('Hotel') }}' },
-        { value: 'apartment_hotel', label: '{{ __('Apartment Hotel') }}' },
-        { value: 'cottage', label: '{{ __('Cottage') }}' },
-    ];
-
-    function getAccommodationDays() {
-        const days = [];
-        document.querySelectorAll('.accommodation-day-select').forEach(sel => {
-            days.push({ day: parseInt(sel.dataset.day), type: sel.value, city: sel.dataset.city || null });
-        });
-        return days;
-    }
-
-    // Map each trip day to the allocated city (based on days distribution order)
-    function getDayCityMap(total) {
-        const map = new Array(total).fill(null);
-        let dayIndex = 0;
-        selectedDestinations.forEach(dest => {
-            const allocated = parseInt(dest.days) || 0;
-            for (let i = 0; i < allocated && dayIndex < total; i++) {
-                map[dayIndex] = dest.name;
-                dayIndex++;
-            }
-        });
-        return map;
-    }
-
-    function updateAccommodationDaysInput() {
-        if (accommodationDaysInput) {
-            accommodationDaysInput.value = JSON.stringify(getAccommodationDays());
-        }
-    }
-
-    function renderAccommodationDays() {
-        if (!accommodationDaysList) return;
-
-        const total = getTotalTripDays();
-        const isActive = accommodationCheckbox && accommodationCheckbox.checked;
-
-        if (!isActive || total <= 0) {
-            accommodationDaysList.classList.add('hidden');
-            accommodationDaysEmpty?.classList.remove('hidden');
-            accommodationDaysList.innerHTML = '';
-            updateAccommodationDaysInput();
-            return;
-        }
-
-        // Preserve previously chosen types
-        const previous = {};
-        accommodationDaysList.querySelectorAll('.accommodation-day-select').forEach(sel => {
-            previous[sel.dataset.day] = sel.value;
-        });
-
-        accommodationDaysEmpty?.classList.add('hidden');
-        accommodationDaysList.classList.remove('hidden');
-        accommodationDaysList.innerHTML = '';
-
-        const dayCityMap = getDayCityMap(total);
-
-        for (let day = 1; day <= total; day++) {
-            const row = document.createElement('div');
-            row.className = 'flex items-center justify-between gap-3 px-3 py-2 bg-white border border-slate-200 rounded-xl';
-
-            const cityName = dayCityMap[day - 1];
-
-            const label = document.createElement('span');
-            label.className = 'flex items-center gap-2 text-sm font-semibold text-slate-700 font-text min-w-0';
-            label.innerHTML = `<span class="w-6 h-6 rounded-full bg-primary/10 text-primary text-[10px] font-bold flex items-center justify-center shrink-0">${day}</span><span class="shrink-0">{{ __('Day') }} ${day}</span>` +
-                (cityName ? `<span class="inline-flex items-center gap-0.5 text-primary text-xs font-bold truncate"><span class="material-symbols-outlined text-sm">location_on</span>${cityName}</span>` : '');
-
-            const select = document.createElement('select');
-            select.className = 'accommodation-day-select px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-800 outline-none focus:border-primary shrink-0';
-            select.dataset.day = day;
-            select.dataset.city = cityName || '';
-            accommodationOptions.forEach(opt => {
-                const option = document.createElement('option');
-                option.value = opt.value;
-                option.textContent = opt.label;
-                select.appendChild(option);
-            });
-            select.value = previous[day] || 'hotel';
-            select.addEventListener('change', updateAccommodationDaysInput);
-
-            row.appendChild(label);
-            row.appendChild(select);
-            accommodationDaysList.appendChild(row);
-        }
-        updateAccommodationDaysInput();
-    }
 
     if (accommodationCheckbox && accommodationTypeContainer) {
         accommodationCheckbox.addEventListener('change', function() {
             accommodationTypeContainer.classList.toggle('hidden', !this.checked);
-            renderAccommodationDays();
         });
         accommodationTypeContainer.classList.toggle('hidden', !accommodationCheckbox.checked);
     }
@@ -1353,8 +1295,6 @@ document.addEventListener('DOMContentLoaded', function() {
         tripTypeContainer.classList.toggle('hidden', !touristTripsCheckbox.checked);
     }
 
-    renderAccommodationDays();
-
     // Submission Logic
     async function submitForm() {
         btnNext.disabled = true;
@@ -1362,7 +1302,6 @@ document.addEventListener('DOMContentLoaded', function() {
         formMessage.classList.add('hidden');
 
         try {
-            updateAccommodationDaysInput();
             const formData = new FormData(form);
             const services = [];
             document.querySelectorAll('input[name="services[]"]:checked').forEach(c => services.push(c.value));
@@ -1408,7 +1347,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     form.reset();
                     selectedDestinations = [];
                     renderSelectedDestinations();
-                    renderAccommodationDays();
                     currentStep = 1;
                     updateProgress();
                     showStep(currentStep, 'prev');

@@ -258,5 +258,11 @@
     "Without Driver": "بدون سائق",
     "Day": "اليوم",
     "Discover All Services": "اكتشف جميع الخدمات",
-    "No services available": "لا توجد خدمات متاحة"
+    "No services available": "لا توجد خدمات متاحة",
+    "Please enter your full name.": "يرجى إدخال الاسم الكامل.",
+    "Please enter your phone number.": "يرجى إدخال رقم الجوال.",
+    "Choose your preferred accommodation type for the package.": "اختر نوع الإقامة المفضل ضمن الباكج.",
+    "Hotel + Cottage": "فندق + كوخ",
+    "Apartment Hotel + Cottage": "شقة فندقية + كوخ",
+    "Accommodation Type": "نوع الإقامة"
 }

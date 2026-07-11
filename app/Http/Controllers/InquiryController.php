@@ -69,6 +69,8 @@ class InquiryController extends Controller
             : ($data['services'] ?? []);
 
         $message = '🌍 *'.__('New Tourism Inquiry', [], $locale)."*\n\n";
+        $message .= '👤 *'.__('Full Name', [], $locale).":* {$data['name']}\n";
+        $message .= '📞 *'.__('Phone Number', [], $locale).":* {$data['phone']}\n\n";
         $message .= '📍 *'.__('Required Destinations', [], $locale).":*\n";
         if (! empty($destinations)) {
             foreach ($destinations as $destination) {
@@ -116,29 +118,15 @@ class InquiryController extends Controller
                 'hotel' => __('Hotel', [], $locale),
                 'apartment_hotel' => __('Apartment Hotel', [], $locale),
                 'cottage' => __('Cottage', [], $locale),
+                'hotel_cottage' => __('Hotel + Cottage', [], $locale),
+                'apartment_hotel_cottage' => __('Apartment Hotel + Cottage', [], $locale),
             ];
             foreach ($services as $service) {
                 $message .= '• '.($serviceNames[$service] ?? $service)."\n";
 
-                if ($service === 'accommodation') {
-                    $accommodationDays = json_decode($data['accommodation_days'] ?? '[]', true) ?: [];
-                    foreach ($accommodationDays as $entry) {
-                        if (! is_array($entry)) {
-                            continue;
-                        }
-                        $day = $entry['day'] ?? null;
-                        $type = $entry['type'] ?? null;
-                        if ($day === null || $type === null) {
-                            continue;
-                        }
-                        $typeLabel = $accommodationLabels[$type] ?? $type;
-                        $city = $entry['city'] ?? null;
-                        $dayLabel = __('Day', [], $locale).' '.$day;
-                        if (! empty($city)) {
-                            $dayLabel .= ' ('.$city.')';
-                        }
-                        $message .= '   - '.$dayLabel.': '.$typeLabel."\n";
-                    }
+                if ($service === 'accommodation' && ! empty($data['accommodation_type'])) {
+                    $typeLabel = $accommodationLabels[$data['accommodation_type']] ?? $data['accommodation_type'];
+                    $message .= '   - '.__('Accommodation Type', [], $locale).': '.$typeLabel."\n";
                 }
 
                 if ($service === 'car_rental' && ! empty($data['car_rental_type'])) {

@@ -34,6 +34,8 @@ class InquiryRequest extends FormRequest
 
         // Default rules for tourism inquiry
         return [
+            'name' => ['required', 'string', 'max:255'],
+            'phone' => ['required', 'string', 'max:255'],
             'selected_destinations' => ['nullable', 'string'],
             'adults' => ['required', 'integer', 'min:0', 'max:40'],
             'children' => ['required', 'integer', 'min:0', 'max:20'],
@@ -43,8 +45,7 @@ class InquiryRequest extends FormRequest
             'child_ages' => ['nullable', 'array'],
             'child_ages.*' => ['integer', 'min:0', 'max:17'],
             'trip_type' => ['nullable', 'string', 'in:VIP,Grouped'],
-            'accommodation_type' => ['nullable', 'string', 'in:hotel,apartment_hotel,cottage'],
-            'accommodation_days' => ['nullable', 'string'],
+            'accommodation_type' => ['nullable', 'string', 'in:hotel,apartment_hotel,cottage,hotel_cottage,apartment_hotel_cottage'],
             'car_rental_type' => ['nullable', 'string', 'in:with_driver,without_driver'],
         ];
     }
@@ -55,6 +56,8 @@ class InquiryRequest extends FormRequest
     public function messages(): array
     {
         return [
+            'name.required' => __('Please enter your full name.'),
+            'phone.required' => __('Please enter your phone number.'),
             'adults.required' => __('Number of adults is required'),
             'adults.integer' => __('Number of adults must be a number'),
             'adults.min' => __('Number of adults must be at least 0'),

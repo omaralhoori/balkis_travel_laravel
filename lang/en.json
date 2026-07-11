@@ -144,5 +144,13 @@
     "Without Driver": "Without Driver",
     "Day": "Day",
     "Discover All Services": "Discover All Services",
-    "No services available": "No services available"
+    "No services available": "No services available",
+    "Full Name": "Full Name",
+    "Phone Number": "Phone Number",
+    "Please enter your full name.": "Please enter your full name.",
+    "Please enter your phone number.": "Please enter your phone number.",
+    "Choose your preferred accommodation type for the package.": "Choose your preferred accommodation type for the package.",
+    "Hotel + Cottage": "Hotel + Cottage",
+    "Apartment Hotel + Cottage": "Apartment Hotel + Cottage",
+    "Accommodation Type": "Accommodation Type"
 }

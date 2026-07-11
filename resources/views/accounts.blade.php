@@ -10,9 +10,9 @@
         'ar' => [
             'manager' => 'مدير الشركة (حكمت بكر)',
             'manager_desc' => 'تواصل مباشرة مع مدير الشركة عبر واتساب',
-            'sales_1' => 'مسؤول قسم المبيعات الأول',
+            'sales_1' => 'الحجوزات والمبيعات',
             'sales_1_desc' => 'تواصل مع مسؤول المبيعات الأول عبر واتساب',
-            'sales_2' => 'مسؤول قسم المبيعات الثاني',
+            'sales_2' => 'للاستشارات السياحية',
             'sales_2_desc' => 'تواصل مع مسؤول المبيعات الثاني عبر واتساب',
             'instagram' => 'انستقرام',
             'instagram_desc' => 'تابعنا على انستقرام لمشاهدة أحدث الرحلات والتغطيات',
@@ -24,7 +24,7 @@
             'telegram_desc' => 'انضم إلى قناتنا على تليجرام لآخر العروض والأخبار',
             'whatsapp_channel' => 'قناة واتساب',
             'whatsapp_channel_desc' => 'اشترك في قناتنا على واتساب لمتابعة التحديثات',
-            'book_now' => 'احجز الآن',
+            'book_now' => 'خطط لرحلتك بسعر مميز الآن',
             'book_now_desc' => 'ابدأ حجز رحلتك مباشرة من موقعنا',
             'email' => 'البريد الإلكتروني',
             'back_to_site' => 'العودة للموقع الرئيسي',
@@ -113,8 +113,9 @@
 
     $accountLinks = [
         ['id' => 'manager', 'url' => 'https://wa.me/905060050350', 'label' => $langLabels['manager'], 'desc' => $langLabels['manager_desc'], 'icon' => 'whatsapp', 'icon_bg' => 'bg-green-500/10', 'icon_text' => 'text-green-400', 'external' => true, 'visible' => true],
-        ['id' => 'sales-1', 'url' => 'https://wa.me/905540058855', 'label' => $langLabels['sales_1'], 'desc' => $langLabels['sales_1_desc'], 'icon' => 'whatsapp', 'icon_bg' => 'bg-green-500/10', 'icon_text' => 'text-green-400', 'external' => true, 'visible' => true],
         ['id' => 'sales-2', 'url' => 'https://wa.me/905540057755', 'label' => $langLabels['sales_2'], 'desc' => $langLabels['sales_2_desc'], 'icon' => 'whatsapp', 'icon_bg' => 'bg-green-500/10', 'icon_text' => 'text-green-400', 'external' => true, 'visible' => true],
+        ['id' => 'sales-1', 'url' => 'https://wa.me/905540058855', 'label' => $langLabels['sales_1'], 'desc' => $langLabels['sales_1_desc'], 'icon' => 'whatsapp', 'icon_bg' => 'bg-green-500/10', 'icon_text' => 'text-green-400', 'external' => true, 'visible' => true],
+        ['id' => 'book-now', 'url' => $bookingUrl, 'label' => $langLabels['book_now'], 'desc' => $langLabels['book_now_desc'], 'icon' => 'calendar', 'icon_bg' => 'bg-primary/10', 'icon_text' => 'text-primary', 'external' => false, 'visible' => true],
         ['id' => 'instagram', 'url' => 'https://www.instagram.com/travel.balkispg?igsh=djkyZ3M1djdvbjNw', 'label' => $langLabels['instagram'], 'desc' => $langLabels['instagram_desc'], 'icon' => 'instagram', 'icon_bg' => 'bg-pink-500/10', 'icon_text' => 'text-pink-400', 'external' => true, 'visible' => true],
         ['id' => 'facebook', 'url' => 'https://www.facebook.com/balkispg.travel/', 'label' => $langLabels['facebook'], 'desc' => $langLabels['facebook_desc'], 'icon' => 'facebook', 'icon_bg' => 'bg-blue-600/10', 'icon_text' => 'text-blue-400', 'external' => true, 'visible' => true],
         ['id' => 'tiktok', 'url' => 'https://www.tiktok.com/@travel.balkispg?_r=1&_t=ZS-96jsNOwSZzr', 'label' => $langLabels['tiktok'], 'desc' => $langLabels['tiktok_desc'], 'icon' => 'tiktok', 'icon_bg' => 'bg-slate-500/10', 'icon_text' => 'text-gray-100', 'external' => true, 'visible' => true],
@@ -123,7 +124,7 @@
         ['id' => 'whatsapp-channel', 'url' => 'https://whatsapp.com/channel/0029Vb7rthiKrWQuFD0Sfg31', 'label' => $langLabels['whatsapp_channel'], 'desc' => $langLabels['whatsapp_channel_desc'], 'icon' => 'whatsapp', 'icon_bg' => 'bg-green-500/10', 'icon_text' => 'text-green-400', 'external' => true, 'visible' => true],
         ['id' => 'pinterest', 'url' => '#', 'label' => 'Pinterest', 'desc' => '', 'icon' => 'pinterest', 'icon_bg' => 'bg-red-500/10', 'icon_text' => 'text-red-400', 'external' => true, 'visible' => false],
         ['id' => 'linkedin', 'url' => '#', 'label' => 'LinkedIn', 'desc' => '', 'icon' => 'linkedin', 'icon_bg' => 'bg-blue-700/10', 'icon_text' => 'text-blue-300', 'external' => true, 'visible' => false],
-        ['id' => 'book-now', 'url' => $bookingUrl, 'label' => $langLabels['book_now'], 'desc' => $langLabels['book_now_desc'], 'icon' => 'calendar', 'icon_bg' => 'bg-primary/10', 'icon_text' => 'text-primary', 'external' => false, 'visible' => true],
+       
         ['id' => 'email', 'url' => 'mailto:'.$emailAddress, 'label' => $langLabels['email'], 'desc' => $emailAddress, 'icon' => 'email', 'icon_bg' => 'bg-blue-500/10', 'icon_text' => 'text-blue-400', 'external' => false, 'visible' => true],
     ];
 
