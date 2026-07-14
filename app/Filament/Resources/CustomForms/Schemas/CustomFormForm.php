@@ -282,17 +282,19 @@ class CustomFormForm
     {
         return [
             Section::make('تنبيهات البريد الإلكتروني')
-                ->description('يُرسل إشعار فوري ببيانات العميل إلى البريدين عند كل إرسال.')
+                ->description('يُرسل إشعار فوري ببيانات العميل إلى البريدين عند كل إرسال. إذا تُرك الحقل فارغاً، يُستخدم البريد الافتراضي من ملف .env (FORM_NOTIFICATION_EMAIL_PRIMARY / SECONDARY).')
                 ->schema([
                     TextInput::make('notification_email_primary')
                         ->label('البريد الإلكتروني الأول')
                         ->email()
-                        ->maxLength(255),
+                        ->maxLength(255)
+                        ->helperText('أولوية على البريد الافتراضي في .env'),
 
                     TextInput::make('notification_email_secondary')
                         ->label('البريد الإلكتروني الثاني')
                         ->email()
-                        ->maxLength(255),
+                        ->maxLength(255)
+                        ->helperText('بريد إضافي لنفس الإشعار'),
                 ])
                 ->columns(2),
         ];

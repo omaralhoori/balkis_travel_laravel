@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Translatable\HasTranslations;
 
 class HomePage extends Model
@@ -19,6 +20,7 @@ class HomePage extends Model
         'footer_brand_description',
         'destinations',
         'about_us',
+        'welcome_popup_message',
     ];
 
     protected $fillable = [
@@ -36,6 +38,9 @@ class HomePage extends Model
         'stats_programs_count',
         'tourist_guide_offset',
         'tourist_guide_last_rotated_at',
+        'welcome_popup_enabled',
+        'welcome_popup_message',
+        'welcome_popup_custom_form_id',
         // Footer Fields
         'footer_brand_name',
         'footer_brand_description',
@@ -71,6 +76,7 @@ class HomePage extends Model
         'stats_services_count' => 'integer',
         'stats_years_count' => 'integer',
         'stats_programs_count' => 'integer',
+        'welcome_popup_enabled' => 'boolean',
     ];
 
     public function getMainBackgroundImageUrlAttribute(): ?string
@@ -80,6 +86,24 @@ class HomePage extends Model
         }
 
         return asset('storage/'.$this->main_background_image);
+    }
+
+    public function welcomePopupForm(): BelongsTo
+    {
+        return $this->belongsTo(CustomForm::class, 'welcome_popup_custom_form_id');
+    }
+
+    public function shouldShowWelcomePopup(): bool
+    {
+        if (! $this->welcome_popup_enabled) {
+            return false;
+        }
+
+        if (blank($this->welcome_popup_message)) {
+            return false;
+        }
+
+        return true;
     }
 
     public static function getCurrent(): self

@@ -78,6 +78,50 @@ it('stores a submission and redirects to thank you page', function () {
     Mail::assertSent(FormSubmissionNotification::class, 2);
 });
 
+it('falls back to env default emails when form emails are not set', function () {
+    Mail::fake();
+
+    config([
+        'mail.form_notifications.default_recipients' => [
+            'admin@balkispg.com',
+            'sales@balkispg.com',
+        ],
+    ]);
+
+    $form = CustomForm::factory()->create([
+        'slug' => 'fallback-form',
+        'is_active' => true,
+        'notification_email_primary' => null,
+        'notification_email_secondary' => null,
+    ]);
+
+    $section = FormSection::factory()->create([
+        'custom_form_id' => $form->id,
+        'title' => 'البيانات',
+        'order' => 0,
+    ]);
+
+    FormField::query()->create([
+        'custom_form_id' => $form->id,
+        'form_section_id' => $section->id,
+        'label' => 'الاسم',
+        'field_key' => 'full_name',
+        'type' => FormFieldType::Text,
+        'is_required' => true,
+        'order' => 0,
+    ]);
+
+    $this->post('/ar/forms/fallback-form', [
+        'answers' => [
+            'full_name' => 'سارة',
+        ],
+    ])->assertRedirect();
+
+    Mail::assertSent(FormSubmissionNotification::class, 2);
+    Mail::assertSent(FormSubmissionNotification::class, fn (FormSubmissionNotification $mail): bool => $mail->hasTo('admin@balkispg.com'));
+    Mail::assertSent(FormSubmissionNotification::class, fn (FormSubmissionNotification $mail): bool => $mail->hasTo('sales@balkispg.com'));
+});
+
 it('hides inactive forms', function () {
     CustomForm::factory()->create([
         'slug' => 'hidden-form',

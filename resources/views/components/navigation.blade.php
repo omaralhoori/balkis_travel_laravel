@@ -1,4 +1,9 @@
 <header class="fixed top-0 w-full z-50 border-b border-primary/10 bg-bg-main/90 backdrop-blur-md" id="main-header">
+    @php
+        $primaryForm = \App\Models\HomePage::getCurrent()->welcomePopupForm;
+        $primaryFormUrl = ($primaryForm && $primaryForm->is_active) ? $primaryForm->publicUrl() : null;
+        $primaryFormLabel = $primaryForm?->title ?? __('Fill out the form');
+    @endphp
     <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
         <div class="flex items-center gap-3">
             <a href="{{ route('home', ['locale' => app()->getLocale()]) }}" aria-label="{{ __('Home') }}" class="inline-flex items-center">
@@ -13,6 +18,9 @@
             <a class="text-gray-600 hover:text-primary transition-colors text-sm font-medium {{ request()->routeIs('accommodations.*') ? 'text-primary border-b border-primary' : '' }}" href="{{ route('accommodations.index', ['locale' => app()->getLocale()]) }}">{{ __('Accommodations') }}</a>
             <a class="text-gray-600 hover:text-primary transition-colors text-sm font-medium {{ request()->routeIs('blog.*') ? 'text-primary border-b border-primary' : '' }}" href="{{ route('blog.index', ['locale' => app()->getLocale()]) }}">{{ __('Blog') }}</a>
             <a class="text-gray-600 hover:text-primary transition-colors text-sm font-medium {{ request()->routeIs('about') ? 'text-primary border-b border-primary' : '' }}" href="{{ route('about', ['locale' => app()->getLocale()]) }}">{{ __('About') }}</a>
+            @if ($primaryFormUrl)
+                <a class="text-gray-600 hover:text-primary transition-colors text-sm font-medium {{ request()->routeIs('custom_forms.show') && request()->route('slug') === $primaryForm->slug ? 'text-primary border-b border-primary' : '' }}" href="{{ $primaryFormUrl }}">{{ $primaryFormLabel }}</a>
+            @endif
         </nav>
         <div class="flex items-center gap-2 md:gap-4">
             <div class="hidden md:block">
@@ -46,6 +54,9 @@
                 <a class="text-gray-600 hover:text-primary transition-colors text-lg font-medium py-2 {{ request()->routeIs('accommodations.*') ? 'text-primary border-s-4 border-primary ps-4' : '' }}" href="{{ route('accommodations.index', ['locale' => app()->getLocale()]) }}">{{ __('Accommodations') }}</a>
                 <a class="text-gray-600 hover:text-primary transition-colors text-lg font-medium py-2 {{ request()->routeIs('blog.*') ? 'text-primary border-s-4 border-primary ps-4' : '' }}" href="{{ route('blog.index', ['locale' => app()->getLocale()]) }}">{{ __('Blog') }}</a>
                 <a class="text-gray-600 hover:text-primary transition-colors text-lg font-medium py-2 {{ request()->routeIs('about') ? 'text-primary border-s-4 border-primary ps-4' : '' }}" href="{{ route('about', ['locale' => app()->getLocale()]) }}">{{ __('About') }}</a>
+                @if ($primaryFormUrl)
+                    <a class="text-gray-600 hover:text-primary transition-colors text-lg font-medium py-2 {{ request()->routeIs('custom_forms.show') && request()->route('slug') === $primaryForm->slug ? 'text-primary border-s-4 border-primary ps-4' : '' }}" href="{{ $primaryFormUrl }}">{{ $primaryFormLabel }}</a>
+                @endif
                 
                 <div class="pt-6 border-t border-primary/10 mt-4">
                     <div class="mb-6">

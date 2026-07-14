@@ -103,6 +103,8 @@
     </div>
 
     <x-floating-contact />
+
+    <x-welcome-popup />
     
     @stack('scripts')
 </body>

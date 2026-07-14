@@ -11,7 +11,7 @@
         min-height: 100vh;
         background-color: #f8f6f2;
         @if ($form->background_image_path)
-        background-image: linear-gradient(rgba(255,255,255,0.88), rgba(255,255,255,0.92)), url('{{ asset('storage/'.$form->background_image_path) }}');
+        background-image: linear-gradient(rgba(255,255,255,0.2), rgba(255,255,255,0.44)), url('{{ asset('storage/'.$form->background_image_path) }}');
         @endif
         background-size: cover;
         background-position: center;

@@ -2,11 +2,14 @@
 
 namespace App\Filament\Resources\HomePages\Schemas;
 
+use App\Models\CustomForm;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
@@ -109,6 +112,34 @@ class HomePageForm
                             ->numeric()
                             ->default(0)
                             ->required(),
+                    ])
+                    ->columns(2),
+
+                Section::make('النافذة المنبثقة الترحيبية')
+                    ->description('تظهر للزائر بعد 3–5 ثوانٍ من الدخول أو عند التمرير 20% لأسفل.')
+                    ->schema([
+                        Toggle::make('welcome_popup_enabled')
+                            ->label('تفعيل النافذة المنبثقة')
+                            ->default(false)
+                            ->live(),
+
+                        Textarea::make('welcome_popup_message')
+                            ->label('نص الترحيب')
+                            ->rows(4)
+                            ->helperText('النص الذي يظهر للعميل داخل البطاقة. يدعم الترجمة حسب لغة لوحة التحكم.')
+                            ->columnSpanFull(),
+
+                        Select::make('welcome_popup_custom_form_id')
+                            ->label('النموذج الأساسي')
+                            ->options(fn (): array => CustomForm::query()
+                                ->where('is_active', true)
+                                ->orderBy('title')
+                                ->pluck('title', 'id')
+                                ->all())
+                            ->searchable()
+                            ->nullable()
+                            ->helperText('يُستخدم في النافذة المنبثقة وفي قائمة التنقل العلوية.')
+                            ->columnSpanFull(),
                     ])
                     ->columns(2),
 

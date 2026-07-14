@@ -115,4 +115,21 @@ return [
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Form Submission Notifications
+    |--------------------------------------------------------------------------
+    |
+    | Default recipients used when a custom form has no notification emails
+    | configured in the admin panel. Form-specific emails always take priority.
+    |
+    */
+
+    'form_notifications' => [
+        'default_recipients' => array_values(array_filter([
+            env('FORM_NOTIFICATION_EMAIL_PRIMARY'),
+            env('FORM_NOTIFICATION_EMAIL_SECONDARY'),
+        ])),
+    ],
+
 ];

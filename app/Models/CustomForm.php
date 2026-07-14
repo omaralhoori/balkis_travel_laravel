@@ -65,6 +65,23 @@ class CustomForm extends Model
         ]);
     }
 
+    /**
+     * @return array<int, string>
+     */
+    public function notificationRecipients(): array
+    {
+        $formRecipients = array_values(array_unique(array_filter([
+            $this->notification_email_primary,
+            $this->notification_email_secondary,
+        ])));
+
+        if ($formRecipients !== []) {
+            return $formRecipients;
+        }
+
+        return config('mail.form_notifications.default_recipients', []);
+    }
+
     public function buildWhatsAppMessage(array $answers): string
     {
         $template = $this->whatsapp_message_template ?? __('Thank you for your submission. We will contact you soon.');

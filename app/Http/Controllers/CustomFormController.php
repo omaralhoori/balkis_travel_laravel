@@ -3,15 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCustomFormSubmissionRequest;
-use App\Mail\FormSubmissionNotification;
 use App\Models\CustomForm;
 use App\Models\FormSubmission;
 use App\Models\WhatsAppNumber;
 use App\Services\CustomFormSubmissionExporter;
+use App\Services\FormSubmissionNotifier;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
@@ -107,18 +106,7 @@ class CustomFormController extends Controller
 
     protected function sendNotifications(CustomForm $form, FormSubmission $submission): void
     {
-        $recipients = array_filter([
-            $form->notification_email_primary,
-            $form->notification_email_secondary,
-        ]);
-
-        if ($recipients === []) {
-            return;
-        }
-
-        foreach ($recipients as $email) {
-            Mail::to($email)->send(new FormSubmissionNotification($form, $submission));
-        }
+        app(FormSubmissionNotifier::class)->notify($form, $submission);
     }
 
     protected function resolveWhatsAppNumber(): ?WhatsAppNumber
