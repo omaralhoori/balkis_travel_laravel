@@ -19,7 +19,7 @@
 @endpush
 
 @section('content')
-<div class="thank-you-page flex items-center justify-center py-16 px-4">
+<div class="thank-you-page flex items-center justify-center pt-24 pb-16 px-4">
     <div class="max-w-2xl w-full text-center bg-white/95 rounded-2xl border border-[#C6A264]/25 shadow-xl p-8 sm:p-12">
         @if ($form->logo_path)
             <img src="{{ asset('storage/'.$form->logo_path) }}" alt="{{ $form->title }}" class="h-16 mx-auto mb-6 object-contain">

@@ -1,6 +1,17 @@
 @extends('layouts.app')
 
-@section('title', __('Plan Your Luxury Trip') . ' - Balkis Premium Group')
+@php
+    $seoHome = config('seo.home.'.app()->getLocale(), config('seo.home.ar'));
+@endphp
+
+@section('title', $seoHome['title'])
+@section('meta_description', $seoHome['description'])
+@section('meta_keywords', $seoHome['keywords'])
+@section('og_title', $seoHome['title'])
+@section('og_description', $seoHome['description'])
+@section('twitter_title', $seoHome['twitter_title'])
+@section('twitter_description', $seoHome['twitter_description'])
+@section('canonical_url', route('home', ['locale' => app()->getLocale()]))
 
 @section('content')
 @php

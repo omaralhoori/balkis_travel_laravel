@@ -8,7 +8,37 @@
     <link rel="icon" href="{{ asset('image/balkis_travel.ico') }}" type="image/x-icon">
     <link rel="shortcut icon" href="{{ asset('image/balkis_travel.ico') }}" type="image/x-icon">
     <link rel="apple-touch-icon" href="{{ asset('image/balkis_travel.ico') }}">
-    <title>@yield('title', 'Balkis Premium Group')</title>
+
+    @php
+        $locale = app()->getLocale();
+        $brandName = config('seo.brand.name.'.$locale, config('seo.brand.name.ar'));
+        $defaultTitle = $brandName;
+        $defaultDescription = config('seo.schema.description.'.$locale, config('seo.schema.description.ar'));
+        $defaultKeywords = config('seo.defaults.keywords.'.$locale, config('seo.defaults.keywords.ar'));
+        $defaultAuthor = config('seo.defaults.author.'.$locale, config('seo.defaults.author.ar'));
+        $defaultOgImage = asset(config('seo.brand.logo'));
+        $pageTitle = trim($__env->yieldContent('title', $defaultTitle));
+        $pageDescription = trim($__env->yieldContent('meta_description', $defaultDescription));
+        $pageKeywords = trim($__env->yieldContent('meta_keywords', $defaultKeywords));
+        $ogTitle = trim($__env->yieldContent('og_title', $pageTitle));
+        $ogDescription = trim($__env->yieldContent('og_description', $pageDescription));
+        $ogUrl = trim($__env->yieldContent('og_url', url()->current()));
+        $ogImage = trim($__env->yieldContent('og_image', $defaultOgImage));
+        $twitterTitle = trim($__env->yieldContent('twitter_title', $ogTitle));
+        $twitterDescription = trim($__env->yieldContent('twitter_description', $ogDescription));
+        $canonicalUrl = trim($__env->yieldContent('canonical_url', url()->current()));
+    @endphp
+
+    <title>{{ $pageTitle }}</title>
+
+    <meta name="description" content="{{ $pageDescription }}">
+    <meta name="keywords" content="{{ $pageKeywords }}">
+    <meta name="robots" content="{{ config('seo.defaults.robots') }}">
+    <meta name="author" content="{{ $defaultAuthor }}">
+    <meta name="language" content="{{ $locale }}">
+
+    <link rel="canonical" href="{{ $canonicalUrl }}">
+
     <x-google-ads-tag />
     <!-- Meta Pixel Code -->
         <script>
@@ -28,67 +58,28 @@
         /></noscript>
     <!-- End Meta Pixel Code -->
     <x-tiktok-pixel />
-    <!-- Meta Tags -->
-    @hasSection('meta_description')
-        <meta name="description" content="@yield('meta_description')">
-    @else
-        <meta name="description" content="@yield('title', 'Balkis Premium Group') - {{ __('We offer you a carefully selected collection of the best investment and tourism opportunities.') }}">
-    @endif
-    
-    @hasSection('meta_keywords')
-        <meta name="keywords" content="@yield('meta_keywords')">
-    @else
-        <meta name="keywords" content="Balkis, Tourism, Investment, Real Estate, Premium, Turkey, Istanbul, Trabzon">
-    @endif
-    
+
     <!-- Open Graph / Facebook -->
-    @hasSection('og_title')
-        <meta property="og:title" content="@yield('og_title')">
-    @else
-        <meta property="og:title" content="@yield('title', 'Balkis Premium Group')">
-    @endif
-        <meta property="og:type" content="@yield('og_type', 'website')">
-        <meta property="og:url" content="@yield('og_url', url()->current())">
-    @hasSection('og_description')
-        <meta property="og:description" content="@yield('og_description')">
-    @else
-        <meta property="og:description" content="@yield('title', 'Balkis Premium Group') - {{ __('We offer you a carefully selected collection of the best investment and tourism opportunities.') }}">
-    @endif
-    @hasSection('og_image')
-        <meta property="og:image" content="@yield('og_image')">
-    @else
-        <meta property="og:image" content="{{ asset('image/BALKIS TRAVEL TEXT HORIZONTAL.png') }}">
-    @endif
-        <meta property="og:locale" content="{{ app()->getLocale() === 'ar' ? 'ar_AR' : (app()->getLocale() === 'tr' ? 'tr_TR' : (app()->getLocale() === 'fr' ? 'fr_FR' : 'en_US')) }}">
-        <meta property="og:site_name" content="Balkis Premium Group">
-    
+    <meta property="og:type" content="@yield('og_type', 'website')">
+    <meta property="og:url" content="{{ $ogUrl }}">
+    <meta property="og:title" content="{{ $ogTitle }}">
+    <meta property="og:description" content="{{ $ogDescription }}">
+    <meta property="og:image" content="{{ $ogImage }}">
+    <meta property="og:locale" content="{{ $locale === 'ar' ? 'ar_AR' : ($locale === 'tr' ? 'tr_TR' : ($locale === 'fr' ? 'fr_FR' : 'en_US')) }}">
+    <meta property="og:site_name" content="{{ $brandName }}">
+
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="@yield('og_url', url()->current())">
-    @hasSection('og_title')
-        <meta name="twitter:title" content="@yield('og_title')">
-    @else
-        <meta name="twitter:title" content="@yield('title', 'Balkis Premium Group')">
-    @endif
-    @hasSection('og_description')
-        <meta name="twitter:description" content="@yield('og_description')">
-    @else
-        <meta name="twitter:description" content="@yield('title', 'Balkis Premium Group') - {{ __('We offer you a carefully selected collection of the best investment and tourism opportunities.') }}">
-    @endif
-    @hasSection('og_image')
-        <meta name="twitter:image" content="@yield('og_image')">
-    @else
-        <meta name="twitter:image" content="{{ asset('image/BALKIS TRAVEL TEXT HORIZONTAL.png') }}">
-    @endif
-    
-    <!-- Canonical URL -->
-    @hasSection('canonical_url')
-        <link rel="canonical" href="@yield('canonical_url')">
-    @endif
-    
+    <meta name="twitter:url" content="{{ $ogUrl }}">
+    <meta name="twitter:title" content="{{ $twitterTitle }}">
+    <meta name="twitter:description" content="{{ $twitterDescription }}">
+    <meta name="twitter:image" content="{{ $ogImage }}">
+
+    <x-seo-travel-agency-schema />
+
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-    
+
     <!-- Styles -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')

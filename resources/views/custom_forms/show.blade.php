@@ -48,7 +48,7 @@
 @endpush
 
 @section('content')
-<div class="custom-form-page py-10 px-4 sm:px-6">
+<div class="custom-form-page pt-24 pb-10 px-4 sm:px-6">
     <div class="max-w-3xl mx-auto">
         <div class="custom-form-card rounded-2xl p-6 sm:p-10">
             @if ($form->logo_path)
