@@ -277,4 +277,13 @@ Route::prefix('{locale}')
         })->name('payment_methods.index');
 
         Route::get('/whatsapp', [\App\Http\Controllers\WhatsAppController::class, 'redirect'])->name('whatsapp.redirect');
+
+        Route::get('/forms/{slug}', [\App\Http\Controllers\CustomFormController::class, 'show'])->name('custom_forms.show');
+        Route::post('/forms/{slug}', [\App\Http\Controllers\CustomFormController::class, 'store'])->name('custom_forms.store');
+        Route::get('/forms/{slug}/thank-you', [\App\Http\Controllers\CustomFormController::class, 'thankYou'])->name('custom_forms.thank_you');
     });
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/form-reports/{customForm}', [\App\Http\Controllers\CustomFormController::class, 'report'])->name('custom_forms.admin.report');
+    Route::get('/form-reports/{customForm}/export', [\App\Http\Controllers\CustomFormController::class, 'exportReport'])->name('custom_forms.admin.export');
+});
