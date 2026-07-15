@@ -123,6 +123,10 @@
                                         <input type="date" name="{{ $inputName }}" value="{{ $oldValue }}" class="custom-form-input w-full rounded-xl border px-4 py-3" @required($field->is_required)>
                                         @break
 
+                                    @case(\App\Enums\FormFieldType::DateTime)
+                                        <input type="datetime-local" name="{{ $inputName }}" value="{{ $oldValue }}" class="custom-form-input w-full rounded-xl border px-4 py-3" @required($field->is_required)>
+                                        @break
+
                                     @case(\App\Enums\FormFieldType::Select)
                                         <select name="{{ $inputName }}" class="custom-form-input w-full rounded-xl border px-4 py-3" @required($field->is_required)>
                                             <option value="">{{ __('Select an option') }}</option>

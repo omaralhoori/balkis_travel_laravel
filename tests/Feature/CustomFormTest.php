@@ -122,6 +122,43 @@ it('falls back to env default emails when form emails are not set', function () 
     Mail::assertSent(FormSubmissionNotification::class, fn (FormSubmissionNotification $mail): bool => $mail->hasTo('sales@balkispg.com'));
 });
 
+it('accepts datetime field submissions', function () {
+    Mail::fake();
+
+    $form = CustomForm::factory()->create([
+        'slug' => 'datetime-form',
+        'is_active' => true,
+    ]);
+
+    $section = FormSection::factory()->create([
+        'custom_form_id' => $form->id,
+        'title' => 'الموعد',
+        'order' => 0,
+    ]);
+
+    FormField::query()->create([
+        'custom_form_id' => $form->id,
+        'form_section_id' => $section->id,
+        'label' => 'موعد الوصول',
+        'field_key' => 'arrival_at',
+        'type' => FormFieldType::DateTime,
+        'is_required' => true,
+        'order' => 0,
+    ]);
+
+    $this->post('/ar/forms/datetime-form', [
+        'answers' => [
+            'arrival_at' => '2026-08-15T14:30',
+        ],
+    ])->assertRedirect();
+
+    $this->assertDatabaseHas(FormSubmission::class, [
+        'custom_form_id' => $form->id,
+    ]);
+
+    expect(FormSubmission::query()->first()->answers['arrival_at'])->toBe('2026-08-15T14:30');
+});
+
 it('hides inactive forms', function () {
     CustomForm::factory()->create([
         'slug' => 'hidden-form',

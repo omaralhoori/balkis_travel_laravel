@@ -73,6 +73,7 @@ class StoreCustomFormSubmissionRequest extends FormRequest
             FormFieldType::Phone => ['string', 'max:30'],
             FormFieldType::Number => ['numeric'],
             FormFieldType::Date => ['date'],
+            FormFieldType::DateTime => ['date'],
             FormFieldType::Textarea => ['string', 'max:5000'],
             FormFieldType::Checkbox => ['array'],
             FormFieldType::Radio, FormFieldType::Select => [

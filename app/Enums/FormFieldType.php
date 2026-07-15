@@ -10,6 +10,7 @@ enum FormFieldType: string
     case Phone = 'phone';
     case Number = 'number';
     case Date = 'date';
+    case DateTime = 'datetime';
     case Radio = 'radio';
     case Checkbox = 'checkbox';
     case Select = 'select';
@@ -23,6 +24,7 @@ enum FormFieldType: string
             self::Phone => 'رقم جوال',
             self::Number => 'رقم',
             self::Date => 'تاريخ',
+            self::DateTime => 'تاريخ مع وقت',
             self::Radio => 'اختيار واحد',
             self::Checkbox => 'اختيارات متعددة',
             self::Select => 'قائمة منسدلة',
